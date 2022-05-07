@@ -21,3 +21,6 @@ app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Example app listening on port ${port}`);
 });
+
+// ROUTES
+app.use('/api/time-sheets',require('./resources/time-sheets'));
