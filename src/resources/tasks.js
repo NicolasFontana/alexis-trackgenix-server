@@ -25,8 +25,19 @@ router.get('/', (req, res) => {
     } else {
       res.send(`There are not description that includes ${taskDesc}`);
     }
-    }
   }
-);
+});
+
+router.put('/:id', (req, res) => {
+  const taskID = req.params.id;
+  const task = tasks.find((t) => t.id === taskID);
+  if (task) {
+    const taskUpdate = req.body;
+    task.description = taskUpdate.description ? taskUpdate.description : task.description;
+    res.send({ msg : 'Task updated' , task});
+  } else {
+    res.send('Task not found');
+  }
+});
 
 module.exports = router;
