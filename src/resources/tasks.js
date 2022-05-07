@@ -4,10 +4,6 @@ const tasks = require('../data/tasks.json');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.send(tasks);
-});
-
 router.get('/:id', (req, res) => {
   const taskID = req.params.id;
   const task = tasks.find((t) => t.id === taskID);
@@ -17,5 +13,20 @@ router.get('/:id', (req, res) => {
     res.send('Task not found');
   }
 });
+
+router.get('/', (req, res) => {
+  const taskDesc = req.query.description;
+  if (!taskDesc) {
+    res.send(tasks);
+  } else {
+    const filteredTask = tasks.filter((t) => t.description.includes(taskDesc));
+    if (filteredTask.length > 0) {
+      res.send(filteredTask);
+    } else {
+      res.send(`There are not description that includes ${taskDesc}`);
+    }
+    }
+  }
+);
 
 module.exports = router;
