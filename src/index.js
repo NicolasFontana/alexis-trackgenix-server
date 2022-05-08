@@ -1,20 +1,14 @@
-// use "import" to import libraries
-import express from 'express';
-
-// use "require" to import JSON files
-const admins = require('./data/admins.json');
-
-const app = express();
+const express = require('express');
+const taskRouter = require('./resources/tasks');
+const app = express()
 const port = process.env.PORT || 3000;
 
-app.get('/', async (req, res) => {
-  res.send('Hello World!');
-});
+app.use(express.json())
+// Ruta de redireccion router
+app.use('/users', taskRouter);
 
-app.get('/admins', (req, res) => {
-  res.status(200).json({
-    data: admins,
-  });
+app.get('/', async (req, res) => {
+  res.send('Trackgenix SA');
 });
 
 app.listen(port, () => {
