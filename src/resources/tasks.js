@@ -34,7 +34,7 @@ router.put('/:id', (req, res) => {
   if (task) {
     const taskUpdate = req.body;
     task.description = taskUpdate.description ? taskUpdate.description : task.description;
-    res.send({ msg : 'Task updated' , task});
+    res.send({ msg: 'Task updated', task });
   } else {
     res.send('Task not found');
   }

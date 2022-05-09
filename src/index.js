@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use('/tasks', tasksRouter);
+app.use('/api/tasks', tasksRouter);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
