@@ -10,9 +10,9 @@ router.get('/', (req, res) => res.json(projects));
 // Get single element
 // by id
 router.get('/id/:id', (req, res) => {
-  const foundget = projects.find((project) => project.id === req.params.id);
-  if (foundget) {
-    res.send(foundget);
+  const found = projects.some((project) => project.id === Number(req.params.id));
+  if (found) {
+    res.json(projects.filter((project) => project.id === Number(req.params.id)));
   } else {
     res.status(400).json({ msg: `No project with the id of ${req.params.id}` });
   }
@@ -42,32 +42,33 @@ router.post('/add', (req, res) => {
 });
 
 // Update Project
-// router.put('/id/:id', (req, res) => {
-//   const found = projects.find((updProject) => updProject.id === req.params.id);
-//   if (found) {
-//     const updp = req.body;
-//     projects.forEach((project) => {
-//       if (project.id === req.params.id) {
-//         project.name = updp.name ? updp.name : updp.name;
-//         project.description = updp.description ? updp.description : project.description;
-//         project.startDate = updp.startDate ? updp.startDate : project.startDate;
-//         project.endDate = updp.endDate ? updp.endDate : project.endDate;
-//         project.clientName = updp.clientName ? updp.clientName : project.clientName;
-//         project.active = updp.active ? updp.active : project.active;
-//         project.devRate = updp.devRate ? updp.devRate : project.devRate;
-//         project.qaRate = updp.qaRate ? updp.qaRate : project.qaRate;
-//         project.pmRate = updp.pmRate ? updp.pmRate : project.pmRate;
-//         project.tlRate = updp.tlRate ? updp.tlRate : project.tlRate;
-//         project.devs = updp.devs ? updp.devs : project.devs;
-//         project.qas = updp.qas ? updp.qas : project.qas;
-//         project.projectManager = updp.projectManager ? updp.projectManager
-//           : project.projectManager;
-//         project.techLeader = updp.techLeader ? updp.techLeader : project.techLeader;
-//         project.admin = updp.admin ? updp.admin : project.admin;
-//       }
-//     });
-//   } else {
-//     res.status(400).json({ msg: `No project with the id of ${req.params.id}` });
-//   }
-// });
+router.put('/id/:id', (req, res) => {
+  const found = projects.find((updProject) => updProject.id === req.params.id);
+  const {
+    name, description, startDate, endDate, clientName, active, devRate, qaRate,
+    pmRate, tlRate, devs, qas, projectManager, techLeader, admin,
+  } = req.body;
+  const newObject = {
+    name: (name || found.name),
+    description: (description || found.description),
+    startDate: (startDate || found.startDate),
+    endDate: (endDate || found.endDate),
+    clientName: (clientName || found.clientName),
+    active: (active || found.active),
+    devRate: (devRate || found.devRate),
+    qaRate: (qaRate || found.qaRate),
+    pmRate: (pmRate || found.pmRate),
+    tlRate: (tlRate || found.tlRate),
+    devs: (devs || found.devs),
+    qas: (qas || found.qas),
+    projectManager: (projectManager || found.projectManager),
+    techLeader: (techLeader || found.techLeader),
+    admin: (admin || found.admin),
+  };
+  if (newObject) {
+    res.send(newObject);
+  } else {
+    res.status(400).json({ msg: `No project with the id of ${req.params.id}` });
+  }
+});
 module.exports = router;
