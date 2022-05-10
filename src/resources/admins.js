@@ -50,10 +50,13 @@ router.get('/active=:active', (req, res) => {
 // Create admin
 router.post('/', (req, res) => {
   const rb = req.body;
-  if (!rb.id || !rb.firstName || !rb.lastName || !rb.email || !rb.password || (rb.active == null)) {
+  const ids = admins.reduce((previousValue, currentValue) => (previousValue
+     <= currentValue.id ? currentValue.id + 1 : previousValue), 0);
+  if (!ids || !rb.firstName || !rb.lastName || !rb.email || !rb.password || (rb.active == null)) {
     res.status(400).json({ msg: 'Please include the solicited information' });
   }
-  admins.push(req.body);
+
+  admins.push({ id: ids, ...req.body });
   const adminsWithNew = admins;
   fs.writeFile('src/data/admins.json', JSON.stringify(adminsWithNew), (err) => {
     if (err) {
