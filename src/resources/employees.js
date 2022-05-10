@@ -47,28 +47,37 @@ router.delete('/delete/:id', (req, res) => {
   }
 });
 // CREATE Employee
-// const ids = employees.map((employee) => Number(employee.id));
-// router.post('/', (req, res) => {
-//   const newEmployee = {
-//     id: Math.max(...ids) + 1,
-//     firstName: req.body.firstName,
-//     lastName: req.body.lastName,
-//     phone: req.body.phone,
-//     email: req.body.email,
-//     active: true,
-//   };
-//   if (!(newEmployee.firstName && newEmployee.lastName && newEmployee.email
-//  && newEmployee.phone)) {
-//     res.status(400).json({ msg: 'Please fill in firstName, lastName, email and phone' });
-//   }
-//   fs.writeFile('src/data/employees.json', JSON.stringify(newEmployee), (err) => {
-//     if (err) {
-//       res.send(err);
-//     } else {
-//       res.send('New employee added');
-//     }
-//   });
-// });
+router.post('/', (req, res) => {
+  // const ids = employees.map((employee) => employee.id);
+  const initialValue = 0;
+  const ids = employees.reduce(
+    (previousValue, currentValue) => (previousValue <= currentValue.id ? currentValue.id + 1
+      : previousValue),
+    initialValue,
+  );
+  console.log(employees);
+  const newEmployee = {
+    id: ids,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    phone: req.body.phone,
+    email: req.body.email,
+    active: true,
+  };
+  console.log(newEmployee);
+  if (!(newEmployee.firstName && newEmployee.lastName && newEmployee.email
+ && newEmployee.phone)) {
+    res.status(400).json({ msg: 'Please fill in firstName, lastName, email and phone' });
+  }
+  employees.push(newEmployee);
+  fs.writeFile('src/data/employees.json', JSON.stringify(employees), (err) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send('New employee added');
+    }
+  });
+});
 
 // EDIT Employee
 // router.post('/update/:id', (req, res) => {
