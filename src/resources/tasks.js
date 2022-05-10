@@ -4,6 +4,8 @@ const tasks = require('../data/tasks.json');
 
 const router = express.Router();
 
+const fs = require('fs');
+
 router.get('/:id', (req, res) => {
   const taskID = req.params.id;
   const task = tasks.find((t) => t.id === taskID);
@@ -31,10 +33,20 @@ router.get('/', (req, res) => {
 router.put('/:id', (req, res) => {
   const taskID = req.params.id;
   const task = tasks.find((t) => t.id === taskID);
+  const taskList = tasks.filter((t) => t.id !== taskID);
   if (task) {
-    const taskUpdate = req.body;
-    task.description = taskUpdate.description ? taskUpdate.description : task.description;
-    res.send({ msg: 'Task updated', task });
+    const taskUpdate = {
+        id : taskID,
+        description : (req.body.description || task.description), 
+    };
+    taskList.push(taskUpdate);
+    fs.writeFile('src/data/tasks.json', JSON.stringify(taskList), (err) => {
+        if (err) {
+          res.send(err);
+        } else {
+            res.send({ msg: 'Task updated', taskList });
+        }
+      });
   } else {
     res.send('Task not found');
   }
