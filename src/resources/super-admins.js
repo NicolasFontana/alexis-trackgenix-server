@@ -44,4 +44,62 @@ router.delete('/delete/:id', (req, res) => {
   }
 });
 
+// edit super admin
+router.put('/edit/:id', (req, res) => {
+  const supAdmId = Number(req.params.id);
+  const userA = superAdmins.find((user) => user.id === supAdmId);
+  if (userA) {
+    userA.firstName = req.body.firstName;
+    userA.lastName = req.body.lastName;
+    userA.email = req.body.email;
+    userA.password = req.body.password;
+    userA.active = req.body.active;
+    const newArray = req.body;
+    superAdmins.push(newArray);
+    fs.writeFileSync('src/data/super-admins.json', JSON.stringify(superAdmins));
+    res.send(`Super admin with id "${supAdmId}" edited`);
+  } else {
+    res.status(400);
+    res.send(`Could not edit because super admin with id "${supAdmId}" does not exist`);
+  }
+});
+
+// filter by first name
+router.get('/first-name/:firstName', (req, res) => {
+  const supAdmName = req.params.firstName;
+  const usersA = superAdmins.filter((user) => user.firstName.toLowerCase()
+  === supAdmName.toLowerCase());
+  if (usersA.length === 0) {
+    res.status(400);
+    res.send(`Super admin with name "${supAdmName}" does not exist`);
+  } else {
+    res.send(usersA);
+  }
+});
+
+// filter by last name
+router.get('/last-name/:lastName', (req, res) => {
+  const supAdmLastName = req.params.lastName;
+  const usersA = superAdmins.filter((user) => user.lastName.toLowerCase()
+  === supAdmLastName.toLowerCase());
+  if (usersA.length === 0) {
+    res.status(400);
+    res.send(`Super admin with last name "${supAdmLastName}" does not exist`);
+  } else {
+    res.send(usersA);
+  }
+});
+
+// filter by status
+router.get('/status/:active', (req, res) => {
+  const supAdmStatus = req.params.active;
+  const usersA = superAdmins.filter((user) => JSON.stringify(user.active) === supAdmStatus);
+  if (supAdmStatus !== 'true' && supAdmStatus !== 'false') {
+    res.status(400);
+    res.send(`${supAdmStatus} is an invalid value, please use true or false`);
+  } else {
+    res.send(usersA);
+  }
+});
+
 module.exports = router;
