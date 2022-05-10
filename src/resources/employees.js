@@ -8,7 +8,7 @@ router.get('/', (req, res) => res.send(employees));
 // GET BY ID
 router.get('/:id', (req, res) => {
   const idEmployee = Number(req.params.id);
-  res.send(employees.find((employee) => employee.id === idEmployee) || 'Void');
+  res.send(employees.find((employee) => employee.id === idEmployee) || 'Null');
 });
 // GET BY Name
 router.get('/firstName/:name', (req, res) => {
@@ -48,7 +48,6 @@ router.delete('/delete/:id', (req, res) => {
 });
 // CREATE Employee
 router.post('/', (req, res) => {
-  // const ids = employees.map((employee) => employee.id);
   const initialValue = 0;
   const ids = employees.reduce(
     (previousValue, currentValue) => (previousValue <= currentValue.id ? currentValue.id + 1
@@ -76,11 +75,11 @@ router.post('/', (req, res) => {
     }
   });
 });
-// EDIT Employee
+// UPDATE Employee
 router.put('/update/:id', (req, res) => {
   const idEmployee = Number(req.params.id);
   const employeeToUpdate = employees.some((employee) => employee.id === idEmployee);
-  const withoutEmployee = employees.filter((employee) => employee.id !== idEmployee);
+  const withoutOldEmployee = employees.filter((employee) => employee.id !== idEmployee);
   const newEmployee = {
     id: idEmployee,
     firstName: req.body.firstName,
@@ -92,8 +91,8 @@ router.put('/update/:id', (req, res) => {
   if (!(employeeToUpdate)) {
     res.status(400).json({ msg: 'Please fill in a valid id' });
   } else {
-    withoutEmployee.push(newEmployee);
-    fs.writeFile('src/data/employees.json', JSON.stringify(withoutEmployee), (err) => {
+    withoutOldEmployee.push(newEmployee);
+    fs.writeFile('src/data/employees.json', JSON.stringify(withoutOldEmployee), (err) => {
       if (err) {
         res.send(err);
       } else {
@@ -103,5 +102,3 @@ router.put('/update/:id', (req, res) => {
   }
 });
 module.exports = router;
-// shift alt flechita
-// sobre la seleccion ctrl d
