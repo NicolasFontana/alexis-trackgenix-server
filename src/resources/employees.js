@@ -35,7 +35,7 @@ router.delete('/delete/:id', (req, res) => {
   const idEmployee = Number(req.params.id);
   const withoutEmployee = employees.filter((employee) => employee.id !== idEmployee);
   if (withoutEmployee === employees) {
-    res.status(400);
+    res.status(400).json({ msg: 'Please fill in a valid id' });
   } else {
     fs.writeFile('src/data/employees.json', JSON.stringify(withoutEmployee), (err) => {
       if (err) {
@@ -65,15 +65,16 @@ router.post('/', (req, res) => {
   if (!(newEmployee.firstName && newEmployee.lastName && newEmployee.email
  && newEmployee.phone)) {
     res.status(400).json({ msg: 'Please fill in firstName, lastName, email and phone' });
+  } else {
+    employees.push(newEmployee);
+    fs.writeFile('src/data/employees.json', JSON.stringify(employees), (err) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send('New employee added');
+      }
+    });
   }
-  employees.push(newEmployee);
-  fs.writeFile('src/data/employees.json', JSON.stringify(employees), (err) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send('New employee added');
-    }
-  });
 });
 // UPDATE Employee
 router.put('/update/:id', (req, res) => {
