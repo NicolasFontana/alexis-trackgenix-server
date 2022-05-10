@@ -37,7 +37,6 @@ router.delete('/delete/:id', (req, res) => {
   if (withoutEmployee === employees) {
     res.status(400);
   } else {
-    console.log(withoutEmployee);
     fs.writeFile('src/data/employees.json', JSON.stringify(withoutEmployee), (err) => {
       if (err) {
         res.send(err);
