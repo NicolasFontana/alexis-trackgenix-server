@@ -15,7 +15,7 @@ router.get('/date', async (req, res) => {
   const beforeDate = timesheet.filter((elem) => (new Date(elem.date).getTime() <= finalDate));
   const afterDate = timesheet.filter((elem) => (new Date(elem.date).getTime() >= initialDate));
   const response = beforeDate.filter((elem) => afterDate.includes(elem));
-  res.status(200).json(response ?? { success: false, msg: 'Id was not found' });
+  res.status(200).json(response ?? { success: false, msg: 'Error' });
 });
 
 // GET TIME SHEETS ACCORDING TO VALIDATION
@@ -26,14 +26,14 @@ router.get('/validation/:valid', async (req, res) => {
   if (isValid === 'Invalid input') {
     res.status(400).json({ success: false, msg: isValid });
   }
-  const response = await timesheet.filter((elem) => elem.validated === isValid);
+  const response = timesheet.filter((elem) => elem.validated === isValid);
   res.status(200).json(response);
 });
 
 // GET TIME SHEETS FROM A SPECIFIC PROJECT
 router.get('/project/:id', async (req, res) => {
   const { id } = req.params;
-  const response = await timesheet.filter((elem) => elem.projectId.toString() === id.toString());
+  const response = timesheet.filter((elem) => elem.projectId.toString() === id.toString());
   if (response.length === 0) {
     res.status(400).json({ success: false, msg: 'No such project' });
   } else {
@@ -44,7 +44,7 @@ router.get('/project/:id', async (req, res) => {
 // GET TIME SHEETS FROM A SPECIFIC EMPLOYEE
 router.get('/employee/:id', async (req, res) => {
   const { id } = req.params;
-  const response = await timesheet.filter((elem) => elem.employee.toString() === id.toString());
+  const response = timesheet.filter((elem) => elem.employee.toString() === id.toString());
   if (response.length === 0) {
     res.status(400).json({ success: false, msg: 'No such employee' });
   } else {
@@ -58,8 +58,8 @@ router.put('/update/:id', async (req, res) => {
   const {
     description, date, task, validated, employee, projectId, projectManager, role,
   } = req.body;
-  const copyOfTS = await timesheet.find((elem) => elem.id.toString() === id.toString());
-  const restOfTimeSheets = await timesheet.filter((elem) => elem.id.toString() !== id.toString());
+  const copyOfTS = timesheet.find((elem) => elem.id.toString() === id.toString());
+  const restOfTimeSheets = timesheet.filter((elem) => elem.id.toString() !== id.toString());
   const updatedTS = {
     id: Number(id),
     description: (description || copyOfTS.description),
