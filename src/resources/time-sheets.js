@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   res.send(timesheet);
 });
 
-// TO SEE A TIMESHEET BY ID
+// TO GET A TIMESHEET BY ID
 router.get('/id/:id', async (req, res) => {
   const timesheetID = req.params.id.toString();
   const response = timesheet.find((elem) => elem.id.toString() === timesheetID);
@@ -22,7 +22,7 @@ router.get('/id/:id', async (req, res) => {
   }
 });
 
-// TO SEE A TIMESHEET BY ROLE
+// TO GET A TIMESHEET BY ROLE
 router.get('/role/:role', async (req, res) => {
   const timesheetRole = req.body.role.toString();
   const response = timesheet.filter((elem) => elem.role.toString() === timesheetRole);
@@ -33,7 +33,7 @@ router.get('/role/:role', async (req, res) => {
   }
 });
 
-// TO SEE A TIMESHEET BY TASK
+// TO GET A TIMESHEET BY TASK
 router.get('/task/:task', async (req, res) => {
   const timesheetTask = req.params.task.toString();
   const response = timesheet.find((elem) => elem.task.toString() === timesheetTask);
@@ -64,9 +64,9 @@ router.post('/create', (req, res) => {
   timesheet.push(timesheetData);
   fs.writeFile('src/data/time-sheets.json', JSON.stringify(timesheet), (err) => {
     if (err) {
-      res.send(400);
+      res.status(404).send(err);
     } else {
-      res.send('Timesheet created.');
+      res.send('New Timesheet created.');
     }
   });
 });
