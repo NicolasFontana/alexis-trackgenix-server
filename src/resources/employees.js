@@ -76,33 +76,32 @@ router.post('/', (req, res) => {
     }
   });
 });
-
 // EDIT Employee
-// router.post('/update/:id', (req, res) => {
-//   const idEmployee = Number(req.params.id);
-//   const employeeToUpdate = employees.find((employee) => employee.id === idEmployee);
-//   const withoutEmployee = employees.filter((employee) => employee.id !== idEmployee);
-//   const newEmployee = {
-//     id: employeeToUpdate.id,
-//     firstName: req.body.firstName,
-//     lastName: req.body.lastName,
-//     phone: req.body.phone,
-//     email: req.body.email,
-//     active: req.body.active,
-//   };
-//   if (!(newEmployee.firstName && newEmployee.lastName && newEmployee.email
-//     && newEmployee.phone && newEmployee.active)) {
-//     res.status(400).json({ msg: 'Please fill in firstName, lastName, email and phone' });
-//   }
-//   fs.writeFile
-//  ('src/data/employees.json', JSON.stringify(withoutEmployee.push(newEmployee)), (err) => {
-//     if (err) {
-//       res.send(err);
-//     } else {
-//       res.send('Employee updated');
-//     }
-//   });
-// });
+router.put('/update/:id', (req, res) => {
+  const idEmployee = Number(req.params.id);
+  const employeeToUpdate = employees.some((employee) => employee.id === idEmployee);
+  const withoutEmployee = employees.filter((employee) => employee.id !== idEmployee);
+  const newEmployee = {
+    id: idEmployee,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    phone: req.body.phone,
+    email: req.body.email,
+    active: req.body.active,
+  };
+  if (!(employeeToUpdate)) {
+    res.status(400).json({ msg: 'Please fill in a valid id' });
+  } else {
+    withoutEmployee.push(newEmployee);
+    fs.writeFile('src/data/employees.json', JSON.stringify(withoutEmployee), (err) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send('Employee updated');
+      }
+    });
+  }
+});
 module.exports = router;
 // shift alt flechita
 // sobre la seleccion ctrl d
