@@ -55,7 +55,6 @@ router.post('/', (req, res) => {
       : previousValue),
     initialValue,
   );
-  console.log(employees);
   const newEmployee = {
     id: ids,
     firstName: req.body.firstName,
@@ -64,7 +63,6 @@ router.post('/', (req, res) => {
     email: req.body.email,
     active: true,
   };
-  console.log(newEmployee);
   if (!(newEmployee.firstName && newEmployee.lastName && newEmployee.email
  && newEmployee.phone)) {
     res.status(400).json({ msg: 'Please fill in firstName, lastName, email and phone' });
