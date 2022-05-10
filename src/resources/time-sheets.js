@@ -2,19 +2,19 @@
 const express = require('express');
 const fs = require('fs');
 
-const router = express.Router();
+const timesheetRouter = express.Router();
 
 // DATA IN JSON
-const timesheet = require('../data/time-sheets.json');
+const timesheets = require('../data/time-sheets.json');
 
-router.get('/', (req, res) => {
-  res.send(timesheet);
+timesheetRouter.get('/', (req, res) => {
+  res.send(timesheets);
 });
 
 // TO GET A TIMESHEET BY ID
-router.get('/id/:id', async (req, res) => {
+timesheetRouter.get('/id=:id', async (req, res) => {
   const timesheetID = req.params.id.toString();
-  const response = timesheet.find((elem) => elem.id.toString() === timesheetID);
+  const response = timesheets.find((timesheet) => timesheet.id.toString() === timesheetID);
   if (response) {
     res.send(response);
   } else {
@@ -23,9 +23,9 @@ router.get('/id/:id', async (req, res) => {
 });
 
 // TO GET A TIMESHEET BY ROLE
-router.get('/role/:role', async (req, res) => {
+timesheetRouter.get('/role=:role', async (req, res) => {
   const timesheetRole = req.body.role.toString();
-  const response = timesheet.filter((elem) => elem.role.toString() === timesheetRole);
+  const response = timesheets.filter((timesheet) => timesheet.role.toString() === timesheetRole);
   if (response) {
     res.send(response);
   } else {
@@ -34,9 +34,9 @@ router.get('/role/:role', async (req, res) => {
 });
 
 // TO GET A TIMESHEET BY TASK
-router.get('/task/:task', async (req, res) => {
+timesheetRouter.get('/task=:task', async (req, res) => {
   const timesheetTask = req.params.task.toString();
-  const response = timesheet.find((elem) => elem.task.toString() === timesheetTask);
+  const response = timesheets.find((timesheet) => timesheet.task.toString() === timesheetTask);
   if (response) {
     res.send(response);
   } else {
@@ -45,11 +45,11 @@ router.get('/task/:task', async (req, res) => {
 });
 
 // TO CREATE A NEW TIMESHEET
-router.post('/create', (req, res) => {
+timesheetRouter.post('/create', (req, res) => {
   const {
     description, date, task, validated, employee, projectId, projectManager, role,
   } = req.body;
-  const id = timesheet.reduce((prev, curr) => (prev <= curr.id ? curr.id + 1 : prev), 0);
+  const id = timesheets.reduce((prev, curr) => (prev <= curr.id ? curr.id + 1 : prev), 0);
   const timesheetData = {
     id,
     description,
@@ -61,21 +61,21 @@ router.post('/create', (req, res) => {
     projectManager,
     role,
   };
-  timesheet.push(timesheetData);
-  fs.writeFile('src/data/time-sheets.json', JSON.stringify(timesheet), (err) => {
+  timesheets.push(timesheetData);
+  fs.writeFile('src/data/time-sheets.json', JSON.stringify(timesheets), (err) => {
     if (err) {
       res.status(404).send(err);
     } else {
-      res.send('New Timesheet created.');
+      res.status(201).send('New Timesheet created.').json(timesheetData);
     }
   });
 });
 
 // TO DELETE A TIMESHEET BY ID
-router.delete('/delete/:id', (req, res) => {
+timesheetRouter.delete('/delete=:id', (req, res) => {
   const timesheetID = req.params.id.toString();
-  const filteredTimesheet = timesheet.filter((tsheet) => tsheet.id.toString() !== timesheetID);
-  if (timesheet.length === filteredTimesheet.length) {
+  const filteredTimesheet = timesheets.filter((tsheet) => tsheet.id.toString() !== timesheetID);
+  if (timesheets.length === filteredTimesheet.length) {
     res.send('Could NOT delete timesheet because it was not found');
   } else {
     fs.writeFile('src/data/time-sheets.json', JSON.stringify(filteredTimesheet), (err) => {
@@ -88,4 +88,4 @@ router.delete('/delete/:id', (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = timesheetRouter;
