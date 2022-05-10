@@ -7,9 +7,9 @@ const admins = require('../data/admins.json');
 // Get all admins
 router.get('/', (req, res) => res.status(200).json(admins));
 
-// Get single admin
+// Get single admin by id
 router.get('/id=:id', (req, res) => {
-  const found = admins.some((admin) => admin.id === Number(req.params.id));
+  const found = admins.find((admin) => admin.id === Number(req.params.id));
   if (found) {
     res.json(admins.filter((admin) => admin.id === Number(req.params.id)));
   } else {
@@ -17,10 +17,40 @@ router.get('/id=:id', (req, res) => {
   }
 });
 
+// Get admins by firstName
+router.get('/firstName=:firstName', (req, res) => {
+  const found = admins.some((admin) => admin.firstName === req.params.firstName);
+  if (found) {
+    res.json(admins.filter((admin) => admin.firstName === req.params.firstName));
+  } else {
+    res.status(400).json({ msg: `No admins with the firstName of ${req.params.firstName}` });
+  }
+});
+
+// Get admins by lastName
+router.get('/lastName=:lastName', (req, res) => {
+  const found = admins.some((admin) => admin.lastName === req.params.lastName);
+  if (found) {
+    res.json(admins.filter((admin) => admin.lastName === req.params.lastName));
+  } else {
+    res.status(400).json({ msg: `No admins with the lastName of ${req.params.lastName}` });
+  }
+});
+
+// Get admins by active status
+router.get('/active=:active', (req, res) => {
+  const listOfActives = admins.filter((admin) => (admin.active.toString() === req.params.active));
+  if (req.params.active === 'true' || req.params.active === 'false') {
+    res.json(listOfActives);
+  } else {
+    res.status(400).json({ msg: `No admins with the active of ${req.params.active}` });
+  }
+});
+
 // Create admin
 router.post('/', (req, res) => {
   const rb = req.body;
-  if (!rb.id || !rb.firstName || !rb.lastName || !rb.email || !rb.password || (rb.active === '')) {
+  if (!rb.id || !rb.firstName || !rb.lastName || !rb.email || !rb.password || (rb.active == null)) {
     res.status(400).json({ msg: 'Please include the solicited information' });
   }
   admins.push(req.body);
@@ -38,7 +68,7 @@ router.post('/', (req, res) => {
 
 // Delete admin
 router.delete('/id=:id', (req, res) => {
-  const found = admins.some((admin) => admin.id === Number(req.params.id));
+  const found = admins.find((admin) => admin.id === Number(req.params.id));
   const restOfTheAdmins = admins.filter((admin) => admin.id !== Number(req.params.id));
   if (found) {
     fs.writeFile('src/data/admins.json', JSON.stringify(restOfTheAdmins), (err) => {
