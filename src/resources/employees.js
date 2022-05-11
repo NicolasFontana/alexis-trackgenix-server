@@ -104,4 +104,4 @@ router.put('/update=:id', (req, res) => {
     });
   }
 });
-module.exports = router;
+export default router;
