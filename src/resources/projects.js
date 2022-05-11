@@ -1,7 +1,6 @@
-const express = import('express');
-const fs = import('fs');
-
-const projects = import('../data/projects.json');
+import express from "express";
+import fs from "fs";
+import projects from '../data/projects.json';
 
 const router = express.Router();
 
@@ -222,4 +221,4 @@ router.put('/assign/admin=:id', (req, res) => {
     });
   }
 });
-module.exports = router;
+export default router;
