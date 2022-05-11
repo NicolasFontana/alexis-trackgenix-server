@@ -1,6 +1,6 @@
-const express = require('express');
-const fs = require('fs');
-const employees = require('../data/employees.json');
+import express from 'express';
+import fs from 'fs';
+import employees from '../data/employees.json';
 
 const router = express.Router();
 // GET ALL
