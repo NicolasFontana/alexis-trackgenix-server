@@ -1,11 +1,9 @@
 // IMPORTS AND REQUIRES
-const express = require('express');
+import express from 'express';
+import fs from 'fs';
+import timesheets from '../data/time-sheets.json';
 
 const router = express.Router();
-const fs = require('fs');
-
-// JSON DATA
-const timesheets = require('../data/time-sheets.json');
 
 // GET TIME SHEETS BETWEEN DATES
 router.get('/date', async (req, res) => {
@@ -81,4 +79,4 @@ router.put('/update/id=:id', async (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;

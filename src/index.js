@@ -1,14 +1,15 @@
-const express = require('express');
+import express from 'express';
+import admins from './data/admins.json';
+import timeSheets from './resources/time-sheets';
 
 // use "require" to import JSON files
-const admins = require('./data/admins.json');
 
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // ROUTES
-app.use('/api/time-sheets', require('./resources/time-sheets'));
+app.use('/api/time-sheets', timeSheets);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
