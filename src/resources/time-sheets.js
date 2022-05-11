@@ -5,35 +5,35 @@ const router = express.Router();
 const fs = require('fs');
 
 // JSON DATA
-const timesheet = require('../data/time-sheets.json');
+const timesheets = require('../data/time-sheets.json');
 
 // GET TIME SHEETS BETWEEN DATES
 router.get('/date', async (req, res) => {
   const { initDate, endDate } = req.body;
   const initialDate = new Date(initDate);
   const finalDate = new Date(endDate);
-  const beforeDate = timesheet.filter((elem) => (new Date(elem.date).getTime() <= finalDate));
-  const afterDate = timesheet.filter((elem) => (new Date(elem.date).getTime() >= initialDate));
+  const beforeDate = timesheets.filter((elem) => (new Date(elem.date).getTime() <= finalDate));
+  const afterDate = timesheets.filter((elem) => (new Date(elem.date).getTime() >= initialDate));
   const response = beforeDate.filter((elem) => afterDate.includes(elem));
-  res.status(200).json(response ?? { success: false, msg: 'Error' });
+  res.status(200).json(response);
 });
 
 // GET TIME SHEETS ACCORDING TO VALIDATION
 // req could be 0 -> false or 1 -> true
-router.get('/validation/:valid', async (req, res) => {
+router.get('/validation/valid=:valid', async (req, res) => {
   const { valid } = req.params;
-  const isValid = (valid === '1' || valid === '0' ? valid === '1' : 'Invalid input');
+  const isValid = ((valid === '1') || (valid === '0') ? (valid === '1') : 'Invalid input');
   if (isValid === 'Invalid input') {
     res.status(400).json({ success: false, msg: isValid });
   }
-  const response = timesheet.filter((elem) => elem.validated === isValid);
+  const response = timesheets.filter((elem) => elem.validated === isValid);
   res.status(200).json(response);
 });
 
 // GET TIME SHEETS FROM A SPECIFIC PROJECT
-router.get('/project/:id', async (req, res) => {
+router.get('/project/id=:id', async (req, res) => {
   const { id } = req.params;
-  const response = timesheet.filter((elem) => elem.projectId.toString() === id.toString());
+  const response = timesheets.filter((elem) => elem.projectId.toString() === id.toString());
   if (response.length === 0) {
     res.status(400).json({ success: false, msg: 'No such project' });
   } else {
@@ -42,9 +42,9 @@ router.get('/project/:id', async (req, res) => {
 });
 
 // GET TIME SHEETS FROM A SPECIFIC EMPLOYEE
-router.get('/employee/:id', async (req, res) => {
+router.get('/employee/id=:id', async (req, res) => {
   const { id } = req.params;
-  const response = timesheet.filter((elem) => elem.employee.toString() === id.toString());
+  const response = timesheets.filter((elem) => elem.employee.toString() === id.toString());
   if (response.length === 0) {
     res.status(400).json({ success: false, msg: 'No such employee' });
   } else {
@@ -53,13 +53,13 @@ router.get('/employee/:id', async (req, res) => {
 });
 
 // UPDATE A TIME SHEET
-router.put('/update/:id', async (req, res) => {
+router.put('/update/id=:id', async (req, res) => {
   const { id } = req.params;
   const {
     description, date, task, validated, employee, projectId, projectManager, role,
   } = req.body;
-  const copyOfTS = timesheet.find((elem) => elem.id.toString() === id.toString());
-  const restOfTimeSheets = timesheet.filter((elem) => elem.id.toString() !== id.toString());
+  const copyOfTS = timesheets.find((elem) => elem.id.toString() === id.toString());
+  const restOfTimeSheets = timesheets.filter((elem) => elem.id.toString() !== id.toString());
   const updatedTS = {
     id: Number(id),
     description: (description || copyOfTS.description),
