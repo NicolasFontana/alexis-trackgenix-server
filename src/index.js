@@ -1,24 +1,24 @@
 import express from 'express';
 import timeSheets from './resources/time-sheets';
-// use "import" to import libraries
-// import express from 'express';
+import resAdmin from './resources/admins';
 import employeesRoute from './resources/employees';
 import superAdmins from './resources/super-admins';
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// MIDDLEWARES
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // ROUTES
 app.use('/api/time-sheets', timeSheets);
+app.use('/api/admins', resAdmin);
+app.use('/super-admins', superAdmins);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
 });
-
-app.use(express.json());
-app.use('/super-admins', superAdmins);
-app.use(express.urlencoded({ extended: false }));
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
