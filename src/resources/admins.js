@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', (req, res) => res.status(200).json(admins));
 
 // Get single admin by id
-router.get('/id=:id', (req, res) => {
+router.get('/id/:id', (req, res) => {
   const found = admins.find((admin) => admin.id === Number(req.params.id));
   if (found) {
     res.json(admins.filter((admin) => admin.id === Number(req.params.id)));
@@ -18,7 +18,7 @@ router.get('/id=:id', (req, res) => {
 });
 
 // Get admins by firstName
-router.get('/firstName=:firstName', (req, res) => {
+router.get('/firstName/:firstName', (req, res) => {
   const found = admins.some((admin) => admin.firstName === req.params.firstName);
   if (found) {
     res.json(admins.filter((admin) => admin.firstName === req.params.firstName));
@@ -28,7 +28,7 @@ router.get('/firstName=:firstName', (req, res) => {
 });
 
 // Get admins by lastName
-router.get('/lastName=:lastName', (req, res) => {
+router.get('/lastName/:lastName', (req, res) => {
   const found = admins.some((admin) => admin.lastName === req.params.lastName);
   if (found) {
     res.json(admins.filter((admin) => admin.lastName === req.params.lastName));
@@ -38,7 +38,7 @@ router.get('/lastName=:lastName', (req, res) => {
 });
 
 // Get admins by active status
-router.get('/active=:active', (req, res) => {
+router.get('/active/:active', (req, res) => {
   const listOfActives = admins.filter((admin) => (admin.active.toString() === req.params.active));
   if (req.params.active === 'true' || req.params.active === 'false') {
     res.json(listOfActives);
@@ -70,7 +70,7 @@ router.post('/', (req, res) => {
 });
 
 // Delete admin
-router.delete('/id=:id', (req, res) => {
+router.delete('/id/:id', (req, res) => {
   const found = admins.find((admin) => admin.id === Number(req.params.id));
   const restOfTheAdmins = admins.filter((admin) => admin.id !== Number(req.params.id));
   if (found) {
@@ -89,7 +89,7 @@ router.delete('/id=:id', (req, res) => {
 });
 
 // Update admin
-router.put('/id=:id', (req, res) => {
+router.put('/id/:id', (req, res) => {
   const found = admins.some((admin) => admin.id === Number(req.params.id));
   if (found) {
     const restOfTheAdmins = admins.filter((admin) => admin.id !== Number(req.params.id));
