@@ -1,6 +1,7 @@
-const express = require('express');
-const fs = require('fs');
-const superAdmins = require('../data/super-admins.json');
+import express from 'express';
+import fs from 'fs';
+
+import superAdmins from '../data/super-admins.json';
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.get('/', (req, res) => {
 });
 
 // get super admin by id
-router.get('/id=:id', (req, res) => {
+router.get('/id/:id', (req, res) => {
   const supAdmId = Number(req.params.id);
   const userA = superAdmins.find((user) => user.id === supAdmId);
   if (userA) {
@@ -37,7 +38,7 @@ router.post('/add', (req, res) => {
 });
 
 // delete super admin
-router.delete('/delete=:id', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
   const supAdmId = Number(req.params.id);
   const filteredUsers = superAdmins.filter((user) => user.id !== supAdmId);
   if (superAdmins.length === filteredUsers.length) {
@@ -51,7 +52,7 @@ router.delete('/delete=:id', (req, res) => {
 });
 
 // edit super admin
-router.put('/edit=:id', (req, res) => {
+router.put('/edit/:id', (req, res) => {
   const supAdmId = Number(req.params.id);
   const newArray = superAdmins.find((superAdmin) => superAdmin.id === supAdmId);
   const filteredArray = superAdmins.filter((superAdmin) => superAdmin.id !== supAdmId);
@@ -74,7 +75,7 @@ router.put('/edit=:id', (req, res) => {
 });
 
 // filter by first name
-router.get('/first-name=:firstName', (req, res) => {
+router.get('/first-name/:firstName', (req, res) => {
   const supAdmName = req.params.firstName;
   const usersA = superAdmins.filter((user) => user.firstName.toLowerCase()
   === supAdmName.toLowerCase());
@@ -87,7 +88,7 @@ router.get('/first-name=:firstName', (req, res) => {
 });
 
 // filter by last name
-router.get('/last-name=:lastName', (req, res) => {
+router.get('/last-name/:lastName', (req, res) => {
   const supAdmLastName = req.params.lastName;
   const usersA = superAdmins.filter((user) => user.lastName.toLowerCase()
   === supAdmLastName.toLowerCase());
@@ -100,7 +101,7 @@ router.get('/last-name=:lastName', (req, res) => {
 });
 
 // filter by status
-router.get('/active=:active', (req, res) => {
+router.get('/active/:active', (req, res) => {
   const supAdmStatus = req.params.active;
   const usersA = superAdmins.filter((user) => JSON.stringify(user.active) === supAdmStatus);
   if (supAdmStatus !== 'true' && supAdmStatus !== 'false') {
@@ -111,4 +112,4 @@ router.get('/active=:active', (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
