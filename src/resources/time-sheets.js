@@ -2,17 +2,17 @@
 const express = require('express');
 const fs = require('fs');
 
-const timesheetRouter = express.Router();
+const router = express.Router();
 
 // DATA IN JSON
 const timesheets = require('../data/time-sheets.json');
 
-timesheetRouter.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.send(timesheets);
 });
 
 // TO GET A TIMESHEET BY ID
-timesheetRouter.get('/id=:id', async (req, res) => {
+router.get('/id=:id', async (req, res) => {
   const timesheetID = req.params.id.toString();
   const response = timesheets.find((timesheet) => timesheet.id.toString() === timesheetID);
   if (response) {
@@ -23,10 +23,10 @@ timesheetRouter.get('/id=:id', async (req, res) => {
 });
 
 // TO GET A TIMESHEET BY ROLE
-timesheetRouter.get('/role=:role', async (req, res) => {
-  const timesheetRole = req.body.role.toString();
+router.get('/role=:role', async (req, res) => {
+  const timesheetRole = req.params.role.toString();
   const response = timesheets.filter((timesheet) => timesheet.role.toString() === timesheetRole);
-  if (response) {
+  if (response.length !== 0) {
     res.send(response);
   } else {
     res.send(`Role ${timesheetRole} not found`);
@@ -34,7 +34,7 @@ timesheetRouter.get('/role=:role', async (req, res) => {
 });
 
 // TO GET A TIMESHEET BY TASK
-timesheetRouter.get('/task=:task', async (req, res) => {
+router.get('/task=:task', async (req, res) => {
   const timesheetTask = req.params.task.toString();
   const response = timesheets.find((timesheet) => timesheet.task.toString() === timesheetTask);
   if (response) {
@@ -45,7 +45,7 @@ timesheetRouter.get('/task=:task', async (req, res) => {
 });
 
 // TO CREATE A NEW TIMESHEET
-timesheetRouter.post('/create', (req, res) => {
+router.post('/create', (req, res) => {
   const {
     description, date, task, validated, employee, projectId, projectManager, role,
   } = req.body;
@@ -72,7 +72,7 @@ timesheetRouter.post('/create', (req, res) => {
 });
 
 // TO DELETE A TIMESHEET BY ID
-timesheetRouter.delete('/delete=:id', (req, res) => {
+router.delete('/delete=:id', (req, res) => {
   const timesheetID = req.params.id.toString();
   const filteredTimesheet = timesheets.filter((tsheet) => tsheet.id.toString() !== timesheetID);
   if (timesheets.length === filteredTimesheet.length) {
@@ -88,4 +88,4 @@ timesheetRouter.delete('/delete=:id', (req, res) => {
   }
 });
 
-module.exports = timesheetRouter;
+module.exports = router;
