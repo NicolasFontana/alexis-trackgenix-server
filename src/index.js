@@ -1,6 +1,7 @@
 // use "import" to import libraries
 // import express from 'express';
 import express from 'express';
+import resAdmin from './resources/admins';
 import employeesRoute from './resources/employees';
 
 // routes
@@ -12,13 +13,17 @@ const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
 
+// Body parser middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 app.get('/', async (req, res) => {
   res.send('Hello World!');
 });
 
-app.use(express.json());
+// Admins API routes
+app.use('/api/admins', resAdmin);
 app.use('/super-admins', superAdmins);
-app.use(express.urlencoded({ extended: false }));
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
