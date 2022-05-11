@@ -1,7 +1,7 @@
-const express = require('express');
-// use "require" to import JSON files
-const projects = require('./data/projects.json');
-const router = require('./resources/projects');
+const express = import('express');
+// use "import" to import JSON files
+const projects = import('./data/projects.json');
+const router = import('./resources/projects');
 
 const app = express();
 app.use(express.json());

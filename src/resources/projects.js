@@ -1,7 +1,7 @@
-const express = require('express');
-const fs = require('fs');
+const express = import('express');
+const fs = import('fs');
 
-const projects = require('../data/projects.json');
+const projects = import('../data/projects.json');
 
 const router = express.Router();
 
