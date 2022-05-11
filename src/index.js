@@ -1,29 +1,24 @@
-// use "import" to import libraries
-// import express from 'express';
 import express from 'express';
+import timeSheets from './resources/time-sheets';
 import resAdmin from './resources/admins';
 import employeesRoute from './resources/employees';
-
-// routes
 import superAdmins from './resources/super-admins';
-
-// use "require" to import JSON files
 
 const app = express();
 const port = process.env.PORT || 3000;
-app.use(express.json());
 
-// Body parser middleware
+// MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// ROUTES
+app.use('/api/time-sheets', timeSheets);
+app.use('/api/admins', resAdmin);
+app.use('/super-admins', superAdmins);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
 });
-
-// Admins API routes
-app.use('/api/admins', resAdmin);
-app.use('/super-admins', superAdmins);
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
