@@ -1,12 +1,12 @@
-const express = require('express');
+import express from 'express';
 
-const fs = require('fs');
+import fs from 'fs';
 
-const tasks = require('../data/tasks.json');
+import tasks from '../data/tasks.json';
 
-const router = express.Router();
+const tasksRouter = express.Router();
 
-router.get('/:id', (req, res) => {
+tasksRouter.get('/:id', (req, res) => {
   const taskID = req.params.id;
   const task = tasks.find((t) => t.id === taskID);
   if (task) {
@@ -16,7 +16,7 @@ router.get('/:id', (req, res) => {
   }
 });
 
-router.get('/', (req, res) => {
+tasksRouter.get('/', (req, res) => {
   const taskDesc = req.query.description;
   if (!taskDesc) {
     res.send(tasks);
@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
+tasksRouter.put('/:id', (req, res) => {
   const taskID = req.params.id;
   const task = tasks.find((t) => t.id === taskID);
   const taskList = tasks.filter((t) => t.id !== taskID);
@@ -52,4 +52,4 @@ router.put('/:id', (req, res) => {
   }
 });
 
-module.exports = router;
+export default tasksRouter;
