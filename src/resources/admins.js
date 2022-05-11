@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
+import fs from 'fs';
+import admins from '../data/admins.json';
 
 const router = express.Router();
-const fs = require('fs');
-const admins = require('../data/admins.json');
 
 // Get all admins
 router.get('/', (req, res) => res.status(200).json(admins));
@@ -118,4 +118,4 @@ router.put('/id=:id', (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

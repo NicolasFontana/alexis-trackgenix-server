@@ -1,5 +1,6 @@
 // use "import" to import libraries
-const express = require('express');
+import express from 'express';
+import resAdmin from './resources/admins';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,7 +14,7 @@ app.get('/', async (req, res) => {
 });
 
 // Admins API routes
-app.use('/api/admins', require('./resources/admins'));
+app.use('/api/admins', resAdmin);
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
