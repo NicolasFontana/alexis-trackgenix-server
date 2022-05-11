@@ -28,7 +28,7 @@ router.post('/add', (req, res) => {
   if (req.body.firstName.length === 0 || req.body.lastName.length === 0
     || req.body.email.length === 0 || req.body.password.length === 0
     || req.body.active.length === 0) {
-    res.send('Please fill all the required data');
+    res.send('Please fill all the d data');
   } else {
     superAdmins.push(newSA);
     fs.writeFile('src/data/super-admins.json', JSON.stringify(superAdmins), (error) => {
