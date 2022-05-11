@@ -17,10 +17,9 @@ router.get('/date', async (req, res) => {
 });
 
 // GET TIME SHEETS ACCORDING TO VALIDATION
-// req could be 0 -> false or 1 -> true
-router.get('/validation/valid=:valid', async (req, res) => {
+router.get('/validation/:valid', async (req, res) => {
   const { valid } = req.params;
-  const isValid = ((valid === '1') || (valid === '0') ? (valid === '1') : 'Invalid input');
+  const isValid = ((valid === 'true') || (valid === 'false') ? (valid === 'true') : 'Invalid input');
   if (isValid === 'Invalid input') {
     res.status(400).json({ success: false, msg: isValid });
   }
@@ -29,7 +28,7 @@ router.get('/validation/valid=:valid', async (req, res) => {
 });
 
 // GET TIME SHEETS FROM A SPECIFIC PROJECT
-router.get('/project/id=:id', async (req, res) => {
+router.get('/project/id/:id', async (req, res) => {
   const { id } = req.params;
   const response = timesheets.filter((elem) => elem.projectId.toString() === id.toString());
   if (response.length === 0) {
@@ -40,7 +39,7 @@ router.get('/project/id=:id', async (req, res) => {
 });
 
 // GET TIME SHEETS FROM A SPECIFIC EMPLOYEE
-router.get('/employee/id=:id', async (req, res) => {
+router.get('/employee/id/:id', async (req, res) => {
   const { id } = req.params;
   const response = timesheets.filter((elem) => elem.employee.toString() === id.toString());
   if (response.length === 0) {
@@ -51,7 +50,7 @@ router.get('/employee/id=:id', async (req, res) => {
 });
 
 // UPDATE A TIME SHEET
-router.put('/update/id=:id', async (req, res) => {
+router.put('/update/id/:id', async (req, res) => {
   const { id } = req.params;
   const {
     description, date, task, validated, employee, projectId, projectManager, role,
