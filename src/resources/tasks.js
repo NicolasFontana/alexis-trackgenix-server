@@ -1,29 +1,40 @@
 // Link de js con task jason
-const express = require('express');
-const fs = require('fs');
-const users = require('../data/tasks.json');
+import express from 'express';
+import fs from 'fs';
+import users from '../data/tasks.json';
 
 const router = express.Router();
 
-router.post('/', (req, res) => {
-  const taskData = req.body;
-  users.push(taskData);
-  fs.writeFile('src/data/task.json', JSON.stringify(users), (err) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send('User created');
-    }
-  });
+router.post('/add', (req, res) => {
+  const initialValue = 0;
+  const ids = users.reduce(
+    (previousValue, currentValue) => (previousValue <= currentValue.id ? currentValue.id + 1
+      : previousValue),
+    initialValue,
+  );
+  const taskId = {
+    id: ids,
+    description: req.body.description,
+  };
+  if (!(taskId.description)) {
+    res.status(400).json({ msg: 'null' });
+  } else {
+    users.push(taskId);
+    fs.writeFile('src/data/tasks.json', JSON.stringify(users), (err) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send('New User added');
+      }
+    });
+  }
 });
-
-// Metodo de filtrado, retorna todos los ID distintos al que yo pase como parametro
 
 router.delete('/:id', (req, res) => {
   const taskId = req.params.id;
-  const filteredUsers = users.filter((user) => user.id !== taskId);
+  const filteredUsers = users.filter((user) => user.id.toString() !== taskId.toString());
   if (users.length === filteredUsers.length) {
-    res.send('Could not delete user because it was not found');
+    res.send('null');
   } else {
     fs.writeFile('src/data/task.json', JSON.stringify(filteredUsers), (err) => {
       if (err) {
@@ -35,4 +46,4 @@ router.delete('/:id', (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

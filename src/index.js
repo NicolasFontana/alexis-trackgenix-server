@@ -1,12 +1,12 @@
-const express = require('express');
-const taskRouter = require('./resources/tasks');
+import express from 'express';
+import taskRouter from './resources/tasks';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-// Ruta de redireccion router
-app.use('/api/task', taskRouter);
+
+app.use('/api/tasks', taskRouter);
 
 app.get('/', async (req, res) => {
   res.send('Trackgenix SA');
