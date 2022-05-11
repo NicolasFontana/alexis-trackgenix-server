@@ -1,5 +1,5 @@
-import express from "express";
-import fs from "fs";
+import express from 'express';
+import fs from 'fs';
 import projects from '../data/projects.json';
 
 const router = express.Router();
@@ -111,10 +111,26 @@ router.put('/update=:id', (req, res) => {
 router.put('/assign/dev=:id', (req, res) => {
   const idProject = Number(req.params.id);
   const found = projects.find((project) => project.id === idProject);
+  const newFound = found.devs;
+  newFound.push(req.body.devs)
   const updProjectFilter = projects.filter((project) => project.id !== idProject);
   const devAssign = {
     id: Number(req.params.id),
+    name: (found.name),
+    description: (found.description),
+    startDate: (found.startDate),
+    endDate: (found.endDate),
+    clientName: (found.clientName),
+    active: (found.active),
+    devRate: (found.devRate),
+    qaRate: (found.qaRate),
+    pmRate: (found.pmRate),
+    tlRate: (found.tlRate),
     devs: (req.body.devs || found.devs),
+    qas: (found.qas),
+    projectManager: (found.projectManager),
+    techLeader: (found.techLeader),
+    admin: (found.admin),
   };
   if (!(found)) {
     res.status(400).json({ msg: 'Please fill in a valid id' });
@@ -137,7 +153,21 @@ router.put('/assign/qa=:id', (req, res) => {
   const updProjectFilter = projects.filter((project) => project.id !== idProject);
   const qaAssign = {
     id: Number(req.params.id),
-    devs: (req.body.devs || found.devs),
+    name: (found.name),
+    description: (found.description),
+    startDate: (found.startDate),
+    endDate: (found.endDate),
+    clientName: (found.clientName),
+    active: (found.active),
+    devRate: (found.devRate),
+    qaRate: (found.qaRate),
+    pmRate: (found.pmRate),
+    tlRate: (found.tlRate),
+    devs: (found.devs),
+    qas: (req.body.qas || found.qas),
+    projectManager: (found.projectManager),
+    techLeader: (found.techLeader),
+    admin: (found.admin),
   };
   if (!(found)) {
     res.status(400).json({ msg: 'Please fill in a valid id' });
@@ -160,7 +190,21 @@ router.put('/assign/pm=:id', (req, res) => {
   const updProjectFilter = projects.filter((project) => project.id !== idProject);
   const pmAssign = {
     id: Number(req.params.id),
-    devs: (req.body.devs || found.devs),
+    name: (found.name),
+    description: (found.description),
+    startDate: (found.startDate),
+    endDate: (found.endDate),
+    clientName: (found.clientName),
+    active: (found.active),
+    devRate: (found.devRate),
+    qaRate: (found.qaRate),
+    pmRate: (found.pmRate),
+    tlRate: (found.tlRate),
+    devs: (found.devs),
+    qas: (found.qas),
+    projectManager: (req.body.projectManager || found.projectManager),
+    techLeader: (found.techLeader),
+    admin: (found.admin),
   };
   if (!(found)) {
     res.status(400).json({ msg: 'Please fill in a valid id' });
@@ -183,7 +227,21 @@ router.put('/assign/tl=:id', (req, res) => {
   const updProjectFilter = projects.filter((project) => project.id !== idProject);
   const tlAssign = {
     id: Number(req.params.id),
-    devs: (req.body.devs || found.devs),
+    name: (found.name),
+    description: (found.description),
+    startDate: (found.startDate),
+    endDate: (found.endDate),
+    clientName: (found.clientName),
+    active: (found.active),
+    devRate: (found.devRate),
+    qaRate: (found.qaRate),
+    pmRate: (found.pmRate),
+    tlRate: (found.tlRate),
+    devs: (found.devs),
+    qas: (found.qas),
+    projectManager: (found.projectManager),
+    techLeader: (req.body.techLeader || found.techLeader),
+    admin: (found.admin),
   };
   if (!(found)) {
     res.status(400).json({ msg: 'Please fill in a valid id' });
@@ -206,7 +264,21 @@ router.put('/assign/admin=:id', (req, res) => {
   const updProjectFilter = projects.filter((project) => project.id !== idProject);
   const adminAssign = {
     id: Number(req.params.id),
-    devs: (req.body.devs || found.devs),
+    name: (found.name),
+    description: (found.description),
+    startDate: (found.startDate),
+    endDate: (found.endDate),
+    clientName: (found.clientName),
+    active: (found.active),
+    devRate: (found.devRate),
+    qaRate: (found.qaRate),
+    pmRate: (found.pmRate),
+    tlRate: (found.tlRate),
+    devs: (found.devs),
+    qas: (found.qas),
+    projectManager: (found.projectManager),
+    techLeader: (found.techLeader),
+    admin: (req.body.admin || found.admin),
   };
   if (!(found)) {
     res.status(400).json({ msg: 'Please fill in a valid id' });

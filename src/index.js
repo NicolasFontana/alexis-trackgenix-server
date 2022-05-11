@@ -1,4 +1,4 @@
-import express from "express";
+import express from 'express';
 import router from './resources/projects';
 
 import admins from './data/admins.json';
@@ -7,7 +7,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-
 
 app.use('/api/projects', router);
 
