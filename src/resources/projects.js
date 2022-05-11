@@ -9,7 +9,7 @@ router.get('/', (req, res) => res.json(projects));
 
 /// / GET SOME ELEMENT
 ///  BY ID
-router.get('/id=:id', (req, res) => {
+router.get('/id/:id', (req, res) => {
   const found = projects.some((project) => project.id === Number(req.params.id));
   if (found) {
     res.json(projects.filter((project) => project.id === Number(req.params.id)));
@@ -19,7 +19,7 @@ router.get('/id=:id', (req, res) => {
 });
 
 /// BY NAME
-router.get('/name=:name', (req, res) => {
+router.get('/name/:name', (req, res) => {
   const found = projects.find((project) => project.name.toLowerCase()
    === req.params.name.toLowerCase());
   if (found) {
@@ -31,7 +31,7 @@ router.get('/name=:name', (req, res) => {
 });
 
 /// BY CLIENT NAME
-router.get('/clientName=:clientName', (req, res) => {
+router.get('/clientName/:clientName', (req, res) => {
   const found = projects.find((project) => project.clientName.toLowerCase()
    === req.params.clientName.toLowerCase());
   if (found) {
@@ -53,7 +53,7 @@ router.get('/active', (req, res) => {
 });
 
 /// /DELETE PROJECT
-router.delete('/delete=:id', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
   const found = projects.some((project) => project.id === Number(req.params.id));
   if (found) {
     const filteredProjects = projects.filter((project) => project.id !== Number(req.params.id));
