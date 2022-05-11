@@ -1,9 +1,9 @@
-const express = require('express');
+const express = import('express');
 
-const fs = require('fs');
+const fs = import('fs');
 
 const router = express.Router();
-const projects = require('../data/projects.json');
+const projects = import('../data/projects.json');
 
 /// / GET ALL ELEMENTS
 router.get('/', (req, res) => res.json(projects));

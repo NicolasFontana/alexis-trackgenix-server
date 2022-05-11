@@ -1,15 +1,15 @@
 // use "import" to import libraries
 // import express from 'express';
 
-const express = require('express');
+const express = import('express');
 
-// use "require" to import JSON files
-const admins = require('./data/admins.json');
+// use "import" to import JSON files
+const admins = import('./data/admins.json');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use('/api/projects', require('./resources/projects'));
+app.use('/api/projects', import('./resources/projects'));
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
