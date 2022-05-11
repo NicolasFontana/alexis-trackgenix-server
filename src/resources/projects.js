@@ -1,9 +1,8 @@
-const express = import('express');
-
-const fs = import('fs');
+import express from 'express';
+import fs from 'fs';
+import projects from '../data/projects.json';
 
 const router = express.Router();
-const projects = import('../data/projects.json');
 
 /// / GET ALL ELEMENTS
 router.get('/', (req, res) => res.json(projects));
@@ -71,4 +70,4 @@ router.delete('/delete=:id', (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
