@@ -1,21 +1,21 @@
 const express = require('express');
 // use "require" to import JSON files
-const admins = require('./data/admins.json');
-const userRouter = require('./resources/projects');
+const projects = require('./data/projects.json');
+const router = require('./resources/projects');
 
 const app = express();
 app.use(express.json());
 
 const port = process.env.PORT || 3000;
 
-app.use('/api/projects', userRouter);
+app.use('/api/projects', router);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
 });
-app.get('/admins', (req, res) => {
+app.get('/projects', (req, res) => {
   res.status(200).json({
-    data: admins,
+    data: projects,
   });
 });
 app.listen(port, () => {
