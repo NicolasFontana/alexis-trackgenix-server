@@ -4,9 +4,10 @@
   "editor.tabSize": 4,
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": "active",
+  "files.eol": "\n",
   "editor.guides.bracketPairsHorizontal": "active",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "eslint.format.enable": true,
+  "eslint.format.enable": true, 
 }
