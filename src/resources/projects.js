@@ -112,7 +112,7 @@ router.put('/assign/dev=:id', (req, res) => {
   const idProject = Number(req.params.id);
   const found = projects.find((project) => project.id === idProject);
   const newFound = found.devs;
-  newFound.push(req.body.devs)
+  newFound.push(req.body.devs);
   const updProjectFilter = projects.filter((project) => project.id !== idProject);
   const devAssign = {
     id: Number(req.params.id),
