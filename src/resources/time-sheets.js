@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 });
 
 // TO GET A TIMESHEET BY ID
-router.get('/id=:id', async (req, res) => {
+router.get('/id/:id', async (req, res) => {
   const timesheetID = req.params.id.toString();
   const response = timesheets.find((timesheet) => timesheet.id.toString() === timesheetID);
   if (response) {
@@ -21,7 +21,7 @@ router.get('/id=:id', async (req, res) => {
 });
 
 // TO GET A TIMESHEET BY ROLE
-router.get('/role=:role', async (req, res) => {
+router.get('/role/:role', async (req, res) => {
   const timesheetRole = req.params.role.toString();
   const response = timesheets.filter((timesheet) => timesheet.role.toString() === timesheetRole);
   if (response.length !== 0) {
@@ -32,7 +32,7 @@ router.get('/role=:role', async (req, res) => {
 });
 
 // TO GET A TIMESHEET BY TASK
-router.get('/task=:task', async (req, res) => {
+router.get('/task/:task', async (req, res) => {
   const timesheetTask = req.params.task.toString();
   const response = timesheets.find((timesheet) => timesheet.task.toString() === timesheetTask);
   if (response) {
@@ -143,7 +143,7 @@ router.put('/update/id/:id', async (req, res) => {
 });
 
 // TO DELETE A TIMESHEET BY ID
-router.delete('/delete=:id', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
   const timesheetID = req.params.id.toString();
   const filteredTimesheet = timesheets.filter((tsheet) => tsheet.id.toString() !== timesheetID);
   if (timesheets.length === filteredTimesheet.length) {
