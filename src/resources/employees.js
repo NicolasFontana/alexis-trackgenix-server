@@ -6,24 +6,24 @@ const router = express.Router();
 // GET ALL
 router.get('/', (req, res) => res.send(employees));
 // GET BY ID
-router.get('/id=:id', (req, res) => {
+router.get('/id/:id', (req, res) => {
   const idEmployee = Number(req.params.id);
   res.send(employees.find((employee) => employee.id === idEmployee) || 'Null');
 });
 // GET BY Name
-router.get('/firstName=:name', (req, res) => {
+router.get('/firstName/:name', (req, res) => {
   const nameEmployee = String(req.params.name);
   res.send(employees.filter((employee) => employee.firstName.toLowerCase()
   === nameEmployee.toLowerCase()));
 });
 // GET BY LastName
-router.get('/lastName=:lastName', (req, res) => {
+router.get('/lastName/:lastName', (req, res) => {
   const lastNameEmployee = String(req.params.lastName);
   res.send(employees.filter((employee) => employee.lastName.toLowerCase()
   === lastNameEmployee.toLowerCase()));
 });
 // GET BY Email
-router.get('/email=:email', (req, res) => {
+router.get('/email/:email', (req, res) => {
   const emailEmployee = String(req.params.email);
   res.send(employees.filter((employee) => employee.email === emailEmployee));
 });
@@ -33,7 +33,7 @@ router.get('/active=:active', (req, res) => {
   res.send(employees.filter((employee) => employee.active === activeEmployee));
 });
 // DELETE Employee
-router.delete('/delete=:id', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
   const idEmployee = Number(req.params.id);
   const withoutEmployee = employees.filter((employee) => employee.id !== idEmployee);
   if (withoutEmployee.length === employees.length) {
@@ -79,7 +79,7 @@ router.post('/', (req, res) => {
   }
 });
 // UPDATE Employee
-router.put('/update=:id', (req, res) => {
+router.put('/update/:id', (req, res) => {
   const idEmployee = Number(req.params.id);
   const employeeToUpdate = employees.find((employee) => employee.id === idEmployee);
   const withoutOldEmployee = employees.filter((employee) => employee.id !== idEmployee);
