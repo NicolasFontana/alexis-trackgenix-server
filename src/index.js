@@ -1,17 +1,28 @@
-// use "import" to import libraries
-// import express from 'express';
 import express from 'express';
 import timeSheets from './resources/time-sheets';
+import routerProjects from './resources/projects';
+import resAdmin from './resources/admins';
 import employeesRoute from './resources/employees';
-
-// routes
 import superAdmins from './resources/super-admins';
-
-// use "require" to import JSON files
+import tasksRouter from './resources/tasks';
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// MIDDLEWARES
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// ROUTES
+app.use('/api/time-sheets', timeSheets);
+app.use('/api/admins', resAdmin);
+app.use('/super-admins', superAdmins);
+
+app.use(express.json());
+
+app.use('/api/tasks', tasksRouter);
+
+app.use('/api/projects', routerProjects);
 
 // ROUTES
 app.use('/api/time-sheets', timeSheets);
@@ -20,13 +31,8 @@ app.get('/', async (req, res) => {
   res.send('Hello World!');
 });
 
-app.use(express.json());
-app.use('/super-admins', superAdmins);
-app.use(express.urlencoded({ extended: false }));
-
 app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Example app listening on port ${port}`);
+// console.log(`Example app listening on port ${port}`);
 });
 
 // routes
