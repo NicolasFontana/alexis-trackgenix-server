@@ -1,4 +1,9 @@
+// use "import" to import libraries
+// import express from 'express';
+
 import express from 'express';
+import routerProjects from './resources/projects';
+// use "import" to import JSON files
 import timeSheets from './resources/time-sheets';
 import resAdmin from './resources/admins';
 import employeesRoute from './resources/employees';
@@ -20,6 +25,8 @@ app.use('/super-admins', superAdmins);
 app.use(express.json());
 
 app.use('/api/tasks', tasksRouter);
+
+app.use('/api/projects', routerProjects);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
