@@ -1,9 +1,5 @@
-// use "import" to import libraries
-// import express from 'express';
-
 import express from 'express';
-import routerProjects from './resources/projects';
-// use "import" to import JSON files
+import projectRouter from './resources/projects';
 import timeSheets from './resources/time-sheets';
 import resAdmin from './resources/admins';
 import employeesRoute from './resources/employees';
@@ -21,12 +17,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/time-sheets', timeSheets);
 app.use('/api/admins', resAdmin);
 app.use('/super-admins', superAdmins);
-
-app.use(express.json());
-
+app.use('/api/projects', projectRouter);
 app.use('/api/tasks', tasksRouter);
-
-app.use('/api/projects', routerProjects);
+app.use('/api/employees', employeesRoute);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
@@ -35,6 +28,3 @@ app.get('/', async (req, res) => {
 app.listen(port, () => {
 // console.log(`Example app listening on port ${port}`);
 });
-
-// routes
-app.use('/api/employees', employeesRoute);
