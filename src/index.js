@@ -1,10 +1,10 @@
 import express from 'express';
-import timeSheets from './resources/time-sheets';
-import routerProjects from './resources/projects';
 import resAdmin from './resources/admins';
 import employeesRoute from './resources/employees';
+import routerProjects from './resources/projects';
 import superAdmins from './resources/super-admins';
 import tasksRouter from './resources/tasks';
+import timeSheets from './resources/time-sheets';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -14,17 +14,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // ROUTES
-app.use('/api/time-sheets', timeSheets);
 app.use('/api/admins', resAdmin);
-app.use('/super-admins', superAdmins);
-
-app.use(express.json());
-
-app.use('/api/tasks', tasksRouter);
-
+app.use('/api/employees', employeesRoute);
 app.use('/api/projects', routerProjects);
-
-// ROUTES
+app.use('/api/super-admins', superAdmins);
+app.use('/api/tasks', tasksRouter);
 app.use('/api/time-sheets', timeSheets);
 
 app.get('/', async (req, res) => {
@@ -34,6 +28,3 @@ app.get('/', async (req, res) => {
 app.listen(port, () => {
 // console.log(`Example app listening on port ${port}`);
 });
-
-// routes
-app.use('/api/employees', employeesRoute);
