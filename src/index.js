@@ -16,11 +16,13 @@ app.use('/api/time-sheets', timeSheets);
 app.use('/api/admins', resAdmin);
 app.use('/super-admins', superAdmins);
 app.use('/api/tasks', taskRouter);
+
+app.use(express.json());
+
 app.get('/', async (req, res) => {
   res.send('Hello World!');
 });
 
 app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Example app listening on port ${port}`);
+// console.log(`Example app listening on port ${port}`);
 });

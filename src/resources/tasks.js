@@ -1,49 +1,55 @@
-// Link de js con task jason
 import express from 'express';
+
 import fs from 'fs';
-import users from '../data/tasks.json';
 
-const router = express.Router();
+import tasks from '../data/tasks.json';
 
-router.post('/add', (req, res) => {
-  const initialValue = 0;
-  const ids = users.reduce(
-    (previousValue, currentValue) => (previousValue <= currentValue.id ? currentValue.id + 1
-      : previousValue),
-    initialValue,
-  );
-  const taskId = {
-    id: ids,
-    description: req.body.description,
-  };
-  if (!(taskId.description)) {
-    res.status(400).json({ msg: 'null' });
+const tasksRouter = express.Router();
+
+tasksRouter.get('/:id', (req, res) => {
+  const taskID = req.params.id;
+  const task = tasks.find((t) => t.id === taskID);
+  if (task) {
+    res.send(task);
   } else {
-    users.push(taskId);
-    fs.writeFile('src/data/tasks.json', JSON.stringify(users), (err) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send('New User added');
-      }
-    });
+    res.send('Task not found');
   }
 });
 
-router.delete('/:id', (req, res) => {
-  const taskId = req.params.id;
-  const filteredUsers = users.filter((user) => user.id.toString() !== taskId.toString());
-  if (users.length === filteredUsers.length) {
-    res.send('null');
+tasksRouter.get('/', (req, res) => {
+  const taskDesc = req.query.description;
+  if (!taskDesc) {
+    res.send(tasks);
   } else {
-    fs.writeFile('src/data/task.json', JSON.stringify(filteredUsers), (err) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send('User deleted');
-      }
-    });
+    const filteredTask = tasks.filter((t) => t.description.includes(taskDesc));
+    if (filteredTask.length > 0) {
+      res.send(filteredTask);
+    } else {
+      res.send(`There are not description that includes ${taskDesc}`);
+    }
   }
 });
 
-export default router;
+tasksRouter.put('/:id', (req, res) => {
+  const taskID = req.params.id;
+  const task = tasks.find((t) => t.id === taskID);
+  const taskList = tasks.filter((t) => t.id !== taskID);
+  if (task) {
+    const taskUpdate = {
+      id: taskID,
+      description: (req.body.description || task.description),
+    };
+    taskList.push(taskUpdate);
+    fs.writeFile('src/data/tasks.json', JSON.stringify(taskList), (err) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send({ msg: 'Task updated', taskList });
+      }
+    });
+  } else {
+    res.send('Task not found');
+  }
+});
+
+export default tasksRouter;
