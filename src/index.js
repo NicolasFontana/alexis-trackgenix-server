@@ -1,5 +1,6 @@
 import express from 'express';
 import taskRouter from './resources/tasks';
+import projectRouter from './resources/projects';
 import timeSheets from './resources/time-sheets';
 import resAdmin from './resources/admins';
 import superAdmins from './resources/super-admins';
@@ -16,10 +17,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/time-sheets', timeSheets);
 app.use('/api/admins', resAdmin);
 app.use('/super-admins', superAdmins);
+app.use('/api/projects', projectRouter);
 app.use('/api/tasks', taskRouter);
 app.use('/api/employees', employeesRoute);
-
-app.use(express.json());
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
