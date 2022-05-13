@@ -14,7 +14,9 @@ const port = process.env.PORT || 3000;
 const URI = 'mongodb+srv://pucheRR:BaSP2022@cluster0.3uv6a.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
 mongoose.connect(URI)
+  // eslint-disable-next-line no-console
   .then(() => console.log('Database connected'))
+  // eslint-disable-next-line no-console
   .catch((error) => console.error(error));
 
 // MIDDLEWARES
