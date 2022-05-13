@@ -51,7 +51,7 @@ npm run lint:fix
 <img src="https://avatars.githubusercontent.com/u/65975219" height="50" width="50">| Martin Albornoz | martinalbor96@gmail.com | [@martinalbrnz](https://github.com/martinalbrnz)
 <img src="https://avatars.githubusercontent.com/u/101277788" height="50" width="50">| Martin Pueblas | war.pueblas@gmail.com | [@mpueblas](https://github.com/mpueblas)
 <img src="https://avatars.githubusercontent.com/u/101222934" height="50" width="50">| Matias Reynoso | matiasjoaquinreynoso@gmail.com | [@MatiasJoaquinReynoso](https://github.com/MatiasJoaquinReynoso)
-<img src="https://avatars.githubusercontent.com/u/101268743" height="50" width="50">| Tobias Pujol | matiasjoaquinreynoso@gmail.com | [@tobiaspujol](https://github.com/tobiaspujol)
+<img src="https://avatars.githubusercontent.com/u/101268743" height="50" width="50">| Tobias Pujol | tobipujol@gmail.com | [@tobiaspujol](https://github.com/tobiaspujol)
 
 
 
