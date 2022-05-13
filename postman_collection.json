@@ -1,0 +1,39 @@
+{
+  "info": {
+    "_postman_id": "6d87d32a-b39e-4ab7-9344-908e68372e95",
+    "name": "postman_collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "admins",
+      "item": [],
+      "id": "0b203ea1-e9bc-4ca3-bde6-4beed8b0cbc8"
+    },
+    {
+      "name": "employees",
+      "item": [],
+      "id": "761388eb-cded-4655-8632-e53c244c2414"
+    },
+    {
+      "name": "projects",
+      "item": [],
+      "id": "d70efe43-ebe0-4425-aa8f-103f5312ea92"
+    },
+    {
+      "name": "super-admins",
+      "item": [],
+      "id": "e3bb2dc5-6716-4088-b487-bf06ba478ec3"
+    },
+    {
+      "name": "tasks",
+      "item": [],
+      "id": "0305a902-af3b-4bdd-8314-d31609aad447"
+    },
+    {
+      "name": "time-sheets",
+      "item": [],
+      "id": "e511cf64-abad-44ff-b037-11328a81af6a"
+    }
+  ]
+}
