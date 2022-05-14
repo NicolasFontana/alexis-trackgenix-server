@@ -10,6 +10,7 @@ const adminSchema = new Schema(
     password: { type: String, required: true },
     active: { type: Boolean, required: true },
   },
+  { timestamps: true },
 );
 
 export default mongoose.model('Admin', adminSchema);

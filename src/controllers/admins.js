@@ -1,9 +1,9 @@
-import adminModel from '../models/Admins';
+import AdminModel from '../models/Admins';
 
 // Get all admins
 const getAllAdmins = async (req, res) => {
   try {
-    const allAdmins = await adminModel.find({});
+    const allAdmins = await AdminModel.find({});
     return res.status(200).json({
       message: 'All admins',
       data: allAdmins,
@@ -22,7 +22,7 @@ const getAllAdmins = async (req, res) => {
 const getAdminById = async (req, res) => {
   try {
     if (req.params.id) {
-      const admin = await adminModel.findById(req.params.id);
+      const admin = await AdminModel.findById(req.params.id);
       return res.status(200).json({
         message: 'Admin by id',
         data: admin,
@@ -32,7 +32,7 @@ const getAdminById = async (req, res) => {
     return res.status(404).json({
       message: `Admin with this id ${req.params.id} not found`,
       data: undefined,
-      error: false,
+      error: true,
     });
   } catch (error) {
     return res.status(400).json({
@@ -47,7 +47,7 @@ const getAdminById = async (req, res) => {
 const getAdminByFirstName = async (req, res) => {
   try {
     if (req.params.firstName) {
-      const admin = await adminModel.findOne(req.params.firstName);
+      const admin = await AdminModel.findOne(req.params.firstName);
       return res.status(200).json({
         message: 'Admin by first name',
         data: admin,
@@ -57,7 +57,7 @@ const getAdminByFirstName = async (req, res) => {
     return res.status(404).json({
       message: `Admin with this first name ${req.params.firstName} not found`,
       data: undefined,
-      error: false,
+      error: true,
     });
   } catch (error) {
     return res.status(400).json({
@@ -72,7 +72,7 @@ const getAdminByFirstName = async (req, res) => {
 const getAdminByLastName = async (req, res) => {
   try {
     if (req.params.lastName) {
-      const admin = await adminModel.findOne(req.params.lastName);
+      const admin = await AdminModel.findOne(req.params.lastName);
       return res.status(200).json({
         message: 'Admin by last name',
         data: admin,
@@ -82,7 +82,7 @@ const getAdminByLastName = async (req, res) => {
     return res.status(404).json({
       message: `Admin with this last name ${req.params.lastName} not found`,
       data: undefined,
-      error: false,
+      error: true,
     });
   } catch (error) {
     return res.status(400).json({
@@ -97,7 +97,7 @@ const getAdminByLastName = async (req, res) => {
 const getAdminByStatus = async (req, res) => {
   try {
     if (req.params.active) {
-      const adminsList = await adminModel.find(req.params.active);
+      const adminsList = await AdminModel.findOne(req.params.active);
       return res.status(200).json({
         message: 'Admins by active status',
         data: adminsList,
@@ -107,6 +107,31 @@ const getAdminByStatus = async (req, res) => {
     return res.status(404).json({
       message: `Admin with the active of ${req.params.active} not found`,
       data: undefined,
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
+// Create admin
+const createAdmin = async (req, res) => {
+  try {
+    const newAdmin = new AdminModel({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
+      active: true,
+    });
+    const result = await newAdmin.save();
+    return res.status(201).json({
+      message: 'Admin created',
+      data: result,
       error: false,
     });
   } catch (error) {
@@ -118,78 +143,55 @@ const getAdminByStatus = async (req, res) => {
   }
 };
 
-/*
-// Create admin
-router.post('/', (req, res) => {
-  const rb = req.body;
-  const ids = admins.reduce((previousValue, currentValue) => (previousValue
-     <= currentValue.id ? currentValue.id + 1 : previousValue), 0);
-  if (!ids || !rb.firstName || !rb.lastName || !rb.email || !rb.password || (rb.active == null)) {
-    res.status(400).json({ msg: 'Please include the solicited information' });
-  }
-
-  admins.push({ id: ids, ...req.body });
-  const adminsWithNew = admins;
-  fs.writeFile('src/data/admins.json', JSON.stringify(adminsWithNew), (err) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.json({
-        msg: 'Admin created', admins: adminsWithNew,
+// Delete admin
+const deleteAdmin = async (req, res) => {
+  try {
+    if (req.params.id) {
+      const admin = await AdminModel.findByIdAndDelete(req.params.id);
+      return res.status(204).json({
+        message: `Admin with this id ${req.params.id} deleted`,
+        data: admin,
+        error: false,
       });
     }
-  });
-});
-
-// Delete admin
-router.delete('/id/:id', (req, res) => {
-  const found = admins.find((admin) => admin.id === Number(req.params.id));
-  const restOfTheAdmins = admins.filter((admin) => admin.id !== Number(req.params.id));
-  if (found) {
-    fs.writeFile('src/data/admins.json', JSON.stringify(restOfTheAdmins), (err) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.json({
-          msg: 'Admin deleted', admins: restOfTheAdmins,
-        });
-      }
+    return res.status(404).json({
+      message: `Admin with this id ${req.params.id} not found`,
+      data: undefined,
+      error: true,
     });
-  } else {
-    res.status(400).json({ msg: `No admins with the id of ${req.params.id}` });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: undefined,
+      error: true,
+    });
   }
-});
+};
 
 // Update admin
-router.put('/id/:id', (req, res) => {
-  const found = admins.some((admin) => admin.id === Number(req.params.id));
-  if (found) {
-    const restOfTheAdmins = admins.filter((admin) => admin.id !== Number(req.params.id));
-    const copyOfAdmin = admins.find((admin) => admin.id === Number(req.params.id));
-    const {
-      firstName, lastName, email, password, active,
-    } = req.body;
-    const updatedAdmin = {
-      id: Number(req.params.id),
-      firstName: (firstName || copyOfAdmin.firstName),
-      lastName: (lastName || copyOfAdmin.lastName),
-      email: (email || copyOfAdmin.email),
-      password: (password || copyOfAdmin.password),
-      active: Boolean(active ?? copyOfAdmin.active),
-    };
-    restOfTheAdmins.push(updatedAdmin);
-    fs.writeFile('src/data/admins.json', JSON.stringify(restOfTheAdmins), (err) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.json({ msg: 'Admin updated', admins: restOfTheAdmins });
-      }
+const updateAdmin = async (req, res) => {
+  try {
+    if (req.params.id) {
+      const admin = await AdminModel.findByIdAndUpdate(req.params.id, req.body);
+      return res.status(200).json({
+        message: 'Admin updated',
+        data: admin,
+        error: true,
+      });
+    }
+    return res.status(404).json({
+      message: `Admin with this id ${req.params.id} not found`,
+      data: undefined,
+      error: true,
     });
-  } else {
-    res.status(400).json({ msg: `No admins with the id of ${req.params.id}` });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: undefined,
+      error: true,
+    });
   }
-});
-*/
+};
 
 export default {
   getAllAdmins,
@@ -197,4 +199,7 @@ export default {
   getAdminByFirstName,
   getAdminByLastName,
   getAdminByStatus,
+  createAdmin,
+  deleteAdmin,
+  updateAdmin,
 };
