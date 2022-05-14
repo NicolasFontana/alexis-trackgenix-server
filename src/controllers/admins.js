@@ -1,52 +1,124 @@
-import express from 'express';
-import fs from 'fs';
-import admins from '../data/admins.json';
-
-const router = express.Router();
+import adminModel from '../models/Admins';
 
 // Get all admins
-router.get('/', (req, res) => res.status(200).json(admins));
+const getAllAdmins = async (req, res) => {
+  try {
+    const allAdmins = await adminModel.find({});
+    return res.status(200).json({
+      message: 'All admins',
+      data: allAdmins,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: undefined,
+      error: true,
+    });
+  }
+};
 
 // Get single admin by id
-router.get('/id/:id', (req, res) => {
-  const found = admins.find((admin) => admin.id === Number(req.params.id));
-  if (found) {
-    res.json(admins.filter((admin) => admin.id === Number(req.params.id)));
-  } else {
-    res.status(400).json({ msg: `No admins with the id of ${req.params.id}` });
+const getAdminById = async (req, res) => {
+  try {
+    if (req.params.id) {
+      const admin = await adminModel.findById(req.params.id);
+      return res.status(200).json({
+        message: 'Admin by id',
+        data: admin,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: `Admin with this id ${req.params.id} not found`,
+      data: undefined,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: undefined,
+      error: true,
+    });
   }
-});
+};
 
 // Get admins by firstName
-router.get('/firstName/:firstName', (req, res) => {
-  const found = admins.some((admin) => admin.firstName === req.params.firstName);
-  if (found) {
-    res.json(admins.filter((admin) => admin.firstName === req.params.firstName));
-  } else {
-    res.status(400).json({ msg: `No admins with the firstName of ${req.params.firstName}` });
+const getAdminByFirstName = async (req, res) => {
+  try {
+    if (req.params.firstName) {
+      const admin = await adminModel.findOne(req.params.firstName);
+      return res.status(200).json({
+        message: 'Admin by first name',
+        data: admin,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: `Admin with this first name ${req.params.firstName} not found`,
+      data: undefined,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: undefined,
+      error: true,
+    });
   }
-});
+};
 
 // Get admins by lastName
-router.get('/lastName/:lastName', (req, res) => {
-  const found = admins.some((admin) => admin.lastName === req.params.lastName);
-  if (found) {
-    res.json(admins.filter((admin) => admin.lastName === req.params.lastName));
-  } else {
-    res.status(400).json({ msg: `No admins with the lastName of ${req.params.lastName}` });
+const getAdminByLastName = async (req, res) => {
+  try {
+    if (req.params.lastName) {
+      const admin = await adminModel.findOne(req.params.lastName);
+      return res.status(200).json({
+        message: 'Admin by last name',
+        data: admin,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: `Admin with this last name ${req.params.lastName} not found`,
+      data: undefined,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: undefined,
+      error: true,
+    });
   }
-});
+};
 
 // Get admins by active status
-router.get('/active/:active', (req, res) => {
-  const listOfActives = admins.filter((admin) => (admin.active.toString() === req.params.active));
-  if (req.params.active === 'true' || req.params.active === 'false') {
-    res.json(listOfActives);
-  } else {
-    res.status(400).json({ msg: `No admins with the active of ${req.params.active}` });
+const getAdminByStatus = async (req, res) => {
+  try {
+    if (req.params.active) {
+      const adminsList = await adminModel.find(req.params.active);
+      return res.status(200).json({
+        message: 'Admins by active status',
+        data: adminsList,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: `Admin with the active of ${req.params.active} not found`,
+      data: undefined,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: undefined,
+      error: true,
+    });
   }
-});
+};
 
+/*
 // Create admin
 router.post('/', (req, res) => {
   const rb = req.body;
@@ -117,5 +189,12 @@ router.put('/id/:id', (req, res) => {
     res.status(400).json({ msg: `No admins with the id of ${req.params.id}` });
   }
 });
+*/
 
-export default router;
+export default {
+  getAllAdmins,
+  getAdminById,
+  getAdminByFirstName,
+  getAdminByLastName,
+  getAdminByStatus,
+};
