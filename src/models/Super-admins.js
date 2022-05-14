@@ -22,7 +22,7 @@ const superAdminSchema = new Schema(
     },
     active: {
       type: Boolean,
-      default: true,
+      required: true,
     },
   },
   { timestamps: true },
