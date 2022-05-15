@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const Schema = mongoose;
+const { Schema } = mongoose;
 const timeSheetSchema = new Schema({
   description: { type: String, required: true },
   date: { type: Date, required: true },

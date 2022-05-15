@@ -18,6 +18,79 @@ const getAllTimesheets = async (req, res) => {
     });
   }
 };
+// CREATE TIMESHEET
+const createTimesheet = async (req, res) => {
+  try {
+    const timesheet = new timeSheetModel.Timesheet({
+      description: req.body.description,
+      date: req.body.date,
+      task: {
+        id: req.body.id,
+        // description: req.body.description,
+      },
+      validated: req.body.validated,
+      employee: {
+        id: req.body.id,
+        // name: req.body.name,
+        // lastName: req.body.lastName,
+        // phone: req.body.phone,
+        // email: req.body.email,
+        // active: req.body.active,
+      },
+      project: {
+        id: req.body.id,
+      },
+      projectManager: {
+        id: req.body.id,
+        // name: req.body.name,
+        // lastName: req.body.lastName,
+        // phone: req.body.phone,
+        // email: req.body.email,
+        // active: req.body.active,
+      },
+      role: req.body.role,
+    });
+    const result = await timesheet.save();
+    return res.status(201).json(result);
+  } catch (error) {
+    return res.json({
+      msg: 'An error has ocurred',
+      data: undefined,
+      error: true,
+    });
+  }
+};
+// DELETE TIMSHEET
+const deleteTimesheet = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      return res.status(400).json({
+        msg: 'An error has ocurreddddd',
+        data: undefined,
+        error: true,
+      });
+    }
+    const result = await timeSheetModel.findByIdAndDelete(req.params.id);
+    if (!result) {
+      return res.status(404).json({
+        msg: `There is no timesheet with this Id ${req.params.id}`,
+        data: undefined,
+        error: true,
+      });
+    }
+    return res.status(200).json({
+      msg: `The ${req.params.id} timesheet has been susccesfully deleted`,
+      error: false,
+    });
+  } catch (error) {
+    return res.json({
+      msg: 'An error has ocurred holis',
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
 // // TO GET A TIMESHEET BY ID
 // router.get('/id/:id', async (req, res) => {
 //   const timesheetID = req.params.id.toString();
@@ -171,4 +244,6 @@ const getAllTimesheets = async (req, res) => {
 
 export default {
   getAllTimesheets,
+  createTimesheet,
+  deleteTimesheet,
 };
