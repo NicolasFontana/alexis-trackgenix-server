@@ -33,7 +33,7 @@ const getEmployeeById = async (req, res) => {
       });
     }
   } catch (err) {
-    res.json({
+    res.status(400).json({
       message: err,
       data: undefined,
       error: true,
@@ -49,7 +49,6 @@ const createEmployee = async (req, res) => {
       phone: req.body.phone,
       email: req.body.email,
       active: req.body.active,
-      role: req.body.role,
     });
 
     const result = await employee.save();
@@ -87,10 +86,10 @@ const updateEmployee = async (req, res) => {
     }
     res.status(200).json(result);
   } catch (err) {
-    res.json({
+    res.status(400).json({
       message: 'An error has ocurred',
       data: undefined,
-      err: err.details[0].message,
+      err: true,
     });
   }
 };
