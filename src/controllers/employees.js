@@ -102,7 +102,7 @@ const deleteEmployee = async (req, res) => {
         error: true,
       });
     }
-    const result = await employeeModels.findByIdAndDelete;
+    const result = await employeeModels.findByIdAndDelete(req.params.id);
     if (!result) {
       res.status(400).json({
         message: 'The employee has not been found',
