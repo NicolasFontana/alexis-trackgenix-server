@@ -3,30 +3,14 @@ import Joi from 'joi';
 
 // CREATE VALIDATION
 const createTimeValidation = (req, res, next) => {
-  const taskSchema = Joi.object({
-    id: Joi.string().min(1).max(20).required(),
-  });
-
-  const employeeSchema = Joi.object({
-    id: Joi.string().min(1).max(20).required(),
-  });
-
-  const projectSchema = Joi.object({
-    id: Joi.string().min(1).max(20).required(),
-  });
-
-  const pmSchema = Joi.object({
-    id: Joi.string().min(1).max(20).required(),
-  });
-
   const timesheetValidation = Joi.object({
     description: Joi.string().min(20).max(150).required(),
     date: Joi.date().required(),
-    task: Joi.array().items(taskSchema),
+    task: Joi.string().alphanum().length(24),
     validated: Joi.boolean().valid(true).required(),
-    employee: Joi.array().items(employeeSchema),
-    project: Joi.array().items(projectSchema),
-    projectManager: Joi.array().items(pmSchema),
+    employee: Joi.string().alphanum().length(24),
+    project: Joi.string().alphanum().length(24),
+    projectManager: Joi.string().alphanum().length(24),
     role: Joi.string().valid('QA', 'DEV', 'TL', 'PM').required(),
   });
 

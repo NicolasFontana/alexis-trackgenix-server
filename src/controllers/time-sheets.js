@@ -21,7 +21,8 @@ const getAllTimesheets = async (req, res) => {
 // CREATE TIMESHEET
 const createTimesheet = async (req, res) => {
   try {
-    const timesheet = new timeSheetModel.Timesheet({
+    // eslint-disable-next-line new-cap
+    const timesheet = new timeSheetModel({
       description: req.body.description,
       date: req.body.date,
       task: req.body.task,
@@ -31,13 +32,12 @@ const createTimesheet = async (req, res) => {
       projectManager: req.body.projectManager,
       role: req.body.role,
     });
-
     const result = await timesheet.save();
     return res.status(201).json(result);
   } catch (error) {
     return res.json({
       msg: 'An error has ocurred',
-      data: undefined,
+      data: error,
       error: true,
     });
   }
