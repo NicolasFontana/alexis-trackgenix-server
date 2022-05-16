@@ -1,9 +1,9 @@
-import employeeModels from '../models/Employees';
+import EmployeeModels from '../models/Employees';
 
 // get all employees
 const getAllEmployees = async (req, res) => {
   try {
-    const allEmployees = await employeeModels.find({});
+    const allEmployees = await EmployeeModels.find({});
     res.status(200).json({
       message: 'All employees',
       data: allEmployees,
@@ -22,7 +22,7 @@ const getAllEmployees = async (req, res) => {
 const getEmployeeById = async (req, res) => {
   try {
     if (req.params.id) {
-      const singleEmployee = await employeeModels.findById(req.params.id);
+      const singleEmployee = await EmployeeModels.findById(req.params.id);
 
       res.status(200).json(singleEmployee);
     } else {
@@ -43,7 +43,7 @@ const getEmployeeById = async (req, res) => {
 
 const createEmployee = async (req, res) => {
   try {
-    const employee = await employeeModels.create({
+    const employee = new EmployeeModels({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       phone: req.body.phone,
@@ -71,7 +71,7 @@ const updateEmployee = async (req, res) => {
       });
     }
 
-    const result = await employeeModels.findByIdAndUpdate(
+    const result = await EmployeeModels.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true },
@@ -102,7 +102,7 @@ const deleteEmployee = async (req, res) => {
         error: true,
       });
     }
-    const result = await employeeModels.findByIdAndDelete(req.params.id);
+    const result = await EmployeeModels.findByIdAndDelete(req.params.id);
     if (!result) {
       res.status(400).json({
         message: 'The employee has not been found',
