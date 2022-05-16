@@ -1,39 +1,232 @@
 {
-  "info": {
-    "_postman_id": "6d87d32a-b39e-4ab7-9344-908e68372e95",
-    "name": "postman_collection",
-    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "admins",
-      "item": [],
-      "id": "0b203ea1-e9bc-4ca3-bde6-4beed8b0cbc8"
-    },
-    {
-      "name": "employees",
-      "item": [],
-      "id": "761388eb-cded-4655-8632-e53c244c2414"
-    },
-    {
-      "name": "projects",
-      "item": [],
-      "id": "d70efe43-ebe0-4425-aa8f-103f5312ea92"
-    },
-    {
-      "name": "super-admins",
-      "item": [],
-      "id": "e3bb2dc5-6716-4088-b487-bf06ba478ec3"
-    },
-    {
-      "name": "tasks",
-      "item": [],
-      "id": "0305a902-af3b-4bdd-8314-d31609aad447"
-    },
-    {
-      "name": "time-sheets",
-      "item": [],
-      "id": "e511cf64-abad-44ff-b037-11328a81af6a"
-    }
-  ]
+	"info": {
+		"_postman_id": "6d87d32a-b39e-4ab7-9344-908e68372e95",
+		"name": "postman_collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "admins",
+			"item": [],
+            "id": "0b203ea1-e9bc-4ca3-bde6-4beed8b0cbc8"
+		},
+		{
+			"name": "employees",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/employees",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/employees/62817ddfdb092482f93da607",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees",
+								"62817ddfdb092482f93da607"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByFirstName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/employees/firstName/John",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees",
+								"firstName",
+								"John"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByLastName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/employees/lastName/Pujol",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees",
+								"lastName",
+								"Pujol"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByActivity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/employees/active/false",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees",
+								"active",
+								"false"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Juan\",\r\n    \"lastName\": \"Lopez\",\r\n    \"phone\": \"7761785000\",\r\n    \"email\": \"juanlopez@people.com.cn\",\r\n    \"active\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/employees",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/employees/3",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "putById",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Tobiiiii\",\r\n    \"lastName\": \"Pujol\",\r\n    \"phone\": \"996-178-5000\",\r\n    \"email\": \"alabel2@people.com.cn\",\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/employees/62817ddfdb092482f93da607",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees",
+								"62817ddfdb092482f93da607"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+            "id": "761388eb-cded-4655-8632-e53c244c2414"
+		},
+        {
+            "name": "projects",
+            "item": [],
+            "id": "d70efe43-ebe0-4425-aa8f-103f5312ea92"
+          },
+          {
+            "name": "super-admins",
+            "item": [],
+            "id": "e3bb2dc5-6716-4088-b487-bf06ba478ec3"
+          },
+          {
+            "name": "tasks",
+            "item": [],
+            "id": "0305a902-af3b-4bdd-8314-d31609aad447"
+          },
+          {
+            "name": "time-sheets",
+            "item": [],
+            "id": "e511cf64-abad-44ff-b037-11328a81af6a"
+        }
+    ]
 }
+		
