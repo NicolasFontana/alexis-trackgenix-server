@@ -1,34 +1,57 @@
-import express from 'express';
-import fs from 'fs';
+/*
+import { Router } from 'express';
+
+import { writeFile } from 'fs';
 import tasks from '../data/tasks.json';
+*/
+import tasksModels from '../models/Tasks';
 
-const router = express.Router();
-
-router.get('/:id', (req, res) => {
-  const taskID = req.params.id;
-  const task = tasks.find((t) => t.id === taskID);
-  if (task) {
-    res.send(task);
-  } else {
-    res.send('Task not found');
+/*
+const tasksRoutes = Router();
+*/
+// GET ALL TASKS
+const getAllTasks = async (req, res) => {
+  try {
+    const allTasks = await tasksModels.find({});
+    return res.status(200).json({
+      message: 'All tasks.',
+      data: allTasks,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
+    });
   }
-});
+};
 
-router.get('/', (req, res) => {
-  const taskDesc = req.query.description;
-  if (!taskDesc) {
-    res.send(tasks);
-  } else {
-    const filteredTask = tasks.filter((t) => t.description.includes(taskDesc));
-    if (filteredTask.length > 0) {
-      res.send(filteredTask);
+// GET TASK BY ID
+const getTaskById = async (req, res) => {
+  try {
+    if (req.params.id) {
+      const task = await tasksModels.findById(req.params.id);
+      res.status(200).json(task);
     } else {
-      res.send(`There are not description that includes ${taskDesc}`);
+      res.status(400).json({
+        message: 'id not found',
+        data: undefined,
+        error: true,
+      });
     }
+  } catch (err) {
+    res.status(400).json({
+      message: err,
+      data: undefined,
+      error: true,
+    });
   }
-});
+};
 
-router.put('/:id', (req, res) => {
+/*
+// UPDATE A TASK
+updateTask.put('/:id', (req, res) => {
   const taskID = req.params.id;
   const task = tasks.find((t) => t.id === taskID);
   const taskList = tasks.filter((t) => t.id !== taskID);
@@ -50,7 +73,8 @@ router.put('/:id', (req, res) => {
   }
 });
 
-router.post('/add', (req, res) => {
+// CREATE A TASK
+createTask.post('/add', (req, res) => {
   const initialValue = 0;
   const ids = tasks.reduce(
     (previousValue, currentValue) => (previousValue <= currentValue.id ? currentValue.id + 1
@@ -75,7 +99,8 @@ router.post('/add', (req, res) => {
   }
 });
 
-router.delete('/:id', (req, res) => {
+// DELETE A TASK
+deleteTask.delete('/:id', (req, res) => {
   const taskId = req.params.id;
   const filteredUsers = tasks.filter((user) => user.id.toString() !== taskId.toString());
   if (tasks.length === filteredUsers.length) {
@@ -90,5 +115,13 @@ router.delete('/:id', (req, res) => {
     });
   }
 });
-
-export default router;
+*/
+export default {
+  getAllTasks,
+  getTaskById,
+  /*
+  createTask,
+  updateTask,
+  deleteTask,
+  */
+};
