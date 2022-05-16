@@ -1,10 +1,10 @@
-import timeSheetModel from '../models/Time-sheets';
+import Model from '../models';
 
-// GET ALL
+// GET ALL by Ana
 
 const getAllTimesheets = async (req, res) => {
   try {
-    const allTimesheets = await timeSheetModel.find({});
+    const allTimesheets = await Model.TimeSheet.find({});
     return res.status(200).json({
       message: 'Time-Sheets',
       data: allTimesheets,
@@ -18,11 +18,10 @@ const getAllTimesheets = async (req, res) => {
     });
   }
 };
-// CREATE TIMESHEET
+// CREATE TIMESHEET by Martín
 const createTimesheet = async (req, res) => {
   try {
-    // eslint-disable-next-line new-cap
-    const timesheet = new timeSheetModel({
+    const timesheet = new Model.TimeSheet({
       description: req.body.description,
       date: req.body.date,
       taskId: req.body.taskId,
@@ -42,7 +41,7 @@ const createTimesheet = async (req, res) => {
     });
   }
 };
-// DELETE TIMSHEET
+// DELETE TIMSHEET by Martín Pueblas
 const deleteTimesheet = async (req, res) => {
   try {
     if (!req.params.id) {
@@ -52,7 +51,7 @@ const deleteTimesheet = async (req, res) => {
         error: true,
       });
     }
-    const result = await timeSheetModel.findByIdAndDelete(req.params.id);
+    const result = await Model.TimeSheet.findByIdAndDelete(req.params.id);
     if (!result) {
       return res.status(404).json({
         msg: `There is no timesheet with this Id ${req.params.id}`,

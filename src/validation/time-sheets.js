@@ -1,7 +1,7 @@
 // import res from 'express/lib/response';
 import Joi from 'joi';
 
-// CREATE VALIDATION
+// CREATE VALIDATION by Martín Pueblas
 const createTimeValidation = (req, res, next) => {
   const timesheetValidation = Joi.object({
     description: Joi.string().min(20).max(150).required(),
