@@ -4,5 +4,5 @@ import tasksRoutes from './tasks';
 const router = express.Router();
 
 router
-  .use('/', tasksRoutes);
+  .use('/tasks', tasksRoutes);
 export default router;

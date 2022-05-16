@@ -4,10 +4,6 @@ const { Schema } = mongoose;
 
 const tasksSchema = new Schema(
   {
-    id: {
-      type: String,
-      required: true,
-    },
     description: {
       type: String,
       required: true,
@@ -16,4 +12,4 @@ const tasksSchema = new Schema(
   { timestamps: true },
 );
 
-export default mongoose.model('Tasks', tasksSchema);
+export default mongoose.model('Task', tasksSchema);
