@@ -30,5 +30,4 @@ const projectSchema = new Schema(
     ],
   },
 );
-
 export default mongoose.model('Projects', projectSchema);
