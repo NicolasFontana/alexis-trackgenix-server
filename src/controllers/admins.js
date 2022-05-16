@@ -47,7 +47,7 @@ const getAdminById = async (req, res) => {
 const getAdminByFirstName = async (req, res) => {
   try {
     if (req.params.firstName) {
-      const admin = await AdminModel.findOne(req.params.firstName);
+      const admin = await AdminModel.find({ firstName: req.params.firstName });
       return res.status(200).json({
         message: 'Admin by first name',
         data: admin,
@@ -72,7 +72,7 @@ const getAdminByFirstName = async (req, res) => {
 const getAdminByLastName = async (req, res) => {
   try {
     if (req.params.lastName) {
-      const admin = await AdminModel.findOne(req.params.lastName);
+      const admin = await AdminModel.find({ lastName: req.params.lastName });
       return res.status(200).json({
         message: 'Admin by last name',
         data: admin,
@@ -97,7 +97,7 @@ const getAdminByLastName = async (req, res) => {
 const getAdminByStatus = async (req, res) => {
   try {
     if (req.params.active) {
-      const adminsList = await AdminModel.findOne(req.params.active);
+      const adminsList = await AdminModel.find({ active: req.params.active });
       return res.status(200).json({
         message: 'Admins by active status',
         data: adminsList,
