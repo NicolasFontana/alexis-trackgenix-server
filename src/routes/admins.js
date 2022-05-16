@@ -9,6 +9,7 @@ router
   .get('/id/:id', adminControllers.getAdminById)
   .get('/firstName/:firstName', adminControllers.getAdminByFirstName)
   .get('/lastName/:lastName', adminControllers.getAdminByLastName)
+  .get('/email/:email', adminControllers.getAdminByEmail)
   .get('/isActive/:active', adminControllers.getAdminByStatus)
   .delete('/:id', adminControllers.deleteAdmin)
   .post('/', adminValidations.createAdminValidations, adminControllers.createAdmin)

@@ -11,7 +11,7 @@ const getAllAdmins = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -43,7 +43,7 @@ const getAdminById = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -54,7 +54,8 @@ const getAdminById = async (req, res) => {
 const getAdminByFirstName = async (req, res) => {
   try {
     if (req.params.firstName) {
-      const admin = await models.Admins.find({ firstName: req.params.firstName });
+      const firstName = req.params.firstName.toLowerCase();
+      const admin = await models.Admins.find({ firstName });
       if (!admin) {
         return res.status(404).json({
           message: `Admin with this first name ${req.params.firstName} not found`,
@@ -75,7 +76,7 @@ const getAdminByFirstName = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -86,7 +87,8 @@ const getAdminByFirstName = async (req, res) => {
 const getAdminByLastName = async (req, res) => {
   try {
     if (req.params.lastName) {
-      const admin = await models.Admins.find({ lastName: req.params.lastName });
+      const lastName = req.params.lastName.toLowerCase();
+      const admin = await models.Admins.find({ lastName });
       if (!admin) {
         return res.status(404).json({
           message: `Admin with this last name ${req.params.lastName} not found`,
@@ -107,7 +109,39 @@ const getAdminByLastName = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error.message,
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
+// Get admins by email
+const getAdminByEmail = async (req, res) => {
+  try {
+    if (req.params.email) {
+      const admin = await models.Admins.find({ email: req.params.email });
+      if (!admin) {
+        return res.status(404).json({
+          message: `Admin with this email ${req.params.email} not found`,
+          data: undefined,
+          error: true,
+        });
+      }
+      return res.status(200).json({
+        message: 'Admin by email',
+        data: admin,
+        error: false,
+      });
+    }
+    return res.status(400).json({
+      message: 'You must specify an email',
+      data: undefined,
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -139,7 +173,7 @@ const getAdminByStatus = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -150,11 +184,11 @@ const getAdminByStatus = async (req, res) => {
 const createAdmin = async (req, res) => {
   try {
     const newAdmin = new models.Admins({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
+      firstName: req.body.firstName.toLowerCase(),
+      lastName: req.body.lastName.toLowerCase(),
       email: req.body.email,
       password: req.body.password,
-      active: true,
+      active: req.body.active,
     });
     const result = await newAdmin.save();
     return res.status(201).json({
@@ -164,7 +198,7 @@ const createAdmin = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -191,11 +225,12 @@ const deleteAdmin = async (req, res) => {
     }
     return res.status(204).json({
       message: `Admin with this id ${req.params.id} deleted`,
+      data: admin,
       error: false,
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -227,7 +262,7 @@ const updateAdmin = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -239,6 +274,7 @@ export default {
   getAdminById,
   getAdminByFirstName,
   getAdminByLastName,
+  getAdminByEmail,
   getAdminByStatus,
   createAdmin,
   deleteAdmin,
