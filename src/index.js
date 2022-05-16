@@ -1,12 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-
-import resAdmin from './controllers/admins';
-import employeesRoute from './controllers/employees';
-import projectRouter from './controllers/projects';
-import superAdmins from './controllers/super-admins';
-import taskRouter from './controllers/tasks';
-import timeSheets from './controllers/time-sheets';
+import router from './routes';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,12 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // ROUTES
-app.use('/api/admins', resAdmin);
-app.use('/api/employees', employeesRoute);
-app.use('/api/projects', projectRouter);
-app.use('/api/super-admins', superAdmins);
-app.use('/api/tasks', taskRouter);
-app.use('/api/time-sheets', timeSheets);
+app.use(router);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');

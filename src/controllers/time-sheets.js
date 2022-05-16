@@ -1,7 +1,6 @@
 import timeSheetModel from '../models/Time-sheets';
 
 // GET ALL
-
 const getAllTimesheets = async (req, res) => {
   try {
     const allTimesheets = await timeSheetModel.find({});
@@ -18,18 +17,76 @@ const getAllTimesheets = async (req, res) => {
     });
   }
 };
-// // TO GET A TIMESHEET BY ID
-// router.get('/id/:id', async (req, res) => {
-//   const timesheetID = req.params.id.toString();
-//   const response = timesheets.find((timesheet) => timesheet.id.toString() === timesheetID);
-//   if (response) {
-//     res.send(response);
-//   } else {
-//     res.send(`Timesheet ${timesheetID} not found`);
-//   }
-// });
+// GET BY ID
+const getByIdTimesheets = async (req, res) => {
+  try {
+    if (!req.params) {
+      return res.status(400).json({
+        message: 'Please provide an ID',
+        data: {},
+        error: true,
+      });
+    }
+    const { id } = req.params;
+    const timesheetsById = await timeSheetModel.findById(id);
+    return res.status(200).json({
+      message: 'Time-sheet fetched',
+      data: timesheetsById,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
+    });
+  }
+};
+// UPDATE A TIME SHEET
+const updateTimeSheet = async (req, res) => {
+  const { id } = req.params;
+  try {
+    if (!id) {
+      return res.status(400).json({
+        message: 'Please provide an ID',
+        data: {},
+        error: true,
+      });
+    }
+    const updatedTimeSheet = await timeSheetModel.findByIdAndUpdate(id, req.body);
+    return res.status(200).json({
+      message: 'Time-sheet updated',
+      data: updatedTimeSheet,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
+    });
+  }
+};
 
-// // TO GET A TIMESHEET BY ROLE
+// GET BY ROLE
+// const getByRoleTimesheets = async (req, res) => {
+//   try {
+//     const byRoleTimesheets = await timeSheetModel.find({});
+//     return res.status(200).json({
+//       message: 'Time-Sheets',
+//       data: byRoleTimesheets,
+//       error: false,
+//     });
+//   } catch (error) {
+//     return res.status(400).json({
+//       message: error,
+//       data: {},
+//       error: true,
+//     });
+//   }
+// };
+
+// TO GET A TIMESHEET BY TASK
 // router.get('/role/:role', async (req, res) => {
 //   const timesheetRole = req.params.role.toString();
 //   const response = timesheets.filter((timesheet) => timesheet.role.toString() === timesheetRole);
@@ -171,4 +228,6 @@ const getAllTimesheets = async (req, res) => {
 
 export default {
   getAllTimesheets,
+  getByIdTimesheets,
+  updateTimeSheet,
 };
