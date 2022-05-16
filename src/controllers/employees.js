@@ -23,7 +23,11 @@ const getEmployeeById = async (req, res) => {
   try {
     if (req.params.id) {
       const singleEmployee = await EmployeeModels.findById(req.params.id);
-      res.status(200).json(singleEmployee);
+      res.status(200).json({
+        message: `Employee with id ${req.params.id}`,
+        data: singleEmployee,
+        error: false,
+      });
     } else {
       res.status(400).json({
         message: 'missing id parameter',
@@ -46,7 +50,11 @@ const getEmployeeByFirstName = async (req, res) => {
     if (req.params.firstName) {
       const firstNameParam = req.params.firstName;
       const Employees = await EmployeeModels.find({ firstName: firstNameParam });
-      res.status(200).json(Employees);
+      res.status(200).json({
+        message: `Employee with firstName ${firstNameParam}`,
+        data: Employees,
+        error: false,
+      });
     } else {
       res.status(400).json({
         message: 'missing firstName parameter',
@@ -69,7 +77,11 @@ const getEmployeeByLastName = async (req, res) => {
     if (req.params.lastName) {
       const lastNameParam = req.params.lastName;
       const Employees = await EmployeeModels.find({ lastName: lastNameParam });
-      res.status(200).json(Employees);
+      res.status(200).json({
+        message: `Employee with lastName ${lastNameParam}`,
+        data: Employees,
+        error: false,
+      });
     } else {
       res.status(400).json({
         message: 'missing lastName parameter',
@@ -92,7 +104,11 @@ const getEmployeeByActivity = async (req, res) => {
     if (req.params.active) {
       const activeParam = req.params.active;
       const Employees = await EmployeeModels.find({ active: activeParam });
-      res.status(200).json(Employees);
+      res.status(200).json({
+        message: `Employee with status ${activeParam}`,
+        data: Employees,
+        error: false,
+      });
     } else {
       res.status(400).json({
         message: 'missing active parameter',
@@ -119,7 +135,11 @@ const createEmployee = async (req, res) => {
       active: req.body.active,
     });
     const result = await employee.save();
-    return res.status(201).json(result);
+    return res.status(201).json({
+      message: 'Employee created',
+      data: result,
+      error: false,
+    });
   } catch (err) {
     return res.status(400).json({
       message: err,
@@ -151,7 +171,11 @@ const updateEmployee = async (req, res) => {
         error: true,
       });
     }
-    res.status(200).json(result);
+    res.status(200).json({
+      message: 'Employee updated',
+      data: result,
+      error: false,
+    });
   } catch (err) {
     res.status(400).json({
       message: 'An error has ocurred',
@@ -174,10 +198,14 @@ const deleteEmployee = async (req, res) => {
     if (!result) {
       res.status(404).json({
         message: 'The employee has not been found',
+        data: undefined,
+        error: true,
       });
     }
     res.status(204).json({
       message: 'The employee has been succesfully deleted',
+      data: result,
+      error: false,
     });
   } catch (err) {
     res.status(400).json({
