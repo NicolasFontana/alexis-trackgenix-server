@@ -24,7 +24,11 @@ const getEmployeeById = async (req, res) => {
     if (req.params.id) {
       const singleEmployee = await EmployeeModels.findById(req.params.id);
 
-      res.status(200).json(singleEmployee);
+      res.status(200).json({
+        message: 'Employee',
+        data: singleEmployee,
+        error: false,
+      });
     } else {
       res.status(400).json({
         message: 'missing id parameter',
@@ -51,7 +55,11 @@ const createEmployee = async (req, res) => {
       active: req.body.active,
     });
     const result = await employee.save();
-    return res.status(201).json(result);
+    return res.status(201).json({
+      message: 'New employee created',
+      data: result,
+      error: false,
+    });
   } catch (err) {
     return res.status(400).json({
       message: err,
@@ -83,7 +91,11 @@ const updateEmployee = async (req, res) => {
         error: true,
       });
     }
-    res.status(200).json(result);
+    res.status(200).json.json({
+      message: 'Employee updated',
+      data: result,
+      error: false,
+    });
   } catch (err) {
     res.status(400).json({
       message: 'An error has ocurred',
