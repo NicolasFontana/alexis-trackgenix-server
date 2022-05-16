@@ -137,7 +137,7 @@ const deleteSuperadminById = async (req, res) => {
     }
     // const { id } = req.params;
     const deletedDoc = await models.SuperAdmin.findByIdAndDelete(req.params.id);
-    return res.status(200).json({
+    return res.status(204).json({
       message: 'User eliminated',
       data: deletedDoc,
       error: false,

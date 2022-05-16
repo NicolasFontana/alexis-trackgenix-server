@@ -6,7 +6,7 @@ const validateCreation = (req, res, next) => {
     lastName: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(8).alphanum().required(),
-    active: Joi.boolean(),
+    active: Joi.boolean().required(),
   });
   const validation = schema.validate(req.body);
   if (validation.error) {
