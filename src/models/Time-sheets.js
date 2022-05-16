@@ -5,11 +5,11 @@ const timeSheetSchema = new Schema(
   {
     description: { type: String, required: true },
     date: { type: Date, required: true },
-    task: { type: String, required: true },
+    taskId: { type: String, required: true },
     validated: { type: Boolean, required: true },
-    employee: { type: String, required: true },
-    project: { type: String, required: true },
-    projectManager: { type: String, required: true },
+    employeeId: { type: String, required: true },
+    projectId: { type: String, required: true },
+    projectManagerId: { type: String, required: true },
     role: { type: String, required: true },
   },
 );
