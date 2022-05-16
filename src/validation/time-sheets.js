@@ -22,11 +22,11 @@ const createTimeValidation = (req, res, next) => {
   const timesheetValidation = Joi.object({
     description: Joi.string().min(20).max(150).required(),
     date: Joi.date().required(),
-    task: Joi.array.items(taskSchema),
+    task: Joi.array().items(taskSchema),
     validated: Joi.boolean().valid(true).required(),
-    employee: Joi.array.items(employeeSchema),
-    project: Joi.array.items(projectSchema),
-    projectManager: Joi.array.items(pmSchema),
+    employee: Joi.array().items(employeeSchema),
+    project: Joi.array().items(projectSchema),
+    projectManager: Joi.array().items(pmSchema),
     role: Joi.string().valid('QA', 'DEV', 'TL', 'PM').required(),
   });
 

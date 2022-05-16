@@ -24,32 +24,14 @@ const createTimesheet = async (req, res) => {
     const timesheet = new timeSheetModel.Timesheet({
       description: req.body.description,
       date: req.body.date,
-      task: {
-        id: req.body.id,
-        // description: req.body.description,
-      },
+      task: req.body.task,
       validated: req.body.validated,
-      employee: {
-        id: req.body.id,
-        // name: req.body.name,
-        // lastName: req.body.lastName,
-        // phone: req.body.phone,
-        // email: req.body.email,
-        // active: req.body.active,
-      },
-      project: {
-        id: req.body.id,
-      },
-      projectManager: {
-        id: req.body.id,
-        // name: req.body.name,
-        // lastName: req.body.lastName,
-        // phone: req.body.phone,
-        // email: req.body.email,
-        // active: req.body.active,
-      },
+      employee: req.body.employee,
+      project: req.body.project,
+      projectManager: req.body.projectManager,
       role: req.body.role,
     });
+
     const result = await timesheet.save();
     return res.status(201).json(result);
   } catch (error) {
