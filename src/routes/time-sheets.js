@@ -1,10 +1,11 @@
 import express from 'express';
-import timeSheetsContoller from '../controllers/time-sheets';
-// import timeSheetsValidator from....
+import timeSheetsController from '../controllers/time-sheets';
+import timeSheetsValidator from '../validation/time-sheets';
+
 const router = express.Router();
 
-router.get('/', timeSheetsContoller.getAllTimesheets);
-router.get('/:id', timeSheetsContoller.getByIdTimesheets);
-router.put('/:id', timeSheetsContoller.updateTimeSheet);
+router.get('/', timeSheetsController.getAllTimesheets);
+router.get('/:id', timeSheetsController.getByIdTimesheets);
+router.put('/:id', timeSheetsValidator.updateValidation, timeSheetsController.updateTimeSheet);
 
 export default router;

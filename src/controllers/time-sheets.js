@@ -42,6 +42,31 @@ const getByIdTimesheets = async (req, res) => {
     });
   }
 };
+// GET BY ROLE
+// const getByRoleTimesheets = async (req, res) => {
+//   try {
+//     if (!req.params) {
+//       return res.status(400).json({
+//         message: 'Please provide an ID',
+//         data: {},
+//         error: true,
+//       });
+//     }
+//     const { role } = req.params;
+//     const timesheetsById = await timeSheetModel.find({})
+//     return res.status(200).json({
+//       message: 'Time-sheet fetched',
+//       data: timesheetsById,
+//       error: false,
+//     });
+//   } catch (error) {
+//     return res.status(400).json({
+//       message: error,
+//       data: {},
+//       error: true,
+//     });
+//   }
+// };
 // UPDATE A TIME SHEET
 const updateTimeSheet = async (req, res) => {
   const { id } = req.params;
