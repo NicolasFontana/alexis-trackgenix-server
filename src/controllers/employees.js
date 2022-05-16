@@ -43,14 +43,13 @@ const getEmployeeById = async (req, res) => {
 
 const createEmployee = async (req, res) => {
   try {
-    const employee = new employeeModels.Employee({
+    const employee = await employeeModels.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       phone: req.body.phone,
       email: req.body.email,
       active: req.body.active,
     });
-
     const result = await employee.save();
     return res.status(201).json(result);
   } catch (err) {
