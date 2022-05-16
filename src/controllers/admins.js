@@ -1,9 +1,9 @@
-import AdminModel from '../models/Admins';
+import models from '../models';
 
 // Get all admins
 const getAllAdmins = async (req, res) => {
   try {
-    const allAdmins = await AdminModel.find({});
+    const allAdmins = await models.Admins.find({});
     return res.status(200).json({
       message: 'All admins',
       data: allAdmins,
@@ -22,7 +22,7 @@ const getAllAdmins = async (req, res) => {
 const getAdminById = async (req, res) => {
   try {
     if (req.params.id) {
-      const admin = await AdminModel.findById(req.params.id);
+      const admin = await models.Admins.findById(req.params.id);
       return res.status(200).json({
         message: 'Admin by id',
         data: admin,
@@ -47,7 +47,7 @@ const getAdminById = async (req, res) => {
 const getAdminByFirstName = async (req, res) => {
   try {
     if (req.params.firstName) {
-      const admin = await AdminModel.find({ firstName: req.params.firstName });
+      const admin = await models.Admins.find({ firstName: req.params.firstName });
       return res.status(200).json({
         message: 'Admin by first name',
         data: admin,
@@ -72,7 +72,7 @@ const getAdminByFirstName = async (req, res) => {
 const getAdminByLastName = async (req, res) => {
   try {
     if (req.params.lastName) {
-      const admin = await AdminModel.find({ lastName: req.params.lastName });
+      const admin = await models.Admins.find({ lastName: req.params.lastName });
       return res.status(200).json({
         message: 'Admin by last name',
         data: admin,
@@ -97,7 +97,7 @@ const getAdminByLastName = async (req, res) => {
 const getAdminByStatus = async (req, res) => {
   try {
     if (req.params.active) {
-      const adminsList = await AdminModel.find({ active: req.params.active });
+      const adminsList = await models.Admins.find({ active: req.params.active });
       return res.status(200).json({
         message: 'Admins by active status',
         data: adminsList,
@@ -121,7 +121,7 @@ const getAdminByStatus = async (req, res) => {
 // Create admin
 const createAdmin = async (req, res) => {
   try {
-    const newAdmin = new AdminModel({
+    const newAdmin = new models.Admins({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
@@ -147,7 +147,7 @@ const createAdmin = async (req, res) => {
 const deleteAdmin = async (req, res) => {
   try {
     if (req.params.id) {
-      const admin = await AdminModel.findByIdAndDelete(req.params.id);
+      const admin = await models.Admins.findByIdAndDelete(req.params.id);
       return res.status(204).json({
         message: `Admin with this id ${req.params.id} deleted`,
         data: admin,
@@ -172,11 +172,11 @@ const deleteAdmin = async (req, res) => {
 const updateAdmin = async (req, res) => {
   try {
     if (req.params.id) {
-      const admin = await AdminModel.findByIdAndUpdate(req.params.id, req.body);
+      const admin = await models.Admins.findByIdAndUpdate(req.params.id, req.body, { new: true });
       return res.status(200).json({
         message: 'Admin updated',
         data: admin,
-        error: true,
+        error: false,
       });
     }
     return res.status(404).json({
