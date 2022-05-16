@@ -3,7 +3,7 @@ import Joi from 'joi';
 const validateCreation = (req, res, next) => {
   const schema = Joi.object({
     firstName: Joi.string().min(3).required(),
-    lastName: Joi.string().required(),
+    lastName: Joi.string().min(3).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(8).alphanum().required(),
     active: Joi.boolean().required(),
@@ -21,7 +21,7 @@ const validateCreation = (req, res, next) => {
 const validateUpdate = (req, res, next) => {
   const schema = Joi.object({
     firstName: Joi.string().min(3),
-    lastName: Joi.string(),
+    lastName: Joi.string().min(3),
     email: Joi.string().email(),
     password: Joi.string().min(8).alphanum(),
     active: Joi.boolean(),
