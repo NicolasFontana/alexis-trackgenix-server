@@ -22,14 +22,14 @@ const getAllSuperadmins = async (req, res) => {
 const createSuperadmin = async (req, res) => {
   try {
     const {
-      firstName, lastName, email, password,
+      firstName, lastName, email, password, active,
     } = req.body;
     const newSuperadmin = new models.SuperAdmin({
       firstName,
       lastName,
       email,
       password,
-      active: true,
+      active,
     });
     const result = await newSuperadmin.save();
     return res.status(201).json({
@@ -52,19 +52,13 @@ const getFilteredSuperadmins = async (req, res) => {
     const {
       firstName, lastName, email, active,
     } = req.body;
-    const allDocs = await models.SuperAdmin.find({});
-    const filtered = allDocs.filter((doc) => {
-      const firstNFilter = firstName
-        ? doc.firstName.toLowerCase().includes(firstName.toLowerCase()) : true;
-      const lastNFilter = lastName
-        ? doc.lastName.toLowerCase().includes(lastName.toLowerCase()) : true;
-      const emailFilter = email
-        ? doc.email.toLowerCase().includes(email.toLowerCase()) : true;
-      const activeFilter = (active === true || active === false)
-        ? (doc.active === active) : true;
-
-      return (firstNFilter && lastNFilter && emailFilter && activeFilter);
+    const stringQuery = await models.SuperAdmin.find({
+      firstName: { $regex: new RegExp(firstName || '', 'i') },
+      lastName: { $regex: new RegExp(lastName || '', 'i') },
+      email: { $regex: new RegExp(email || '', 'i') },
     });
+    const filtered = stringQuery.filter((elem) => ((active === true || active === false)
+      ? (elem.active === active) : true));
     return res.status(200).json({
       message: 'Superadmins filtered',
       data: filtered,
@@ -109,14 +103,14 @@ const getSuperadminById = async (req, res) => {
 const updateSuperadmin = async (req, res) => {
   try {
     if (!req.params) {
-      return req.status(404).json({
+      return res.status(404).json({
         message: 'You must specify an id',
         data: {},
         error: true,
       });
     }
     const { id } = req.params;
-    const updatedAdmin = await models.SuperAdmin.findByIdAndUpdate(id, req.body);
+    const updatedAdmin = await models.SuperAdmin.findByIdAndUpdate(id, req.body, { new: true });
     return res.status(200).json({
       message: 'Super-Admin updated',
       data: updatedAdmin,
@@ -135,23 +129,23 @@ const updateSuperadmin = async (req, res) => {
 const deleteSuperadminById = async (req, res) => {
   try {
     if (!req.params) {
-      return req.status(404).json({
+      return res.status(404).json({
         message: 'You must specify an id',
         data: {},
         error: true,
       });
     }
-    const { id } = req.params;
-    await models.SuperAdmin.findOneAndDelete({ _id: id });
-    return req.status(204).json({
-      message: `User with id:${id} eliminated`,
-      data: {},
+    // const { id } = req.params;
+    const deletedDoc = await models.SuperAdmin.findByIdAndDelete(req.params.id);
+    return res.status(200).json({
+      message: 'User eliminated',
+      data: deletedDoc,
       error: false,
     });
   } catch (error) {
     return res.status(400).json({
       message: error,
-      data: 'patata',
+      data: {},
       error: true,
     });
   }
