@@ -7,7 +7,6 @@ const createEmployeeValidation = (req, res, next) => {
     phone: Joi.string().min(10).required(),
     email: Joi.string().email().required(),
     active: Joi.boolean(),
-    role: Joi.string().required(),
   });
   const validation = Schema.validate(req.body);
   if (validation.err) {
@@ -26,7 +25,6 @@ const updateEmployeeValidation = (req, res, next) => {
     phone: Joi.string().min(10),
     email: Joi.string().email(),
     active: Joi.boolean(),
-    role: Joi.string(),
   });
   const validation = Schema.validate(req.body);
   if (validation.err) {
