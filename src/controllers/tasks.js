@@ -21,17 +21,10 @@ const getAllTasks = async (req, res) => {
 // GET TASK BY NAME
 const getTaskByName = async (req, res) => {
   try {
-    if (req.params.name) {
-      const task = await Task.find({ name: req.params.name });
-      /* if (task.length === 0) {
-            return res.status(404).json({
-                message: `No task with such name`,
-                data: {},
-                error: true,
-            });
-        } */
+    if (req.params.taskName) {
+      const task = await Task.find({ taskName: req.params.taskName });
       return res.status(200).json({
-        message: 'Task found.',
+        message: `Task ${req.params.taskName} found.`,
         data: task,
         error: false,
       });
@@ -96,27 +89,35 @@ const createTask = async (req, res) => {
 // UPDATE A TASK
 const updateTask = async (req, res) => {
   try {
-    if (!req.params) {
-      return res.status(400).json({
-        msg: 'Missing id parameter',
+    if (req.params.id) {
+      const taskToUpdate = await Task.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true },
+      );
+      if (!taskToUpdate) {
+        return res.status(404).json({
+          msg: 'Missing id parameter',
+          data: {},
+          error: true,
+        });
+      }
+      return res.status(200).json({
+        message: `Task ${req.params.id} updated`,
+        data: taskToUpdate,
+        error: true,
       });
     }
-
-    const result = await Task.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true },
-    );
-    if (!result) {
-      return res.status(404).json({
-        msg: 'Task not found',
-      });
-    }
-    return res.status(200).json(result);
+    return res.status(400).json({
+      message: 'You must specify an id',
+      data: undefined,
+      error: true,
+    });
   } catch (error) {
-    return res.json({
+    return res.status(400).json({
       msg: 'An error has ocurred',
-      error: error.details[0].message,
+      data: {},
+      error: true,
     });
   }
 };
