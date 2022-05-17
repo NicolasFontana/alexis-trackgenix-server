@@ -1,10 +1,10 @@
 import express from 'express';
-import projectsController from '../controllers/projects';
-import projectsValidation from '../validation/projects';
+import projectController from '../controllers/projects';
+import validation from '../validation/projects';
 
 const router = express.Router();
 
 router
-  .put('/:id', projectsValidation.validateUpdate, projectsController.updateProject)
-  .delete('/:id', projectsController.deleteProject);
+  .put('/:id', validation.validateUpdate, projectController.updateProject)
+  .delete('/:id', projectController.deleteProject);
 export default router;

@@ -15,7 +15,7 @@ mongoose.connect(URI)
 
 // MIDDLEWARES
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 // ROUTES
 app.use(router);
