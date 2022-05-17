@@ -1,9 +1,9 @@
-import EmployeeModels from '../models/Employees';
+import models from '../models';
 
 // get all employees
 const getAllEmployees = async (req, res) => {
   try {
-    const allEmployees = await EmployeeModels.find({});
+    const allEmployees = await models.Employees.find({});
     res.status(200).json({
       message: 'All employees',
       data: allEmployees,
@@ -22,7 +22,7 @@ const getAllEmployees = async (req, res) => {
 const getEmployeeById = async (req, res) => {
   try {
     if (req.params.id) {
-      const singleEmployee = await EmployeeModels.findById(req.params.id);
+      const singleEmployee = await models.Employees.findById(req.params.id);
       res.status(200).json({
         message: `Employee with id ${req.params.id}`,
         data: singleEmployee,
@@ -49,7 +49,7 @@ const getEmployeeByFirstName = async (req, res) => {
   try {
     if (req.params.firstName) {
       const firstNameParam = req.params.firstName;
-      const Employees = await EmployeeModels.find({ firstName: firstNameParam });
+      const Employees = await models.Employees.find({ firstName: firstNameParam });
       res.status(200).json({
         message: `Employee with firstName ${firstNameParam}`,
         data: Employees,
@@ -76,7 +76,7 @@ const getEmployeeByLastName = async (req, res) => {
   try {
     if (req.params.lastName) {
       const lastNameParam = req.params.lastName;
-      const Employees = await EmployeeModels.find({ lastName: lastNameParam });
+      const Employees = await models.Employees.find({ lastName: lastNameParam });
       res.status(200).json({
         message: `Employee with lastName ${lastNameParam}`,
         data: Employees,
@@ -103,7 +103,7 @@ const getEmployeeByActivity = async (req, res) => {
   try {
     if (req.params.active) {
       const activeParam = req.params.active;
-      const Employees = await EmployeeModels.find({ active: activeParam });
+      const Employees = await models.Employees.find({ active: activeParam });
       res.status(200).json({
         message: `Employee with status ${activeParam}`,
         data: Employees,
@@ -127,7 +127,7 @@ const getEmployeeByActivity = async (req, res) => {
 
 const createEmployee = async (req, res) => {
   try {
-    const employee = new EmployeeModels({
+    const employee = new models.Employees({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       phone: req.body.phone,
@@ -159,7 +159,7 @@ const updateEmployee = async (req, res) => {
       });
     }
 
-    const result = await EmployeeModels.findByIdAndUpdate(
+    const result = await models.Employees.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true },
@@ -194,7 +194,7 @@ const deleteEmployee = async (req, res) => {
         error: true,
       });
     }
-    const result = await EmployeeModels.findByIdAndDelete(req.params.id);
+    const result = await models.Employees.findByIdAndDelete(req.params.id);
     if (!result) {
       res.status(404).json({
         message: 'The employee has not been found',
@@ -202,16 +202,16 @@ const deleteEmployee = async (req, res) => {
         error: true,
       });
     }
-    res.status(204).json({
+    res.json({
       message: 'The employee has been succesfully deleted',
       data: result,
       error: false,
-    });
+    }).status(204);
   } catch (err) {
     res.status(400).json({
-      message: 'An error has ocurred',
+      message: err,
       data: undefined,
-      err: err.details[0].message,
+      err: true,
     });
   }
 };
