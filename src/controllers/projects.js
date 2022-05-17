@@ -1,9 +1,9 @@
-import Projects from '../models/Projects';
+import models from '../models';
 // UPDATE project By Mati
 const updateProject = async (req, res) => {
   try {
     if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
-      const result = await Projects.findByIdAndUpdate(
+      const result = await models.findByIdAndUpdate(
         req.params.id,
         req.body,
         { new: true },
@@ -38,7 +38,7 @@ const updateProject = async (req, res) => {
 const deleteProject = async (req, res) => {
   try {
     if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
-      const result = await Projects.findByIdAndDelete(req.params.id);
+      const result = await models.findByIdAndDelete(req.params.id);
       if (!result) {
         return res.status(404).json({
           message: `Id ${req.params.id} does not exist`,
