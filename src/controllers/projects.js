@@ -18,8 +18,8 @@ const getAllProjects = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: 'An error ocurred',
-      data: error.message,
+      message: error.message,
+      data: undefined,
       error: true,
     });
   }
@@ -78,7 +78,7 @@ const getProjectByName = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -110,7 +110,7 @@ const getProjectByClientName = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error.message,
       data: undefined,
       error: true,
     });
