@@ -52,13 +52,12 @@ const getFilteredSuperadmins = async (req, res) => {
     const {
       firstName, lastName, email, active,
     } = req.body;
-    const stringQuery = await models.SuperAdmin.find({
+    const filtered = await models.SuperAdmin.find({
       firstName: { $regex: new RegExp(firstName || '', 'i') },
       lastName: { $regex: new RegExp(lastName || '', 'i') },
       email: { $regex: new RegExp(email || '', 'i') },
+      active: active ?? { $in: [false, true] },
     });
-    const filtered = stringQuery.filter((elem) => ((active === true || active === false)
-      ? (elem.active === active) : true));
     return res.status(200).json({
       message: 'Superadmins filtered',
       data: filtered,
