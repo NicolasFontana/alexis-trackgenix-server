@@ -240,6 +240,50 @@ const getByPMTimesheets = async (req, res) => {
     });
   }
 };
+// GET TIMESHEETS BY PROJECT MANAGER by Ana
+const getBetweenDatesTimesheets = async (req, res) => {
+  try {
+    if (!req.query.init || !req.query.final) {
+      return res.status(400).json({
+        message: 'Please provide init and final dates',
+        data: {},
+        error: true,
+      });
+    }
+    if (req.query.init >= req.query.final) {
+      return res.status(400).json({
+        message: 'Please provide an init date < final date',
+        data: {},
+        error: true,
+      });
+    }
+    const timesheetsBetweenDates = await
+    Model.TimeSheet.find({
+      date: {
+        $gte: req.query.init,
+        $lte: req.query.final,
+      },
+    });
+    if (timesheetsBetweenDates.length !== 0) {
+      return res.status(200).json({
+        message: 'Time-sheet fetched',
+        data: timesheetsBetweenDates,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Time Sheet not found',
+      data: {},
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
+    });
+  }
+};
 // CREATE TIMESHEET by Martín
 const createTimesheet = async (req, res) => {
   try {
@@ -329,6 +373,7 @@ export default {
   getByProjecTimesheets,
   getByEmployeeTimesheets,
   getByPMTimesheets,
+  getBetweenDatesTimesheets,
   updateTimeSheet,
   createTimesheet,
   deleteTimesheet,
