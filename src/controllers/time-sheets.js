@@ -1,6 +1,6 @@
 import Model from '../models';
 
-// GET ALL
+// GET ALL by Ana
 const getAllTimesheets = async (req, res) => {
   try {
     const allTimesheets = await Model.TimeSheet.find({});
@@ -17,7 +17,7 @@ const getAllTimesheets = async (req, res) => {
     });
   }
 };
-// GET BY ID
+// GET BY ID by Ana
 const getByIdTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -49,7 +49,7 @@ const getByIdTimesheets = async (req, res) => {
     });
   }
 };
-// GET BY ROLE
+// GET BY ROLE by Ana
 const getByRoleTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -60,10 +60,17 @@ const getByRoleTimesheets = async (req, res) => {
       });
     }
     const timesheetsByRole = await Model.TimeSheet.find({ role: req.params.role });
-    return res.status(200).json({
-      message: `The time sheets with role ${req.params.role} are:`,
-      data: timesheetsByRole,
-      error: false,
+    if (timesheetsByRole.length !== 0) {
+      return res.status(200).json({
+        message: `The time sheets with role ${req.params.role} are:`,
+        data: timesheetsByRole,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Time Sheet not found',
+      data: {},
+      error: true,
     });
   } catch (error) {
     return res.status(400).json({
@@ -74,21 +81,28 @@ const getByRoleTimesheets = async (req, res) => {
   }
 };
 
-// GET A TIMESHEET BY TASK
+// GET A TIMESHEET BY TASK by Ana
 const getByTaskTimesheets = async (req, res) => {
   try {
     if (!req.params) {
       return res.status(400).json({
-        message: 'Please provide a Task ID',
+        message: 'Please provide a task',
         data: {},
         error: true,
       });
     }
     const timesheetsByTask = await Model.TimeSheet.find({ taskId: req.params.taskId });
-    return res.status(200).json({
-      message: 'Time-sheet fetched',
-      data: timesheetsByTask,
-      error: false,
+    if (timesheetsByTask.length !== 0) {
+      return res.status(200).json({
+        message: `The time sheets with task ID ${req.params.taskId} are:`,
+        data: timesheetsByTask,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Time Sheet not found',
+      data: {},
+      error: true,
     });
   } catch (error) {
     return res.status(400).json({
@@ -110,10 +124,17 @@ const getByValidatedTimesheets = async (req, res) => {
       });
     }
     const timesheetsByValidated = await Model.TimeSheet.find({ validated: req.params.validated });
-    return res.status(200).json({
-      message: 'Time-sheet fetched',
-      data: timesheetsByValidated,
-      error: false,
+    if (timesheetsByValidated.length !== 0) {
+      return res.status(200).json({
+        message: 'Time-sheet fetched',
+        data: timesheetsByValidated,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Time Sheet not found',
+      data: {},
+      error: true,
     });
   } catch (error) {
     return res.status(400).json({
@@ -135,10 +156,17 @@ const getByProjecTimesheets = async (req, res) => {
       });
     }
     const timesheetsByProject = await Model.TimeSheet.find({ projectId: req.params.projectId });
-    return res.status(200).json({
-      message: 'Time-sheet fetched',
-      data: timesheetsByProject,
-      error: false,
+    if (timesheetsByProject.length !== 0) {
+      return res.status(200).json({
+        message: 'Time-sheet fetched',
+        data: timesheetsByProject,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Time Sheet not found',
+      data: {},
+      error: true,
     });
   } catch (error) {
     return res.status(400).json({
@@ -159,10 +187,17 @@ const getByEmployeeTimesheets = async (req, res) => {
       });
     }
     const timesheetsByEmployee = await Model.TimeSheet.find({ employeeId: req.params.employeeId });
-    return res.status(200).json({
-      message: 'Time-sheet fetched',
-      data: timesheetsByEmployee,
-      error: false,
+    if (timesheetsByEmployee.length !== 0) {
+      return res.status(200).json({
+        message: 'Time-sheet fetched',
+        data: timesheetsByEmployee,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Time Sheet not found',
+      data: {},
+      error: true,
     });
   } catch (error) {
     return res.status(400).json({
@@ -173,6 +208,38 @@ const getByEmployeeTimesheets = async (req, res) => {
   }
 };
 
+// GET TIMESHEETS BY PROJECT MANAGER by Ana
+const getByPMTimesheets = async (req, res) => {
+  try {
+    if (!req.params) {
+      return res.status(400).json({
+        message: 'Please provide a Project manager ID',
+        data: {},
+        error: true,
+      });
+    }
+    const timesheetsByPM = await
+    Model.TimeSheet.find({ projectManagerId: req.params.projectManagerId });
+    if (timesheetsByPM.length !== 0) {
+      return res.status(200).json({
+        message: 'Time-sheet fetched',
+        data: timesheetsByPM,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Time Sheet not found',
+      data: {},
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
+    });
+  }
+};
 // CREATE TIMESHEET by Martín
 const createTimesheet = async (req, res) => {
   try {
@@ -261,6 +328,7 @@ export default {
   getByValidatedTimesheets,
   getByProjecTimesheets,
   getByEmployeeTimesheets,
+  getByPMTimesheets,
   updateTimeSheet,
   createTimesheet,
   deleteTimesheet,

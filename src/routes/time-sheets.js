@@ -10,9 +10,9 @@ router
   .get('/role/:role', timeSheetsController.getByRoleTimesheets)
   .get('/project/:projectId', timeSheetsController.getByProjecTimesheets)
   .get('/employee/:employeeId', timeSheetsController.getByEmployeeTimesheets)
+  .get('/pm/:projectManagerId', timeSheetsController.getByPMTimesheets)
   .get('/task/:taskId', timeSheetsController.getByTaskTimesheets)
   .get('/validated/:validated', timeSheetsController.getByValidatedTimesheets)
-  // .get('/date/:date', timeSheetsController.getByDateTimesheets)
   .put('/:id', timeSheetsValidator.updateValidation, timeSheetsController.updateTimeSheet)
   .post('/', timeSheetsValidator.createTimeValidation, timeSheetsController.createTimesheet)
   .delete('/:id', timeSheetsController.deleteTimesheet);
