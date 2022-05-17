@@ -1,9 +1,9 @@
-import Task from '../models/Tasks';
+import models from '../models';
 
 // GET ALL TASKS
 const getAllTasks = async (req, res) => {
   try {
-    const allTasks = await Task.find({});
+    const allTasks = await models.Tasks.find({});
     return res.status(200).json({
       message: 'All tasks.',
       data: allTasks,
@@ -22,7 +22,7 @@ const getAllTasks = async (req, res) => {
 const getTaskByName = async (req, res) => {
   try {
     if (req.params.taskName) {
-      const task = await Task.find({ taskName: req.params.taskName });
+      const task = await models.Tasks.find({ taskName: req.params.taskName });
       return res.status(200).json({
         message: `Task ${req.params.taskName} found.`,
         data: task,
@@ -47,7 +47,7 @@ const getTaskByName = async (req, res) => {
 const getTaskById = async (req, res) => {
   try {
     if (req.params.id) {
-      const task = await Task.findById(req.params.id);
+      const task = await models.Tasks.findById(req.params.id);
       res.status(200).json(task);
     } else {
       res.status(400).json({
@@ -68,7 +68,7 @@ const getTaskById = async (req, res) => {
 // CREATE A TASK
 const createTask = async (req, res) => {
   try {
-    const task = new Task({
+    const task = new models.Tasks({
       taskName: req.body.taskName,
       startDate: req.body.startDate,
       description: req.body.description,
@@ -90,7 +90,7 @@ const createTask = async (req, res) => {
 const updateTask = async (req, res) => {
   try {
     if (req.params.id) {
-      const taskToUpdate = await Task.findByIdAndUpdate(
+      const taskToUpdate = await models.Tasks.findByIdAndUpdate(
         req.params.id,
         req.body,
         { new: true },
@@ -130,7 +130,7 @@ const deleteTask = async (req, res) => {
         msg: 'Missing id',
       });
     }
-    const result = await Task.findByIdAndDelete(req.params.id);
+    const result = await models.Tasks.findByIdAndDelete(req.params.id);
     if (!result) {
       return res.status(404).json({
         msg: 'Task not found',
