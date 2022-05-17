@@ -125,6 +125,7 @@ const getEmployeeByActivity = async (req, res) => {
   }
 };
 
+// create employee
 const createEmployee = async (req, res) => {
   try {
     const employee = new models.Employees({
@@ -149,6 +150,7 @@ const createEmployee = async (req, res) => {
   }
 };
 
+// update employee
 const updateEmployee = async (req, res) => {
   try {
     if (!req.params) {
@@ -185,6 +187,7 @@ const updateEmployee = async (req, res) => {
   }
 };
 
+// delete employee
 const deleteEmployee = async (req, res) => {
   try {
     if (!req.params.id) {
