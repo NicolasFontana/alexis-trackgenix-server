@@ -1,9 +1,9 @@
-import Model from '../models';
+import models from '../models';
 
 // GET ALL by Ana
 const getAllTimesheets = async (req, res) => {
   try {
-    const allTimesheets = await Model.TimeSheet.find({});
+    const allTimesheets = await models.TimeSheet.find({});
     return res.status(200).json({
       message: 'Time-Sheets',
       data: allTimesheets,
@@ -28,7 +28,7 @@ const getByIdTimesheets = async (req, res) => {
       });
     }
     const { id } = req.params;
-    const timesheetsById = await Model.TimeSheet.findById(id);
+    const timesheetsById = await models.TimeSheet.findById(id);
     if (timesheetsById) {
       return res.status(200).json({
         message: 'The time sheets with this criteria are:',
@@ -52,14 +52,14 @@ const getByIdTimesheets = async (req, res) => {
 // GET BY ROLE by Ana
 const getByRoleTimesheets = async (req, res) => {
   try {
-    if (!req.params) {
+    if (!req.params || !['QA', 'DEV', 'TL', 'PM'].includes(req.params.role)) {
       return res.status(400).json({
-        message: 'Please provide a role',
+        message: 'Please provide a valid role',
         data: {},
         error: true,
       });
     }
-    const timesheetsByRole = await Model.TimeSheet.find({ role: req.params.role });
+    const timesheetsByRole = await models.TimeSheet.find({ role: req.params.role });
     if (timesheetsByRole.length !== 0) {
       return res.status(200).json({
         message: `The time sheets with role ${req.params.role} are:`,
@@ -68,13 +68,13 @@ const getByRoleTimesheets = async (req, res) => {
       });
     }
     return res.status(404).json({
-      message: 'Time Sheet not found',
+      message: `Time Sheet not found with rol ${req.params.role}`,
       data: {},
       error: true,
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error[0].message.message,
       data: {},
       error: true,
     });
@@ -91,7 +91,7 @@ const getByTaskTimesheets = async (req, res) => {
         error: true,
       });
     }
-    const timesheetsByTask = await Model.TimeSheet.find({ taskId: req.params.taskId });
+    const timesheetsByTask = await models.TimeSheet.find({ taskId: req.params.taskId });
     if (timesheetsByTask.length !== 0) {
       return res.status(200).json({
         message: `The time sheets with task ID ${req.params.taskId} are:`,
@@ -106,7 +106,7 @@ const getByTaskTimesheets = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error.message,
       data: {},
       error: true,
     });
@@ -123,7 +123,7 @@ const getByValidatedTimesheets = async (req, res) => {
         error: true,
       });
     }
-    const timesheetsByValidated = await Model.TimeSheet.find({ validated: req.params.validated });
+    const timesheetsByValidated = await models.TimeSheet.find({ validated: req.params.validated });
     if (timesheetsByValidated.length !== 0) {
       return res.status(200).json({
         message: 'Time-sheet fetched',
@@ -155,7 +155,7 @@ const getByProjecTimesheets = async (req, res) => {
         error: true,
       });
     }
-    const timesheetsByProject = await Model.TimeSheet.find({ projectId: req.params.projectId });
+    const timesheetsByProject = await models.TimeSheet.find({ projectId: req.params.projectId });
     if (timesheetsByProject.length !== 0) {
       return res.status(200).json({
         message: 'Time-sheet fetched',
@@ -186,7 +186,7 @@ const getByEmployeeTimesheets = async (req, res) => {
         error: true,
       });
     }
-    const timesheetsByEmployee = await Model.TimeSheet.find({ employeeId: req.params.employeeId });
+    const timesheetsByEmployee = await models.TimeSheet.find({ employeeId: req.params.employeeId });
     if (timesheetsByEmployee.length !== 0) {
       return res.status(200).json({
         message: 'Time-sheet fetched',
@@ -219,7 +219,7 @@ const getByPMTimesheets = async (req, res) => {
       });
     }
     const timesheetsByPM = await
-    Model.TimeSheet.find({ projectManagerId: req.params.projectManagerId });
+    models.TimeSheet.find({ projectManagerId: req.params.projectManagerId });
     if (timesheetsByPM.length !== 0) {
       return res.status(200).json({
         message: 'Time-sheet fetched',
@@ -258,7 +258,7 @@ const getBetweenDatesTimesheets = async (req, res) => {
       });
     }
     const timesheetsBetweenDates = await
-    Model.TimeSheet.find({
+    models.TimeSheet.find({
       date: {
         $gte: req.query.init,
         $lte: req.query.final,
@@ -287,7 +287,7 @@ const getBetweenDatesTimesheets = async (req, res) => {
 // CREATE TIMESHEET by Martín
 const createTimesheet = async (req, res) => {
   try {
-    const timesheet = new Model.TimeSheet({
+    const timesheet = new models.TimeSheet({
       description: req.body.description,
       date: req.body.date,
       taskId: req.body.taskId,
@@ -319,14 +319,14 @@ const updateTimeSheet = async (req, res) => {
       });
     }
     const updatedTimeSheet = await
-    Model.TimeSheet.findByIdAndUpdate(id, req.body, { new: true });
+    models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true });
     return res.status(200).json({
       message: 'Time-sheet updated',
       data: updatedTimeSheet,
       error: false,
     });
   } catch (error) {
-    return res.status(400).json({
+    return res.status(404).json({
       message: error,
       data: {},
       error: true,
@@ -343,7 +343,7 @@ const deleteTimesheet = async (req, res) => {
         error: true,
       });
     }
-    const result = await Model.TimeSheet.findByIdAndDelete(req.params.id);
+    const result = await models.TimeSheet.findByIdAndDelete(req.params.id);
     if (!result) {
       return res.status(404).json({
         msg: `There is no timesheet with this Id ${req.params.id}`,
