@@ -4,9 +4,22 @@ const { Schema } = mongoose;
 
 const tasksSchema = new Schema(
   {
-    description: {
+    taskName: {
       type: String,
       required: true,
+    },
+    startDate: {
+      type: Date,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: false,
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ['Completed', 'Paused', 'In progress', 'Cancelled'],
     },
   },
   { timestamps: true },

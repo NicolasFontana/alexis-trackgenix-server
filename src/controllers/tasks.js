@@ -18,6 +18,38 @@ const getAllTasks = async (req, res) => {
   }
 };
 
+// GET TASK BY NAME
+const getTaskByName = async (req, res) => {
+  try {
+    if (req.params.name) {
+      const task = await Task.find({ name: req.params.name });
+      /* if (task.length === 0) {
+            return res.status(404).json({
+                message: `No task with such name`,
+                data: {},
+                error: true,
+            });
+        } */
+      return res.status(200).json({
+        message: 'Task found.',
+        data: task,
+        error: false,
+      });
+    }
+    return res.status(400).json({
+      message: 'Please enter a name',
+      data: undefined,
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
+    });
+  }
+};
+
 // GET TASK BY ID
 const getTaskById = async (req, res) => {
   try {
@@ -44,10 +76,10 @@ const getTaskById = async (req, res) => {
 const createTask = async (req, res) => {
   try {
     const task = new Task({
-      description: {
-        type: String,
-        required: true,
-      },
+      taskName: req.body.taskName,
+      startDate: req.body.startDate,
+      description: req.body.description,
+      status: req.body.status,
     });
 
     const result = await task.save();
@@ -116,6 +148,7 @@ const deleteTask = async (req, res) => {
 
 export default {
   getAllTasks,
+  getTaskByName,
   getTaskById,
   createTask,
   updateTask,
