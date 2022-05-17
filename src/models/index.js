@@ -1,5 +1,5 @@
-import Project from './Projects';
+import Projects from './Projects';
 
 export default {
-  Project,
+  Projects,
 };
