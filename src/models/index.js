@@ -1,5 +1,5 @@
-import TimeSheet from './Time-sheets';
+import TimeSheets from './Time-sheets';
 
 export default {
-  TimeSheet,
+  TimeSheets,
 };

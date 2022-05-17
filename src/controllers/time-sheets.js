@@ -1,10 +1,10 @@
-import Model from '../models';
+import models from '../models';
 
 // GET ALL by Ana
 
 const getAllTimesheets = async (req, res) => {
   try {
-    const allTimesheets = await Model.TimeSheet.find({});
+    const allTimesheets = await models.TimeSheets.find({});
     return res.status(200).json({
       message: 'Time-Sheets',
       data: allTimesheets,
@@ -21,7 +21,7 @@ const getAllTimesheets = async (req, res) => {
 // CREATE TIMESHEET by Martín
 const createTimesheet = async (req, res) => {
   try {
-    const timesheet = new Model.TimeSheet({
+    const timesheet = new models.TimeSheets({
       description: req.body.description,
       date: req.body.date,
       taskId: req.body.taskId,
@@ -51,7 +51,7 @@ const deleteTimesheet = async (req, res) => {
         error: true,
       });
     }
-    const result = await Model.TimeSheet.findByIdAndDelete(req.params.id);
+    const result = await models.TimeSheets.findByIdAndDelete(req.params.id);
     if (!result) {
       return res.status(404).json({
         msg: `There is no timesheet with this Id ${req.params.id}`,
