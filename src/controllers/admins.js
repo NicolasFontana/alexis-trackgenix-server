@@ -56,7 +56,7 @@ const getAdminByFirstName = async (req, res) => {
     if (req.params.firstName) {
       const firstName = req.params.firstName.toLowerCase();
       const admin = await models.Admins.find({ firstName });
-      if (!admin) {
+      if (admin.length <= 0) {
         return res.status(404).json({
           message: `Admin with this first name ${req.params.firstName} not found`,
           data: undefined,
@@ -89,7 +89,7 @@ const getAdminByLastName = async (req, res) => {
     if (req.params.lastName) {
       const lastName = req.params.lastName.toLowerCase();
       const admin = await models.Admins.find({ lastName });
-      if (!admin) {
+      if (admin.length <= 0) {
         return res.status(404).json({
           message: `Admin with this last name ${req.params.lastName} not found`,
           data: undefined,
@@ -121,7 +121,7 @@ const getAdminByEmail = async (req, res) => {
   try {
     if (req.params.email) {
       const admin = await models.Admins.find({ email: req.params.email });
-      if (!admin) {
+      if (admin.length <= 0) {
         return res.status(404).json({
           message: `Admin with this email ${req.params.email} not found`,
           data: undefined,
@@ -153,7 +153,7 @@ const getAdminByStatus = async (req, res) => {
   try {
     if (req.params.active) {
       const adminsList = await models.Admins.find({ active: req.params.active });
-      if (!adminsList) {
+      if (adminsList.length <= 0) {
         return res.status(404).json({
           message: `Admin with the active of ${req.params.active} not found`,
           data: undefined,
