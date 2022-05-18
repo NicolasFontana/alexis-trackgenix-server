@@ -9,6 +9,8 @@ router
   .post('/', validations.validateCreate, projectController.createNewProject)
   .get('/name/:name', projectController.getProjectByName)
   .get('/client/:clientName', projectController.getProjectByClientName)
-  .get('/status/:active', projectController.getProjectByStatus);
+  .get('/status/:active', projectController.getProjectByStatus)
+  .put('/:id', validations.validateUpdate, projectController.updateProject)
+  .delete('/:id', projectController.deleteProject);
 
 export default router;
