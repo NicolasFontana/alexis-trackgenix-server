@@ -11,7 +11,7 @@ const getAllEmployees = async (req, res) => {
     });
   } catch (err) {
     res.status(400).json({
-      message: err,
+      message: err.message,
       data: undefined,
       error: true,
     });
@@ -37,7 +37,7 @@ const getEmployeeById = async (req, res) => {
     }
   } catch (err) {
     res.status(400).json({
-      message: err,
+      message: err.message,
       data: undefined,
       error: true,
     });
@@ -143,7 +143,7 @@ const createEmployee = async (req, res) => {
     });
   } catch (err) {
     return res.status(400).json({
-      message: err,
+      message: err.message,
       data: undefined,
       error: true,
     });
@@ -182,7 +182,7 @@ const updateEmployee = async (req, res) => {
     res.status(400).json({
       message: 'An error has ocurred',
       data: undefined,
-      err: err.details[0].message,
+      err: true,
     });
   }
 };
