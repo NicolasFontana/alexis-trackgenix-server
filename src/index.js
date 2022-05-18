@@ -15,7 +15,7 @@ mongoose.connect(URI)
 
 // MIDDLEWARES
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 // ROUTES
 app.use(router);
@@ -25,7 +25,5 @@ app.get('/', async (req, res) => {
 });
 
 app.listen(port, () => {
-// console.log(`Example app listening on port ${port}`);
+//   console.log(`Example app listening on port ${port}`);
 });
-
-export default mongoose;
