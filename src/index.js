@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import routes from './routes';
+import router from './routes';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,7 +17,8 @@ mongoose.connect(URI)
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(routes);
+// ROUTES
+app.use(router);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
