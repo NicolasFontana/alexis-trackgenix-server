@@ -1,9 +1,11 @@
 import Joi from 'joi';
 
+const stringPattern = /^[a-zA-Z]*$/;
+
 const createAdminValidations = (req, res, next) => {
   const schema = Joi.object({
-    firstName: Joi.string().min(3).required(),
-    lastName: Joi.string().min(3).required(),
+    firstName: Joi.string().regex(stringPattern).min(3).required(),
+    lastName: Joi.string().regex(stringPattern).min(3).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(8).alphanum().required(),
     active: Joi.boolean().required(),
@@ -20,8 +22,8 @@ const createAdminValidations = (req, res, next) => {
 
 const updateAdminValidations = (req, res, next) => {
   const schema = Joi.object({
-    firstName: Joi.string().min(3),
-    lastName: Joi.string().min(3),
+    firstName: Joi.string().regex(stringPattern).min(3),
+    lastName: Joi.string().regex(stringPattern).min(3),
     email: Joi.string().email(),
     password: Joi.string().min(8).alphanum(),
     active: Joi.boolean(),

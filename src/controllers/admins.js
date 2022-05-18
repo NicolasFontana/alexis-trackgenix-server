@@ -223,11 +223,11 @@ const deleteAdmin = async (req, res) => {
         error: true,
       });
     }
-    return res.status(204).json({
+    return res.json({
       message: `Admin with this id ${req.params.id} deleted`,
       data: admin,
       error: false,
-    });
+    }).status(204);
   } catch (error) {
     return res.status(400).json({
       message: error.message,
