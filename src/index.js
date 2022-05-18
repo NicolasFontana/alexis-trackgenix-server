@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
+//
 import express from 'express';
 import mongoose from 'mongoose';
-import router from './routes/employees';
+import router from './routes';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -28,5 +30,3 @@ app.get('/', async (req, res) => {
 app.listen(port, () => {
 // console.log(`Example app listening on port ${port}`);
 });
-
-export default mongoose;
