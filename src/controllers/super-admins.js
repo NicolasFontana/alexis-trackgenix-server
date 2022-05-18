@@ -1,115 +1,169 @@
-import express from 'express';
-import fs from 'fs';
+import models from '../models';
 
-import superAdmins from '../data/super-admins.json';
-
-const router = express.Router();
-
-// get all super admins
-router.get('/', (req, res) => {
-  res.send(superAdmins);
-});
-
-// get super admin by id
-router.get('/id/:id', (req, res) => {
-  const supAdmId = Number(req.params.id);
-  const userA = superAdmins.find((user) => user.id === supAdmId);
-  if (userA) {
-    res.send(userA);
-  } else {
-    res.status(400);
-    res.send(`Super admin with id "${supAdmId}" does not exist`);
-  }
-});
-
-// add new super admin
-router.post('/add', (req, res) => {
-  const newSA = req.body;
-  if (req.body.firstName.length === 0 || req.body.lastName.length === 0
-    || req.body.email.length === 0 || req.body.password.length === 0
-    || req.body.active.length === 0) {
-    res.send('Please fill all the d data');
-  } else {
-    superAdmins.push(newSA);
-    fs.writeFile('src/data/super-admins.json', JSON.stringify(superAdmins), (error) => {
-      res.send(error || ('Super admin added'));
+// GET ALL SUPERADMINS
+const getAllSuperadmins = async (req, res) => {
+  try {
+    const allSuperadmins = await models.SuperAdmin.find({});
+    return res.status(200).json({
+      message: 'All Superadmins',
+      data: allSuperadmins,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
     });
   }
-});
+};
 
-// delete super admin
-router.delete('/delete/:id', (req, res) => {
-  const supAdmId = Number(req.params.id);
-  const filteredUsers = superAdmins.filter((user) => user.id !== supAdmId);
-  if (superAdmins.length === filteredUsers.length) {
-    res.status(400);
-    res.send(`could not delete because super admin with id "${supAdmId}" does not exist`);
-  } else {
-    fs.writeFile('src/data/super-admins.json', JSON.stringify(filteredUsers), (error) => {
-      res.send(error || ('Super admin deleted'));
+// CREATE A NEW SUPERADMIN
+const createSuperadmin = async (req, res) => {
+  try {
+    const {
+      firstName, lastName, email, password, active,
+    } = req.body;
+    const newSuperadmin = new models.SuperAdmin({
+      firstName,
+      lastName,
+      email,
+      password,
+      active,
+    });
+    const result = await newSuperadmin.save();
+    return res.status(201).json({
+      message: 'Superadmin created',
+      data: result,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
     });
   }
-});
+};
 
-// edit super admin
-router.put('/edit/:id', (req, res) => {
-  const supAdmId = Number(req.params.id);
-  const newArray = superAdmins.find((superAdmin) => superAdmin.id === supAdmId);
-  const filteredArray = superAdmins.filter((superAdmin) => superAdmin.id !== supAdmId);
-  if (newArray) {
-    const updatedSA = {
-      id: supAdmId,
-      firstName: (req.body.firstName || newArray.firstName),
-      lastName: (req.body.lastName || newArray.lastName),
-      email: (req.body.email || newArray.email),
-      password: (req.body.password || newArray.password),
-      active: (req.body.active ?? newArray.active),
-    };
-    filteredArray.push(updatedSA);
-    fs.writeFileSync('src/data/super-admins.json', JSON.stringify(filteredArray));
-    res.send(`Super admin with id "${supAdmId}" edited`);
-  } else {
-  //  res.status(400);
-    res.send(`Could not edit because super admin with id "${supAdmId}" does not exist`);
+// SEARCH SUPERADMINS WITH FILTERS INCLUDED IN BODY
+const getFilteredSuperadmins = async (req, res) => {
+  try {
+    const {
+      firstName, lastName, email, active,
+    } = req.body;
+    const filtered = await models.SuperAdmin.find({
+      firstName: { $regex: new RegExp(firstName || '', 'i') },
+      lastName: { $regex: new RegExp(lastName || '', 'i') },
+      email: { $regex: new RegExp(email || '', 'i') },
+      active: active ?? { $in: [false, true] },
+    });
+    return res.status(200).json({
+      message: 'Superadmins filtered',
+      data: filtered,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: [error, { id: req.params.id }],
+      data: {},
+      error: true,
+    });
   }
-});
+};
 
-// filter by first name
-router.get('/first-name/:firstName', (req, res) => {
-  const supAdmName = req.params.firstName;
-  const usersA = superAdmins.filter((user) => user.firstName.toLowerCase()
-  === supAdmName.toLowerCase());
-  if (usersA.length === 0) {
-    res.status(400);
-    res.send(`Super admin with name "${supAdmName}" does not exist`);
-  } else {
-    res.send(usersA);
+// GET A SPECIFIC SUPERADMIN BY ID
+const getSuperadminById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (id) {
+      const superadminByID = await models.SuperAdmin.findById(id);
+      return res.status(200).json({
+        message: `Superadmin with id: ${id}`,
+        data: superadminByID,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'You must specify an id',
+      data: {},
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: [error, { id: req.params.id }],
+      data: {},
+      error: true,
+    });
   }
-});
+};
 
-// filter by last name
-router.get('/last-name/:lastName', (req, res) => {
-  const supAdmLastName = req.params.lastName;
-  const usersA = superAdmins.filter((user) => user.lastName.toLowerCase()
-  === supAdmLastName.toLowerCase());
-  if (usersA.length === 0) {
-    res.status(400);
-    res.send(`Super admin with last name "${supAdmLastName}" does not exist`);
-  } else {
-    res.send(usersA);
+// UPDATE AN SPECIFIC SUPERADMIN BY ID
+const updateSuperadmin = async (req, res) => {
+  try {
+    if (!req.params) {
+      return res.status(404).json({
+        message: 'You must specify an id',
+        data: {},
+        error: true,
+      });
+    }
+    const { id } = req.params;
+    const updatedAdmin = await models.SuperAdmin.findByIdAndUpdate(id, req.body, { new: true });
+    return res.status(200).json({
+      message: 'Super-Admin updated',
+      data: updatedAdmin,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: [error, `Superadmin with id:${req.params.id} not found`],
+      data: {},
+      error: true,
+    });
   }
-});
+};
 
-// filter by status
-router.get('/active/:active', (req, res) => {
-  const supAdmStatus = req.params.active;
-  const usersA = superAdmins.filter((user) => JSON.stringify(user.active) === supAdmStatus);
-  if (supAdmStatus !== 'true' && supAdmStatus !== 'false') {
-    res.status(400);
-    res.send(`${supAdmStatus} is an invalid value, please use true or false`);
-  } else {
-    res.send(usersA);
+// DELETE A SPECIFIC SUPERADMIN BY ID
+const deleteSuperadminById = async (req, res) => {
+  try {
+    if (!req.params) {
+      return res.status(404).json({
+        message: 'You must specify an id',
+        data: {},
+        error: true,
+      });
+    }
+
+    const deletedDoc = await models.SuperAdmin.findByIdAndDelete(req.params.id);
+
+    if (!deletedDoc) {
+      return res.status(404).json({
+        message: `There is no Superadmin with _id:${req.params.id}`,
+        data: {},
+        error: true,
+      });
+    }
+
+    return res.json({
+      message: 'User eliminated',
+      data: deletedDoc,
+      error: false,
+    }).status(204);
+  } catch (error) {
+    return res.status(400).json({
+      message: [error, { id: req.params.id }],
+      data: {},
+      error: true,
+    });
   }
-});
+};
 
-export default router;
+export default {
+  getAllSuperadmins,
+  createSuperadmin,
+  getFilteredSuperadmins,
+  getSuperadminById,
+  updateSuperadmin,
+  deleteSuperadminById,
+};

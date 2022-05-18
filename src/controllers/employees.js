@@ -1,107 +1,231 @@
-import express from 'express';
-import fs from 'fs';
-import employees from '../data/employees.json';
+import models from '../models';
 
-const router = express.Router();
-// GET ALL
-router.get('/', (req, res) => res.send(employees));
-// GET BY ID
-router.get('/id/:id', (req, res) => {
-  const idEmployee = Number(req.params.id);
-  res.send(employees.find((employee) => employee.id === idEmployee) || 'Null');
-});
-// GET BY Name
-router.get('/firstName/:name', (req, res) => {
-  const nameEmployee = String(req.params.name);
-  res.send(employees.filter((employee) => employee.firstName.toLowerCase()
-  === nameEmployee.toLowerCase()));
-});
-// GET BY LastName
-router.get('/lastName/:lastName', (req, res) => {
-  const lastNameEmployee = String(req.params.lastName);
-  res.send(employees.filter((employee) => employee.lastName.toLowerCase()
-  === lastNameEmployee.toLowerCase()));
-});
-// GET BY Email
-router.get('/email/:email', (req, res) => {
-  const emailEmployee = String(req.params.email);
-  res.send(employees.filter((employee) => employee.email === emailEmployee));
-});
-// GET BY Active
-router.get('/active=:active', (req, res) => {
-  const activeEmployee = Boolean(req.params.active);
-  res.send(employees.filter((employee) => employee.active === activeEmployee));
-});
-// DELETE Employee
-router.delete('/delete/:id', (req, res) => {
-  const idEmployee = Number(req.params.id);
-  const withoutEmployee = employees.filter((employee) => employee.id !== idEmployee);
-  if (withoutEmployee.length === employees.length) {
-    res.status(400).json({ msg: 'Please fill in a valid id' });
-  } else {
-    fs.writeFile('src/data/employees.json', JSON.stringify(withoutEmployee), (err) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send('Employee deleted');
-      }
+// get all employees
+const getAllEmployees = async (req, res) => {
+  try {
+    const allEmployees = await models.Employees.find({});
+    res.status(200).json({
+      message: 'All employees',
+      data: allEmployees,
+      error: false,
+    });
+  } catch (err) {
+    res.status(400).json({
+      message: err.message,
+      data: undefined,
+      error: true,
     });
   }
-});
-// CREATE Employee
-router.post('/', (req, res) => {
-  const initialValue = 0;
-  const ids = employees.reduce(
-    (previousValue, currentValue) => (previousValue <= currentValue.id ? currentValue.id + 1
-      : previousValue),
-    initialValue,
-  );
-  const newEmployee = {
-    id: ids,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    phone: req.body.phone,
-    email: req.body.email,
-    active: true,
-  };
-  if (!(newEmployee.firstName && newEmployee.lastName && newEmployee.email
- && newEmployee.phone)) {
-    res.status(400).json({ msg: 'Please fill in firstName, lastName, email and phone' });
-  } else {
-    employees.push(newEmployee);
-    fs.writeFile('src/data/employees.json', JSON.stringify(employees), (err) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send('New employee added');
-      }
+};
+
+// get employee by id
+const getEmployeeById = async (req, res) => {
+  try {
+    if (req.params.id) {
+      const singleEmployee = await models.Employees.findById(req.params.id);
+      res.status(200).json({
+        message: `Employee with id ${req.params.id}`,
+        data: singleEmployee,
+        error: false,
+      });
+    } else {
+      res.status(400).json({
+        message: 'missing id parameter',
+        data: undefined,
+        error: true,
+      });
+    }
+  } catch (err) {
+    res.status(400).json({
+      message: err.message,
+      data: undefined,
+      error: true,
     });
   }
-});
-// UPDATE Employee
-router.put('/update/:id', (req, res) => {
-  const idEmployee = Number(req.params.id);
-  const employeeToUpdate = employees.find((employee) => employee.id === idEmployee);
-  const withoutOldEmployee = employees.filter((employee) => employee.id !== idEmployee);
-  const newEmployee = {
-    id: idEmployee,
-    firstName: (req.body.firstName || employeeToUpdate.firstName),
-    lastName: (req.body.lastName || employeeToUpdate.lastName),
-    phone: (req.body.phone || employeeToUpdate.phone),
-    email: (req.body.email || employeeToUpdate.email),
-    active: (req.body.active || employeeToUpdate.active),
-  };
-  if (!(employeeToUpdate)) {
-    res.status(400).json({ msg: 'Please fill in a valid id' });
-  } else {
-    withoutOldEmployee.push(newEmployee);
-    fs.writeFile('src/data/employees.json', JSON.stringify(withoutOldEmployee), (err) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send('Employee updated');
-      }
+};
+
+// get employee by firstName
+const getEmployeeByFirstName = async (req, res) => {
+  try {
+    if (req.params.firstName) {
+      const firstNameParam = req.params.firstName;
+      const Employees = await models.Employees.find({ firstName: firstNameParam });
+      res.status(200).json({
+        message: `Employee with firstName ${firstNameParam}`,
+        data: Employees,
+        error: false,
+      });
+    } else {
+      res.status(400).json({
+        message: 'missing firstName parameter',
+        data: undefined,
+        error: true,
+      });
+    }
+  } catch (err) {
+    res.status(400).json({
+      message: err,
+      data: undefined,
+      error: true,
     });
   }
-});
-export default router;
+};
+
+// get employee by lastName
+const getEmployeeByLastName = async (req, res) => {
+  try {
+    if (req.params.lastName) {
+      const lastNameParam = req.params.lastName;
+      const Employees = await models.Employees.find({ lastName: lastNameParam });
+      res.status(200).json({
+        message: `Employee with lastName ${lastNameParam}`,
+        data: Employees,
+        error: false,
+      });
+    } else {
+      res.status(400).json({
+        message: 'missing lastName parameter',
+        data: undefined,
+        error: true,
+      });
+    }
+  } catch (err) {
+    res.status(400).json({
+      message: err,
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
+// get employee by activity
+const getEmployeeByActivity = async (req, res) => {
+  try {
+    if (req.params.active) {
+      const activeParam = req.params.active;
+      const Employees = await models.Employees.find({ active: activeParam });
+      res.status(200).json({
+        message: `Employee with status ${activeParam}`,
+        data: Employees,
+        error: false,
+      });
+    } else {
+      res.status(400).json({
+        message: 'missing active parameter',
+        data: undefined,
+        error: true,
+      });
+    }
+  } catch (err) {
+    res.status(400).json({
+      message: err,
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
+// create employee
+const createEmployee = async (req, res) => {
+  try {
+    const employee = new models.Employees({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      phone: req.body.phone,
+      email: req.body.email,
+      active: req.body.active,
+    });
+    const result = await employee.save();
+    return res.status(201).json({
+      message: 'Employee created',
+      data: result,
+      error: false,
+    });
+  } catch (err) {
+    return res.status(400).json({
+      message: err.message,
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
+// update employee
+const updateEmployee = async (req, res) => {
+  try {
+    if (!req.params) {
+      res.status(400).json({
+        message: 'missing id parameter',
+        data: undefined,
+        error: true,
+      });
+    }
+
+    const result = await models.Employees.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true },
+    );
+    if (!result) {
+      res.status(404).json({
+        message: 'The employee has not been found',
+        data: undefined,
+        error: true,
+      });
+    }
+    res.status(200).json({
+      message: 'Employee updated',
+      data: result,
+      error: false,
+    });
+  } catch (err) {
+    res.status(400).json({
+      message: 'An error has ocurred',
+      data: undefined,
+      err: true,
+    });
+  }
+};
+
+// delete employee
+const deleteEmployee = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      res.status(400).json({
+        message: 'missing id parameter',
+        data: undefined,
+        error: true,
+      });
+    }
+    const result = await models.Employees.findByIdAndDelete(req.params.id);
+    if (!result) {
+      res.status(404).json({
+        message: 'The employee has not been found',
+        data: undefined,
+        error: true,
+      });
+    }
+    res.json({
+      message: 'The employee has been succesfully deleted',
+      data: result,
+      error: false,
+    }).status(204);
+  } catch (err) {
+    res.status(400).json({
+      message: err,
+      data: undefined,
+      err: true,
+    });
+  }
+};
+
+export default {
+  getAllEmployees,
+  getEmployeeById,
+  getEmployeeByFirstName,
+  getEmployeeByLastName,
+  getEmployeeByActivity,
+  createEmployee,
+  updateEmployee,
+  deleteEmployee,
+};
