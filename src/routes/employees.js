@@ -8,6 +8,9 @@ const router = express.Router();
 router.get('/', employeeController.getAllEmployees);
 router.post('/', employeeValidation.createEmployeeValidation, employeeController.createEmployee);
 router.get('/:id', employeeController.getEmployeeById);
+router.get('/firstName/:firstName', employeeController.getEmployeeByFirstName);
+router.get('/lastName/:lastName', employeeController.getEmployeeByLastName);
+router.get('/active/:active', employeeController.getEmployeeByActivity);
 router.put('/:id', employeeValidation.updateEmployeeValidation, employeeController.updateEmployee);
 router.delete('/:id', employeeController.deleteEmployee);
 
