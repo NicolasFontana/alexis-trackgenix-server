@@ -1136,12 +1136,12 @@
 					"response": []
 				},
 				{
-					"name": "getById",
+					"name": "getTaskById",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/tasks/1451s1d5a",
+							"raw": "http://localhost:3000/tasks/6282c50ad73272673edef694",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1149,20 +1149,41 @@
 							"port": "3000",
 							"path": [
 								"tasks",
-								"1451s1d5a"
+								"6282c50ad73272673edef694"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "create",
+					"name": "getByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/tasks/taskName/hola",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tasks",
+								"taskName",
+								"hola"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createTask",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "      taskName: {\r\n        type: String,\r\n        required: true,\r\n      },\r\n      startDate: {\r\n        type: Date,\r\n        required: true,\r\n      },\r\n      description: {\r\n        type: String,\r\n        required: true,\r\n      },",
+							"raw": "{\r\n    \"taskName\": \"soyunatareanueva\",\r\n    \"startDate\": \"2020-11-05\",\r\n    \"description\": \"dasdasdasd\",\r\n    \"status\": \"Paused\"\r\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1178,6 +1199,55 @@
 							"port": "3000",
 							"path": [
 								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateTask",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"taskName\": \"otrataskmas\",\r\n    \"startDate\": \"2005-08-20T00:00:00.000Z\",\r\n    \"description\": \"dsadasdasd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/tasks/6283d2b7ff2d23d1b0406025",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tasks",
+								"6283d2b7ff2d23d1b0406025"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTask",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/tasks/6283b11913e7ce5c8c002d10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tasks",
+								"6283b11913e7ce5c8c002d10"
 							]
 						}
 					},
@@ -1276,6 +1346,650 @@
 								"api",
 								"time-sheets",
 								"6282622db1d9a992d719c9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update TimeSheet",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Trackgenix try\",\r\n    \"date\": \"2002-04-04\",\r\n    \"taskId\": \"234324234234343242342422\",\r\n    \"validated\": true,\r\n    \"employeeId\": \"343242342343422324342342\",\r\n    \"projectId\": \"343242342343422324342342\",\r\n    \"projectManagerId\": \"343242342224343242342342\",\r\n    \"role\": \"DEV\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/628261deb1d9a992d719c9c7",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"628261deb1d9a992d719c9c7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update validation error TimeSheet",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Trackgenix try\",\r\n    \"date\": \"2002-04-04\",\r\n    \"taskId\": \"234324234234343242342422\",\r\n    \"validated\": true,\r\n    \"employeeId\": \"34324234234342232342\",\r\n    \"projectId\": \"343342\",\r\n    \"projectManagerId\": \"343242342224343242342342\",\r\n    \"role\": \"DEV\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/628261deb1d9a992d719c9c7",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"628261deb1d9a992d719c9c7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated TimeSheet error: id not found",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Trackgenix try\",\r\n    \"date\": \"2002-04-04\",\r\n    \"taskId\": \"234324234234343242342422\",\r\n    \"validated\": true,\r\n    \"employeeId\": \"343242342224343242342342\",\r\n    \"projectId\": \"343242342224343242342342\",\r\n    \"projectManagerId\": \"343242342224343242342342\",\r\n    \"role\": \"DEV\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/628261deb1d9a992d7",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"628261deb1d9a992d7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all TimeSheets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/628261deb1d9a992d719c9c7",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"628261deb1d9a992d719c9c7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by id error",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/628261deb1d9a992",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"628261deb1d9a992"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets by task",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/task/234324234234343242342422",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"task",
+								"234324234234343242342422"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets by task error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/task",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"task"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets by task error",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/task/2343242342s34343242342422dad",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"task",
+								"2343242342s34343242342422dad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets by role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/role/DEV",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"role",
+								"DEV"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets by role error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/role/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"role",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets by role error",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/role/DEVsadsad",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"role",
+								"DEVsadsad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Employee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/employee/343242342343422324342342",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"employee",
+								"343242342343422324342342"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Employee error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/employee",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Employee error 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/employee/sadsadbananas",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"employee",
+								"sadsadbananas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Project",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/project/343242342343422324342342",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"project",
+								"343242342343422324342342"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Project error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/project",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Project error 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/project/bananas",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"project",
+								"bananas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Validated",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/validated/true",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"validated",
+								"true"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Validated error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/validated",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"validated"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Validated error 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/validated/false",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"validated",
+								"false"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Project Manager ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/pm/343242342224343242342342",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"pm",
+								"343242342224343242342342"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Project Manager ID error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/pm",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"pm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Project Manager ID error 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/pm/pepino",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"pm",
+								"pepino"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets between dates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/date?init=1990-01-01&final=2022-10-10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"date"
+							],
+							"query": [
+								{
+									"key": "init",
+									"value": "1990-01-01"
+								},
+								{
+									"key": "final",
+									"value": "2022-10-10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets between dates error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/date?init=1990-01-01",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"date"
+							],
+							"query": [
+								{
+									"key": "init",
+									"value": "1990-01-01"
+								},
+								{
+									"key": "final",
+									"value": "2022-10-10",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets between dates error 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/date?init=1990-01-01&final=1022-10-10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"date"
+							],
+							"query": [
+								{
+									"key": "init",
+									"value": "1990-01-01"
+								},
+								{
+									"key": "final",
+									"value": "1022-10-10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets between dates error 3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/date?init=1020-01-01&final=1022-10-10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"date"
+							],
+							"query": [
+								{
+									"key": "init",
+									"value": "1020-01-01"
+								},
+								{
+									"key": "final",
+									"value": "1022-10-10"
+								}
 							]
 						}
 					},
