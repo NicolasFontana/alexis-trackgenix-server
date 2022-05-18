@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-//
 import express from 'express';
 import mongoose from 'mongoose';
 import router from './routes';
@@ -8,7 +6,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const URI = 'mongodb+srv://pucheRR:BaSP2022@cluster0.3uv6a.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
-// const URI = 'mongodb+srv://usuariogenerico:1234qwer@cluster0.bsadz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
 mongoose.connect(URI)
   // eslint-disable-next-line no-console

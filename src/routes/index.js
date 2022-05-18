@@ -6,7 +6,7 @@ import timeSheetsRoutes from './time-sheets';
 const router = express.Router();
 
 router
-  .use('./projects.js', employeeRoutes)
+  .use('/api/employees', employeeRoutes)
   .use('/api/projects', projectRoutes)
   .use('/api/time-sheets', timeSheetsRoutes);
 
