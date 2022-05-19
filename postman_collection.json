@@ -1,39 +1,2037 @@
 {
-  "info": {
-    "_postman_id": "6d87d32a-b39e-4ab7-9344-908e68372e95",
-    "name": "postman_collection",
-    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "admins",
-      "item": [],
-      "id": "0b203ea1-e9bc-4ca3-bde6-4beed8b0cbc8"
-    },
-    {
-      "name": "employees",
-      "item": [],
-      "id": "761388eb-cded-4655-8632-e53c244c2414"
-    },
-    {
-      "name": "projects",
-      "item": [],
-      "id": "d70efe43-ebe0-4425-aa8f-103f5312ea92"
-    },
-    {
-      "name": "super-admins",
-      "item": [],
-      "id": "e3bb2dc5-6716-4088-b487-bf06ba478ec3"
-    },
-    {
-      "name": "tasks",
-      "item": [],
-      "id": "0305a902-af3b-4bdd-8314-d31609aad447"
-    },
-    {
-      "name": "time-sheets",
-      "item": [],
-      "id": "e511cf64-abad-44ff-b037-11328a81af6a"
-    }
-  ]
+	"info": {
+		"_postman_id": "6d87d32a-b39e-4ab7-9344-908e68372e95",
+		"name": "postman_collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "admins",
+			"item": [
+				{
+					"name": "updateAdmin",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Roberto\",\r\n    \"lastName\": \"Rodriguez\",\r\n    \"email\": \"robrod4321@gmail.com\",\r\n    \"password\": \"hola1234\",\r\n    \"active\": false\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admins/627fcf8004b4519fb0e96b00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admins",
+								"627fcf8004b4519fb0e96b00"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateAdmin validation error",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Roberto\",\r\n    \"lastName\": \"Rodriguez\",\r\n    \"email\": \"robrod4321@gmail.com\",\r\n    \"password\": \"hola1\",\r\n    \"active\": false\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admins/627fcf8004b4519fb0e96b00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admins",
+								"627fcf8004b4519fb0e96b00"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createAdmin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Carlos\",\r\n    \"lastName\": \"Rodriguez\",\r\n    \"email\": \"carlosrod4321@gmail.com\",\r\n    \"password\": \"hola1234\",\r\n    \"active\": false\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admins/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admins",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createAdmin validation error",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Ca\",\r\n    \"lastName\": \"Ro\",\r\n    \"email\": \"carlosrod4321gmail.com\",\r\n    \"password\": \"hola234\",\r\n    \"active\": false\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/admins/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admins",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAdmin bad id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/admins/82341231",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admins",
+								"82341231"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAdmin",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/admins/627fcf8004b4519fb0e96b00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admins",
+								"627fcf8004b4519fb0e96b00"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAdmins",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/admins/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admins",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAdminById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/admins/id/627fce9704b4519fb0e96afc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admins",
+								"id",
+								"627fce9704b4519fb0e96afc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAdminById bad id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/admins/id/627fce9704b4519fb0e96a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admins",
+								"id",
+								"627fce9704b4519fb0e96a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAdminByStatus",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/admins/isActive/true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admins",
+								"isActive",
+								"true"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAdminByFirstname",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/admins/firstName/Francisco",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admins",
+								"firstName",
+								"Francisco"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAdminByLastname",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/admins/lastName/Gutierrez",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admins",
+								"lastName",
+								"Gutierrez"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAdminByEmail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/admins/email/frangutierrez@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"admins",
+								"email",
+								"frangutierrez@gmail.com"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "employees",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/employees",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/employees/62817ddfdb092482f93da607",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees",
+								"62817ddfdb092482f93da607"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByFirstName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/employees/firstName/John",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees",
+								"firstName",
+								"John"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByLastName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/employees/lastName/Pujol",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees",
+								"lastName",
+								"Pujol"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByActivity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/employees/active/false",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees",
+								"active",
+								"false"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Juan\",\r\n    \"lastName\": \"Lopez\",\r\n    \"phone\": \"7761785000\",\r\n    \"email\": \"juanlopez@people.com.cn\",\r\n    \"active\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/employees",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/employees/3",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "putById",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Tobiiiii\",\r\n    \"lastName\": \"Pujol\",\r\n    \"phone\": \"996-178-5000\",\r\n    \"email\": \"alabel2@people.com.cn\",\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/employees/62817ddfdb092482f93da607",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"employees",
+								"62817ddfdb092482f93da607"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "projects",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/projects/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/projects/6281701ac5f6e77ac48b6b7f",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								"6281701ac5f6e77ac48b6b7f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/projects/name/Mati",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								"name",
+								"Mati"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByClientName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/projects/client/Danni%20Storre",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								"client",
+								"Danni%20Storre"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByStatus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/projects/status",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"name\": \"Lotlux\",\r\n        \"description\": \"¸˛Ç◊ı˜Â¯˘¿\",\r\n        \"startDate\": \"3/12/2022\",\r\n        \"endDate\": \"6/15/2022\",\r\n        \"clientName\": \"Marcelia Hoggan\",\r\n        \"active\": \"false\",\r\n        \"devRate\": 2.8,\r\n        \"qaRate\": 8.3,\r\n        \"pmRate\": 8.5,\r\n        \"tlRate\": \"\",\r\n        \"devs\": [\r\n            9,\r\n            4,\r\n            16,\r\n            8,\r\n            22\r\n        ],\r\n        \"qas\": [\r\n            9\r\n        ],\r\n        \"projectManager\": [\r\n            9\r\n        ],\r\n        \"techLeader\": [\r\n            9\r\n        ],\r\n        \"admin\": [\r\n            9\r\n        ]\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/projects/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/projects/6281701ac5f6e77ac48b6b7f",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								"6281701ac5f6e77ac48b6b7f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "putById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n        {\r\n            \"_id\": \"6281701ac5f6e77ac48b6b7f\",\r\n            \"name\": \"Mati 123\",\r\n            \"description\": \"-1\",\r\n            \"startDate\": \"Mon Mar 14 2022 00:00:00 GMT-0300 (hora estándar de Argentina)\",\r\n            \"endDate\": \"Wed Jun 15 2022 00:00:00 GMT-0300 (hora estándar de Argentina)\",\r\n            \"clientName\": \"Mati Reynos0\",\r\n            \"active\": false,\r\n            \"devRate\": 7.6,\r\n            \"qaRate\": 1.2,\r\n            \"pmRate\": 9.9,\r\n            \"tlRate\": 2.1,\r\n            \"devs\": [\r\n                5\r\n            ],\r\n            \"qas\": [\r\n                5\r\n            ],\r\n            \"projectManager\": [\r\n                5\r\n            ],\r\n            \"techLeader\": [\r\n                5\r\n            ],\r\n            \"admin\": [\r\n                5\r\n            ],\r\n            \"__v\": 0\r\n        },",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/projects/6281701ac5f6e77ac48b6b7f",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								"6281701ac5f6e77ac48b6b7f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "super-admins",
+			"item": [
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/superadmin/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"superadmin",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/superadmin/627fce189d4423e59a900ba3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"superadmin",
+								"627fce189d4423e59a900ba3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id error",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/superadmin/asdasdasd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"superadmin",
+								"asdasdasd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get filtered",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"gala\",\r\n    \"lastName\": \"bubu\",\r\n    \"email\": \"@\",\r\n    \"active\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/superadmin/filter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"superadmin",
+								"filter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get filtered null fields",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"gala\",\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/superadmin/filter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"superadmin",
+								"filter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get filtered empty response",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"qwerqe\",\r\n    \"active\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/superadmin/filter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"superadmin",
+								"filter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create doc",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"mimimi\",\r\n    \"lastName\": \"Alvarez\",\r\n    \"email\": \"asdasd@gmail.com\",\r\n    \"password\": \"1234qwer\",\r\n    \"active\": true\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/superadmin/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"superadmin",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create missing data error",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Alvaro\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/superadmin/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"superadmin",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit doc",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Polo\",\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/superadmin/627fd3799d4423e59a900ba6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"superadmin",
+								"627fd3799d4423e59a900ba6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit doc validation error",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Po\",\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/superadmin/627fd3799d4423e59a900ba6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"superadmin",
+								"627fd3799d4423e59a900ba6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete doc",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/superadmin/6281c69a5ea926aff95a76f5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"superadmin",
+								"6281c69a5ea926aff95a76f5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete doc error",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/superadmin/6280062d5f0b9b4131e527e4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"superadmin",
+								"6280062d5f0b9b4131e527e4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tasks",
+			"item": [
+				{
+					"name": "getAllTasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/tasks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTaskById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/tasks/6283b11913e7ce5c8c002d10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tasks",
+								"6283b11913e7ce5c8c002d10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/tasks/taskName/unataskmas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tasks",
+								"taskName",
+								"unataskmas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createTask",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"taskName\": \"lataskqueva\",\r\n    \"startDate\": \"2022-05-18\",\r\n    \"description\": \"dasdasdasd\",\r\n    \"status\": \"Paused\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/tasks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateTask",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"taskName\": \"otrataskmas\",\r\n    \"startDate\": \"2005-08-20T00:00:00.000Z\",\r\n    \"description\": \"hoyfueelcensobro\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/tasks/628597b3d7a17cabbaa0ad29",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tasks",
+								"628597b3d7a17cabbaa0ad29"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTask",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/tasks/628597b3d7a17cabbaa0ad29",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tasks",
+								"628597b3d7a17cabbaa0ad29"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "time-sheets",
+			"item": [
+				{
+					"name": "Create Time-sheet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Trackgenix apTrackgenix apTrackgenix apTracknix apTrackgenix apTrackgenix app\",\r\n    \"date\": \"04/03/2022\",\r\n    \"task\": \"234324234234343242342422\",\r\n    \"validated\": true,\r\n    \"employee\": \"343242342343422324342342\",\r\n    \"project\": \"343242342343422324342342\",\r\n    \"projectManager\": \"343242342224343242342342\",\r\n    \"role\": \"DEV\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Time-sheet error",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Trackgenix apTrackgenix apTrackgenix apTracknix apTrackgenix apTrackgenix app\",\r\n    \"date\": \"04/03/2022\",\r\n    \"task\": \"234324234234343242342422\",\r\n    \"validated\": false,\r\n    \"projectManager\": \"343242342224343242342342\",\r\n    \"role\": \"DEV\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Timesheet",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/6282622db1d9a992d719c9cc",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"6282622db1d9a992d719c9cc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Timesheet error",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/6282622db1d9a992d719c9",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"6282622db1d9a992d719c9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update TimeSheet",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Trackgenix try\",\r\n    \"date\": \"2002-04-04\",\r\n    \"taskId\": \"234324234234343242342422\",\r\n    \"validated\": true,\r\n    \"employeeId\": \"343242342343422324342342\",\r\n    \"projectId\": \"343242342343422324342342\",\r\n    \"projectManagerId\": \"343242342224343242342342\",\r\n    \"role\": \"DEV\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/628261deb1d9a992d719c9c7",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"628261deb1d9a992d719c9c7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated TimeSheet error: id not found",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Trackgenix try\",\r\n    \"date\": \"2002-04-04\",\r\n    \"taskId\": \"234324234234343242342422\",\r\n    \"validated\": true,\r\n    \"employeeId\": \"343242342224343242342342\",\r\n    \"projectId\": \"343242342224343242342342\",\r\n    \"projectManagerId\": \"343242342224343242342342\",\r\n    \"role\": \"DEV\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/628261deb1d9a992d7",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"628261deb1d9a992d7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update validation error TimeSheet",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Trackgenix try\",\r\n    \"date\": \"2002-04-04\",\r\n    \"taskId\": \"234324234234343242342422\",\r\n    \"validated\": true,\r\n    \"employeeId\": \"34324234234342232342\",\r\n    \"projectId\": \"343342\",\r\n    \"projectManagerId\": \"343242342224343242342342\",\r\n    \"role\": \"DEV\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/628261deb1d9a992d719c9c7",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"628261deb1d9a992d719c9c7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated TimeSheet validation error",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Trackgenix try\",\r\n    \"date\": \"2002-04-dsadsad04\",\r\n    \"taskId\": \"234324234234343242342422\",\r\n    \"validated\": true,\r\n    \"employeeId\": \"343242342sdasdasd224343242342342\",\r\n    \"projectId\": \"343242342224343242342342\",\r\n    \"projectManagerId\": \"343242342224343242342342\",\r\n    \"role\": \"DEV\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/628261deb1d9a992d7",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"628261deb1d9a992d7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all TimeSheets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/628261deb1d9a992d719c9c7",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"628261deb1d9a992d719c9c7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by id error",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/628261deb1d9a992",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"628261deb1d9a992"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets by task",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/task/234324234234343242342422",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"task",
+								"234324234234343242342422"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets by task error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/task",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"task"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets by task error",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/task/2343242342s34343242342422dad",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"task",
+								"2343242342s34343242342422dad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets by role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/role/DEV",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"role",
+								"DEV"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets by role error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/role/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"role",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets by role error",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/role/DEVsadsad",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"role",
+								"DEVsadsad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Employee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/employee/343242342343422324342342",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"employee",
+								"343242342343422324342342"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Employee error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/employee",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Employee error 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/employee/sadsadbananas",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"employee",
+								"sadsadbananas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Project",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/project/343242342343422324342342",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"project",
+								"343242342343422324342342"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Project error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/project",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Project error 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/project/bananas",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"project",
+								"bananas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Validated",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/validated/true",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"validated",
+								"true"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Validated error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/validated",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"validated"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Validated error 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/validated/false",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"validated",
+								"false"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Project Manager ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/pm/343242342224343242342342",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"pm",
+								"343242342224343242342342"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Project Manager ID error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/pm",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"pm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheet by Project Manager ID error 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/pm/pepino",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"pm",
+								"pepino"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets between dates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/date?init=1990-01-01&final=2022-10-10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"date"
+							],
+							"query": [
+								{
+									"key": "init",
+									"value": "1990-01-01"
+								},
+								{
+									"key": "final",
+									"value": "2022-10-10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets between dates error 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/date?init=1990-01-01",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"date"
+							],
+							"query": [
+								{
+									"key": "init",
+									"value": "1990-01-01"
+								},
+								{
+									"key": "final",
+									"value": "2022-10-10",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets between dates error 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/date?init=1990-01-01&final=1022-10-10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"date"
+							],
+							"query": [
+								{
+									"key": "init",
+									"value": "1990-01-01"
+								},
+								{
+									"key": "final",
+									"value": "1022-10-10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TimeSheets between dates error 3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/time-sheets/date?init=1020-01-01&final=1022-10-10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"time-sheets",
+								"date"
+							],
+							"query": [
+								{
+									"key": "init",
+									"value": "1020-01-01"
+								},
+								{
+									"key": "final",
+									"value": "1022-10-10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
 }
