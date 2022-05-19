@@ -5,6 +5,7 @@ import router from './routes';
 const app = express();
 const port = process.env.PORT || 3000;
 
+// database connection using mongoose
 const URI = 'mongodb+srv://pucheRR:BaSP2022@cluster0.3uv6a.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
 mongoose.connect(URI)
@@ -25,5 +26,5 @@ app.get('/', async (req, res) => {
 });
 
 app.listen(port, () => {
-//   console.log(`Example app listening on port ${port}`);
+  console.log(`Example app listening on port ${port}`);
 });

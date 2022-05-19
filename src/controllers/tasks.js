@@ -1,94 +1,157 @@
-import express from 'express';
-import fs from 'fs';
-import tasks from '../data/tasks.json';
+import models from '../models';
 
-const router = express.Router();
-
-router.get('/:id', (req, res) => {
-  const taskID = req.params.id;
-  const task = tasks.find((t) => t.id === taskID);
-  if (task) {
-    res.send(task);
-  } else {
-    res.send('Task not found');
+// GET ALL TASKS
+const getAllTasks = async (req, res) => {
+  try {
+    const allTasks = await models.Tasks.find({});
+    return res.status(200).json({
+      message: 'All tasks.',
+      data: allTasks,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
+    });
   }
-});
+};
 
-router.get('/', (req, res) => {
-  const taskDesc = req.query.description;
-  if (!taskDesc) {
-    res.send(tasks);
-  } else {
-    const filteredTask = tasks.filter((t) => t.description.includes(taskDesc));
-    if (filteredTask.length > 0) {
-      res.send(filteredTask);
-    } else {
-      res.send(`There are not description that includes ${taskDesc}`);
+// GET TASK BY NAME
+const getTaskByName = async (req, res) => {
+  try {
+    if (req.params.taskName) {
+      const task = await models.Tasks.find({ taskName: req.params.taskName });
+      return res.status(200).json({
+        message: `Task ${req.params.taskName} found.`,
+        data: task,
+        error: false,
+      });
     }
-  }
-});
-
-router.put('/:id', (req, res) => {
-  const taskID = req.params.id;
-  const task = tasks.find((t) => t.id === taskID);
-  const taskList = tasks.filter((t) => t.id !== taskID);
-  if (task) {
-    const taskUpdate = {
-      id: taskID,
-      description: (req.body.description || task.description),
-    };
-    taskList.push(taskUpdate);
-    fs.writeFile('src/data/tasks.json', JSON.stringify(taskList), (err) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send({ msg: 'Task updated', taskList });
-      }
+    return res.status(400).json({
+      message: 'Please enter a name',
+      data: undefined,
+      error: true,
     });
-  } else {
-    res.send('Task not found');
-  }
-});
-
-router.post('/add', (req, res) => {
-  const initialValue = 0;
-  const ids = tasks.reduce(
-    (previousValue, currentValue) => (previousValue <= currentValue.id ? currentValue.id + 1
-      : previousValue),
-    initialValue,
-  );
-  const taskId = {
-    id: ids,
-    description: req.body.description,
-  };
-  if (!(taskId.description)) {
-    res.status(400).json({ msg: 'null' });
-  } else {
-    tasks.push(taskId);
-    fs.writeFile('src/data/tasks.json', JSON.stringify(tasks), (err) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send('New User added');
-      }
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
     });
   }
-});
+};
 
-router.delete('/:id', (req, res) => {
-  const taskId = req.params.id;
-  const filteredUsers = tasks.filter((user) => user.id.toString() !== taskId.toString());
-  if (tasks.length === filteredUsers.length) {
-    res.send('null');
-  } else {
-    fs.writeFile('src/data/task.json', JSON.stringify(filteredUsers), (err) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send('User deleted');
-      }
+// GET TASK BY ID
+const getTaskById = async (req, res) => {
+  try {
+    if (req.params.id) {
+      const task = await models.Tasks.findById(req.params.id);
+      res.status(200).json(task);
+    } else {
+      res.status(400).json({
+        message: 'id not found',
+        data: undefined,
+        error: true,
+      });
+    }
+  } catch (err) {
+    res.status(400).json({
+      message: err,
+      data: undefined,
+      error: true,
     });
   }
-});
+};
 
-export default router;
+// CREATE A TASK
+const createTask = async (req, res) => {
+  try {
+    const task = new models.Tasks({
+      taskName: req.body.taskName,
+      startDate: req.body.startDate,
+      description: req.body.description,
+      status: req.body.status,
+    });
+
+    const result = await task.save();
+    return res.status(201).json(result);
+  } catch (error) {
+    return res.json({
+      msg: 'An error has ocurred',
+      data: error,
+      error: true,
+    });
+  }
+};
+
+// UPDATE A TASK
+const updateTask = async (req, res) => {
+  try {
+    if (req.params.id) {
+      const taskToUpdate = await models.Tasks.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true },
+      );
+      if (!taskToUpdate) {
+        return res.status(404).json({
+          msg: 'Missing id parameter',
+          data: {},
+          error: true,
+        });
+      }
+      return res.status(200).json({
+        message: `Task ${req.params.id} updated`,
+        data: taskToUpdate,
+        error: true,
+      });
+    }
+    return res.status(400).json({
+      message: 'You must specify an id',
+      data: undefined,
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      msg: 'An error has ocurred',
+      data: {},
+      error: true,
+    });
+  }
+};
+
+// DELETE A TASK
+const deleteTask = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      return res.status(400).json({
+        msg: 'Missing id',
+      });
+    }
+    const result = await models.Tasks.findByIdAndDelete(req.params.id);
+    if (!result) {
+      return res.status(404).json({
+        msg: 'Task not found',
+      });
+    }
+
+    return res.status(200).json({
+      msg: 'Task succesfully deleted',
+    });
+  } catch (error) {
+    return res.json({
+      msg: 'An error has ocurred',
+    });
+  }
+};
+
+export default {
+  getAllTasks,
+  getTaskByName,
+  getTaskById,
+  createTask,
+  updateTask,
+  deleteTask,
+};
