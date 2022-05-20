@@ -4,8 +4,7 @@ import app from './app';
 
 dotenv.config();
 const port = process.env.PORT || 3000;
-// const MONGODB_URL = process.env.URL_MONGO;
-const MONGODB_URL = 'mongodb+srv://pucheRR:BaSP2022@cluster0.3uv6a.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const MONGODB_URL = process.env.URL_MONGO;
 
 mongoose.connect(
   MONGODB_URL,
