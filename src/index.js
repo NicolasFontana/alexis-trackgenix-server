@@ -1,10 +1,15 @@
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import app from './app';
 
+dotenv.config();
+
 const port = process.env.PORT || 3000;
 
+const mongoDBURL = process.env.URL_MONGO;
+
 mongoose.connect(
-  'mongodb+srv://BaSD:BaSD2021@cluster0.5vk6q.mongodb.net/backend-template-basp?retryWrites=true&w=majority',
+  mongoDBURL,
   (error) => {
     if (error) {
       // eslint-disable-next-line no-console
