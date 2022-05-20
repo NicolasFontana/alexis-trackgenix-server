@@ -10,6 +10,8 @@ router
   .get('/name/:name', projectController.getProjectByName)
   .get('/client/:clientName', projectController.getProjectByClientName)
   .get('/status/:active', projectController.getProjectByStatus)
+  .get('/date', projectController.getStartDateBetweenDatesProjects)
+  .get('/date', projectController.getEndDateBetweenDatesProjects)
   .put('/:id', validations.validateUpdate, projectController.updateProject)
   .delete('/:id', projectController.deleteProject);
 

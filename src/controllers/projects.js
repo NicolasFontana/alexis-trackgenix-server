@@ -113,8 +113,8 @@ const getProjectByClientName = async (req, res) => {
     });
   }
 };
-// get project by status (Javi)
-const getProjectByStatus = async (req, res) => {
+// get project by active (Javi)
+const getProjectByActive = async (req, res) => {
   try {
     const project = await models.Projects.find({ active: req.params.active });
     if (project.length < 1) {
@@ -137,6 +137,94 @@ const getProjectByStatus = async (req, res) => {
     });
   }
 };
+// GET Projects Start date Between dates by Ana
+const getStartDateBetweenDatesProjects = async (req, res) => {
+  try {
+    if (!req.query.init || !req.query.final) {
+      return res.status(400).json({
+        message: 'Please provide init and final dates',
+        data: {},
+        error: true,
+      });
+    }
+    if (req.query.init >= req.query.final) {
+      return res.status(400).json({
+        message: 'Please provide an init date < final date',
+        data: {},
+        error: true,
+      });
+    }
+    const projectstsBetweenDates = await
+    models.Projects.find({
+      startDate: {
+        $gte: req.query.init,
+        $lte: req.query.final,
+      },
+    });
+    if (projectstsBetweenDates.length !== 0) {
+      return res.status(200).json({
+        message: 'Project fetched',
+        data: projectstsBetweenDates,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Project not found',
+      data: {},
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
+    });
+  }
+};
+// GET Projects End date Between dates by Ana
+const getEndDateBetweenDatesProjects = async (req, res) => {
+  try {
+    if (!req.query.init || !req.query.final) {
+      return res.status(400).json({
+        message: 'Please provide init and final dates',
+        data: {},
+        error: true,
+      });
+    }
+    if (req.query.init >= req.query.final) {
+      return res.status(400).json({
+        message: 'Please provide an init date < final date',
+        data: {},
+        error: true,
+      });
+    }
+    const projectstsBetweenDates = await
+    models.Projects.find({
+      startDate: {
+        $gte: req.query.init,
+        $lte: req.query.final,
+      },
+    });
+    if (projectstsBetweenDates.length !== 0) {
+      return res.status(200).json({
+        message: 'Projects fetched',
+        data: projectstsBetweenDates,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Project not found',
+      data: {},
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
+    });
+  }
+};
 // create new project (Javi)
 const createNewProject = async (req, res) => {
   try {
@@ -147,15 +235,7 @@ const createNewProject = async (req, res) => {
       endDate: req.body.endDate,
       clientName: req.body.clientName,
       active: req.body.active,
-      devRate: req.body.devRate,
-      qaRate: req.body.qaRate,
-      pmRate: req.body.pmRate,
-      tlRate: req.body.tlRate,
-      devs: req.body.devs,
-      qas: req.body.qas,
-      projectManager: req.body.projectManager,
-      techLeader: req.body.techLeader,
-      admin: req.body.admin,
+      members: req.body.members,
     });
     await project.save();
     return res.status(201).json({
@@ -171,6 +251,7 @@ const createNewProject = async (req, res) => {
     });
   }
 };
+// Update project
 const updateProject = async (req, res) => {
   try {
     if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -242,7 +323,9 @@ export default {
   getProjectById,
   getProjectByName,
   getProjectByClientName,
-  getProjectByStatus,
+  getProjectByActive,
+  getStartDateBetweenDatesProjects,
+  getEndDateBetweenDatesProjects,
   updateProject,
   deleteProject,
 };
