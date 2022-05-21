@@ -2,13 +2,16 @@ import mongoose from 'mongoose';
 
 // Generate ObjetId on https://observablehq.com/@hugodf/mongodb-objectid-generator
 export default [{
-  _id: mongoose.Types.ObjectId('60d4a32f257e066e9495ce12'),
-  first_name: 'Esteban',
-  last_name: 'Frare',
-  email: 'esteban.frare@radiumrocket.com',
-  password: 'test123',
-  dni: '38240915',
-  address: 'Paraguay 2349',
-  city: 'Rosario',
-  zip: '2000',
+  _id: mongoose.Types.ObjectId('6288fe568cb389708e53eb0e'),
+  firstName: 'Puche',
+  lastName: 'Lopez',
+  phone: 7761785000,
+  email: 'juanssssopez@people.com.cn',
+  active: false,
+  projects: [
+    '62883891a6c3e40d965f7f8c',
+  ],
+  timeSheets: [
+    '62883891a6c3e40d965f7f8c',
+  ],
 }];

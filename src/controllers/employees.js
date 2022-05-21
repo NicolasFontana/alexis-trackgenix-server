@@ -3,7 +3,20 @@ import models from '../models';
 // get all employees
 const getAllEmployees = async (req, res) => {
   try {
-    const allEmployees = await models.Employees.find({}).populate('projects', 'timeSheets');
+    const allEmployees = await models.Employees.find({})
+      .populate('projects', {
+        name: 1,
+        description: 1,
+        startDate: 1,
+        endDate: 1,
+        clientName: 1,
+        active: 1,
+      })
+      .populate('timeSheets', {
+        projectId: 1,
+        taskId: 1,
+        approved: 1,
+      });
     res.status(200).json({
       message: 'All employees',
       data: allEmployees,
@@ -22,7 +35,20 @@ const getAllEmployees = async (req, res) => {
 const getEmployeeById = async (req, res) => {
   try {
     if (req.params.id) {
-      const singleEmployee = await models.Employees.findById(req.params.id).populate('projects', 'timeSheets');
+      const singleEmployee = await models.Employees.findById(req.params.id)
+        .populate('projects', {
+          name: 1,
+          description: 1,
+          startDate: 1,
+          endDate: 1,
+          clientName: 1,
+          active: 1,
+        })
+        .populate('timeSheets', {
+          projectId: 1,
+          taskId: 1,
+          approved: 1,
+        });
       res.status(200).json({
         message: `Employee with id ${req.params.id}`,
         data: singleEmployee,
@@ -49,7 +75,20 @@ const getEmployeeByFirstName = async (req, res) => {
   try {
     if (req.params.firstName) {
       const firstNameParam = req.params.firstName;
-      const Employees = await models.Employees.find({ firstName: firstNameParam }).populate('projects', 'timeSheets');
+      const Employees = await models.Employees.find({ firstName: firstNameParam })
+        .populate('projects', {
+          name: 1,
+          description: 1,
+          startDate: 1,
+          endDate: 1,
+          clientName: 1,
+          active: 1,
+        })
+        .populate('timeSheets', {
+          projectId: 1,
+          taskId: 1,
+          approved: 1,
+        });
       res.status(200).json({
         message: `Employee with firstName ${firstNameParam}`,
         data: Employees,
@@ -76,7 +115,20 @@ const getEmployeeByLastName = async (req, res) => {
   try {
     if (req.params.lastName) {
       const lastNameParam = req.params.lastName;
-      const Employees = await models.Employees.find({ lastName: lastNameParam }).populate('projects', 'timeSheets');
+      const Employees = await models.Employees.find({ lastName: lastNameParam })
+        .populate('projects', {
+          name: 1,
+          description: 1,
+          startDate: 1,
+          endDate: 1,
+          clientName: 1,
+          active: 1,
+        })
+        .populate('timeSheets', {
+          projectId: 1,
+          taskId: 1,
+          approved: 1,
+        });
       res.status(200).json({
         message: `Employee with lastName ${lastNameParam}`,
         data: Employees,
@@ -103,7 +155,20 @@ const getEmployeeByActivity = async (req, res) => {
   try {
     if (req.params.active) {
       const activeParam = req.params.active;
-      const Employees = await models.Employees.find({ active: activeParam }).populate('projects', 'timeSheets');
+      const Employees = await models.Employees.find({ active: activeParam })
+        .populate('projects', {
+          name: 1,
+          description: 1,
+          startDate: 1,
+          endDate: 1,
+          clientName: 1,
+          active: 1,
+        })
+        .populate('timeSheets', {
+          projectId: 1,
+          taskId: 1,
+          approved: 1,
+        });
       res.status(200).json({
         message: `Employee with status ${activeParam}`,
         data: Employees,

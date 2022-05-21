@@ -24,7 +24,14 @@ const updateEmployeeValidation = (req, res, next) => {
     lastName: Joi.string().min(3),
     phone: Joi.string().min(10),
     email: Joi.string().email(),
+    password: Joi.string().min(8).alphanum().required(),
     active: Joi.boolean(),
+    projects: Joi.array().items(
+      Joi.string().alphanum().length(24).required(),
+    ),
+    timeSheets: Joi.array().items(
+      Joi.string().alphanum().length(24).required(),
+    ),
   });
   const validation = Schema.validate(req.body);
   if (validation.err) {
