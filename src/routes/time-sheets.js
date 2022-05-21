@@ -1,6 +1,6 @@
 import express from 'express';
 import timeSheetsController from '../controllers/time-sheets';
-import timeSheetsValidator from '../validation/time-sheets';
+// import timeSheetsValidator from '../validation/time-sheets';
 
 const router = express.Router();
 
@@ -14,8 +14,11 @@ router
   .get('/task/:taskId', timeSheetsController.getByTaskTimesheets)
   .get('/validated/:validated', timeSheetsController.getByValidatedTimesheets)
   .get('/:id', timeSheetsController.getByIdTimesheets)
-  .put('/:id', timeSheetsValidator.updateValidation, timeSheetsController.updateTimeSheet)
-  .post('/', timeSheetsValidator.createTimeValidation, timeSheetsController.createTimesheet)
+  .put('/:id', timeSheetsController.updateTimeSheet)
+  .post('/', timeSheetsController.createTimesheet)
   .delete('/:id', timeSheetsController.deleteTimesheet);
 
 export default router;
+
+// timeSheetsValidator.updateValidation,
+// timeSheetsValidator.createTimeValidation,

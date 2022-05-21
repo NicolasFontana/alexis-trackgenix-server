@@ -3,14 +3,9 @@ import Joi from 'joi';
 // CREATE VALIDATION by Martín Pueblas
 const createTimeValidation = (req, res, next) => {
   const timesheetValidation = Joi.object({
-    description: Joi.string().min(20).max(150).required(),
-    date: Joi.date().required(),
-    taskId: Joi.string().alphanum().length(24),
-    validated: Joi.boolean().valid(true).required(),
-    employeeId: Joi.string().alphanum().length(24),
-    projectId: Joi.string().alphanum().length(24),
-    projectManagerId: Joi.string().alphanum().length(24),
-    role: Joi.string().valid('QA', 'DEV', 'TL', 'PM').required(),
+    projectId: Joi.array().alphanum().length(24),
+    task: Joi.array().items(Joi.number().required()),
+    approved: Joi.boolean().valid(true).required(),
   });
 
   const validatorTimesheets = timesheetValidation.validate(req.body);
@@ -26,14 +21,9 @@ const createTimeValidation = (req, res, next) => {
 // UPDATE TIMESHEET VALIDATION by Ana
 const updateValidation = (req, res, next) => {
   const timeSheetSchema = Joi.object({
-    description: Joi.string(),
-    date: Joi.date().max('now'),
-    taskId: Joi.string().alphanum().length(24),
+    projectId: Joi.array().alphanum().length(24),
+    task: Joi.array().alphanum().length(24),
     validated: Joi.boolean(),
-    employeeId: Joi.string().alphanum().length(24),
-    projectId: Joi.string().alphanum().length(24),
-    projectManagerId: Joi.string().alphanum().length(24),
-    role: Joi.string().valid('QA', 'DEV', 'TL', 'PM'),
   });
   const validation = timeSheetSchema.validate(req.body);
   if (validation.error) {
