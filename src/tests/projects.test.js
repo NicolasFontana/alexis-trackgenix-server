@@ -1,7 +1,6 @@
-// import app from '../app';
-import proyectModel from '../models/Projects';
-import proyectSeed from '../seed/projects';
-
-beforeAll(async () => {
-  await proyectModel.collection.insertMany(proyectSeed);
+describe('void test', () => {
+  test('Dummy test', async () => {
+    const num = 2;
+    await expect(num).toBe(2);
+  });
 });
