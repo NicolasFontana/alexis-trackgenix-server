@@ -3,7 +3,12 @@ import models from '../models';
 // get all projects (Javi)
 const getAllProjects = async (req, res) => {
   try {
-    const projects = await models.Projects.find(req.query);
+    const projects = await models.Projects.find(req.query).populate('members.employeeId', {
+      firstName: 1,
+      lastName: 1,
+      active: 1,
+      _id: 0,
+    });
     if (projects.length < 1) {
       return res.status(404).json({
         message: 'There are no projects yet',
@@ -147,15 +152,7 @@ const createNewProject = async (req, res) => {
       endDate: req.body.endDate,
       clientName: req.body.clientName,
       active: req.body.active,
-      devRate: req.body.devRate,
-      qaRate: req.body.qaRate,
-      pmRate: req.body.pmRate,
-      tlRate: req.body.tlRate,
-      devs: req.body.devs,
-      qas: req.body.qas,
-      projectManager: req.body.projectManager,
-      techLeader: req.body.techLeader,
-      admin: req.body.admin,
+      members: req.body.members,
     });
     await project.save();
     return res.status(201).json({
