@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "6d87d32a-b39e-4ab7-9344-908e68372e95",
 		"name": "postman_collection",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19071111"
 	},
 	"item": [
 		{
@@ -555,7 +556,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Tobiiiii\",\r\n    \"lastName\": \"Pujol\",\r\n    \"phone\": \"996-178-5000\",\r\n    \"email\": \"alabel2@people.com.cn\",\r\n    \"active\": true\r\n}",
+							"raw": "{\r\n\"firstName\": \"Puche\",\r\n            \"lastName\": \"Lopez\",\r\n            \"phone\": \"7761785000\",\r\n            \"email\": \"juanssssopez@people.com.cn\",\r\n            \"active\": false,\r\n            \"projects\": [\r\n                \"62883891a6c3e40d965f7f8c\"\r\n            ],\r\n            \"timeSheets\": [\r\n                \"62883891a6c3e40d965f7f8c\"\r\n                ],\r\n            \"__v\": 0\r\n\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -563,7 +564,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/employees/62817ddfdb092482f93da607",
+							"raw": "localhost:3000/api/employees/6288fe568cb389708e53eb0e",
 							"host": [
 								"localhost"
 							],
@@ -571,7 +572,7 @@
 							"path": [
 								"api",
 								"employees",
-								"62817ddfdb092482f93da607"
+								"6288fe568cb389708e53eb0e"
 							]
 						}
 					},
@@ -644,6 +645,120 @@
 					"response": []
 				},
 				{
+					"name": "Get by period both dates",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"initDate\": \"2020-01-01\",\r\n    \"endDate\": \"2021-09-09\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/projects/date",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								"date"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by period only endDate",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"endDate\": \"2021-01-09\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/projects/date",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								"date"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by period only initDate",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"initDate\": \"2020-01-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/projects/date",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								"date"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "getByClientName",
 					"request": {
 						"method": "GET",
@@ -691,7 +806,36 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"name\": \"Lotlux\",\r\n        \"description\": \"¸˛Ç◊ı˜Â¯˘¿\",\r\n        \"startDate\": \"3/12/2022\",\r\n        \"endDate\": \"6/15/2022\",\r\n        \"clientName\": \"Marcelia Hoggan\",\r\n        \"active\": \"false\",\r\n        \"devRate\": 2.8,\r\n        \"qaRate\": 8.3,\r\n        \"pmRate\": 8.5,\r\n        \"tlRate\": \"\",\r\n        \"devs\": [\r\n            9,\r\n            4,\r\n            16,\r\n            8,\r\n            22\r\n        ],\r\n        \"qas\": [\r\n            9\r\n        ],\r\n        \"projectManager\": [\r\n            9\r\n        ],\r\n        \"techLeader\": [\r\n            9\r\n        ],\r\n        \"admin\": [\r\n            9\r\n        ]\r\n    }",
+							"raw": "{\r\n        \"name\": \"SquirrelApp\",\r\n        \"description\": \"An app to conquer the world using squirrels\",\r\n        \"startDate\": \"3/12/2021\",\r\n        \"endDate\": \"6/15/2021\",\r\n        \"clientName\": \"Pinche corporations\",\r\n        \"active\": true,\r\n        \"members\": [\r\n            {\r\n                \"employeeId\": \"62817ddfdb092482f93da607\",\r\n                \"role\": \"DEV\",\r\n                \"rate\": 20\r\n            },\r\n            {\r\n                \"employeeId\": \"62824e3ce784734f462b21b5\",\r\n                \"role\": \"TL\",\r\n                \"rate\": 15.2\r\n            }\r\n        ]\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/projects/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post error message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"name\": \"S\",\r\n        \"description\": \"An app to eat watermellons\",\r\n        \"startDate\": \"3/12/2021\",\r\n        \"clientName\": \"Pinche corporations\",\r\n        \"active\": true,\r\n        \"members\": [\r\n            {\r\n                \"employeeId\": \"62817ddfdb092482f93da607\",\r\n                \"role\": \"DEV\",\r\n                \"rate\": 20\r\n            },\r\n            {\r\n                \"employeeId\": \"62824e3ce784734f462b21b5\",\r\n                \"role\": \"TL\",\r\n                \"rate\": 15.2\r\n            }\r\n        ]\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -734,13 +878,91 @@
 					"response": []
 				},
 				{
+					"name": "deleteById unknown id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/projects/6281701ac5f6e77ac48b6b73",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								"6281701ac5f6e77ac48b6b73"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "putById",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\r\n        {\r\n            \"_id\": \"6281701ac5f6e77ac48b6b7f\",\r\n            \"name\": \"Mati 123\",\r\n            \"description\": \"-1\",\r\n            \"startDate\": \"Mon Mar 14 2022 00:00:00 GMT-0300 (hora estándar de Argentina)\",\r\n            \"endDate\": \"Wed Jun 15 2022 00:00:00 GMT-0300 (hora estándar de Argentina)\",\r\n            \"clientName\": \"Mati Reynos0\",\r\n            \"active\": false,\r\n            \"devRate\": 7.6,\r\n            \"qaRate\": 1.2,\r\n            \"pmRate\": 9.9,\r\n            \"tlRate\": 2.1,\r\n            \"devs\": [\r\n                5\r\n            ],\r\n            \"qas\": [\r\n                5\r\n            ],\r\n            \"projectManager\": [\r\n                5\r\n            ],\r\n            \"techLeader\": [\r\n                5\r\n            ],\r\n            \"admin\": [\r\n                5\r\n            ],\r\n            \"__v\": 0\r\n        },",
+							"raw": "{\r\n    \"name\": \"Cats App\",\r\n    \"description\": \"A web app to conquer the moon using felines\",\r\n    \"startDate\": \"3/12/2021\",\r\n    \"endDate\": \"6/15/2021\",\r\n    \"clientName\": \"Pinchito corporations\",\r\n    \"active\": true,\r\n    \"members\": [\r\n        {\r\n            \"employeeId\": \"62817ddfdb092482f93da607\",\r\n            \"role\": \"DEV\",\r\n            \"rate\": 20\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/projects/62884b95d8d29a054073bc2a",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								"62884b95d8d29a054073bc2a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "putById some fields",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Cats App\",\r\n    \"description\": \"A web app to conquer the moon using felines and maybe squirrels\",\r\n    \"members\": [\r\n        {\r\n            \"employeeId\": \"62817ddfdb092482f93da607\",\r\n            \"role\": \"DEV\",\r\n            \"rate\": 20\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/projects/628942e6cdffcf6e11eea14b",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"projects",
+								"628942e6cdffcf6e11eea14b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "putById error message",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"a\",\r\n    \"clientName\": \"Pinchito corporations\",\r\n    \"active\": null,\r\n    \"members\": [\r\n        {\r\n            \"employeeId\": \"62817ddfdb092482f93da607\",\r\n            \"role\": \"DEV\",\r\n            \"rate\": 20\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1158,7 +1380,7 @@
 					"response": []
 				},
 				{
-					"name": "getByName",
+					"name": "getByDescription",
 					"request": {
 						"method": "GET",
 						"header": [],
