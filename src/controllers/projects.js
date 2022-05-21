@@ -1,6 +1,7 @@
 import models from '../models';
 
 // get all projects (Javi)
+// populate by Pinche (:
 const getAllProjects = async (req, res) => {
   try {
     const projects = await models.Projects.find(req.query).populate('members.employeeId', {
@@ -24,16 +25,22 @@ const getAllProjects = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       message: error.message,
-      data: undefined,
+      data: {},
       error: true,
     });
   }
 };
+
 // get project by id (Javi)
 const getProjectById = async (req, res) => {
   try {
     if (req.params.id) {
-      const project = await models.Projects.findById(req.params.id);
+      const project = await models.Projects.findById(req.params.id).populate('members.employeeId', {
+        firstName: 1,
+        lastName: 1,
+        active: 1,
+        _id: 0,
+      });
       if (project) {
         res.status(200).json({
           message: 'Project found',
@@ -43,7 +50,7 @@ const getProjectById = async (req, res) => {
       } else {
         res.status(404).json({
           message: 'Project not found',
-          data: undefined,
+          data: {},
           error: true,
         });
       }
@@ -51,20 +58,27 @@ const getProjectById = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       message: error.message,
-      data: undefined,
+      data: {},
       error: true,
     });
   }
 };
-// get project by name (Javi)
+
+// get project by name (Javi)(and Pinche)
 const getProjectByName = async (req, res) => {
   try {
     if (req.params.name) {
-      const project = await models.Projects.find({ name: req.params.name });
+      const project = await models.Projects.find({ name: req.params.name })
+        .populate('members.employeeId', {
+          firstName: 1,
+          lastName: 1,
+          active: 1,
+          _id: 0,
+        });
       if (project.length === 0) {
         return res.status(404).json({
           message: `No project with name: ${req.params.name}`,
-          data: undefined,
+          data: {},
           error: true,
         });
       }
@@ -76,26 +90,101 @@ const getProjectByName = async (req, res) => {
     }
     return res.status(400).json({
       message: 'Please enter a name',
-      data: undefined,
+      data: {},
       error: true,
     });
   } catch (error) {
     return res.status(400).json({
       message: error.message,
-      data: undefined,
+      data: {},
       error: true,
     });
   }
 };
+
+const getByPeriod = async (req, res) => {
+  try {
+    const init = req.body.initDate ?? false;
+    const end = req.body.endDate ?? false;
+
+    // if there is end and init date
+    if (init && end) {
+      const projects = await models.Projects
+        .find({ initDate: { $gte: init, $lte: end }, endDate: { $gte: init, $lte: end } })
+        .populate('members.employeeId', {
+          firstName: 1,
+          lastName: 1,
+          active: 1,
+          _id: 0,
+        });
+      return res.status(200).json({
+        message: `Project after ${init} and before ${end}.`,
+        data: projects,
+        error: false,
+      });
+    }
+
+    // if there is init but no end date
+    if (init) {
+      const projects = await models.Projects
+        .find({ initDate: { $gte: init }, endDate: { $gte: init } })
+        .populate('members.employeeId', {
+          firstName: 1,
+          lastName: 1,
+          active: 1,
+          _id: 0,
+        });
+      return res.status(200).json({
+        message: `Project after ${init}.`,
+        data: projects,
+        error: false,
+      });
+    }
+
+    // if there is end but no init date
+    if (end) {
+      const projects = await models.Projects
+        .find({ initDate: { $lte: end }, endDate: { $lte: end } })
+        .populate('members.employeeId', {
+          firstName: 1,
+          lastName: 1,
+          active: 1,
+          _id: 0,
+        });
+      return res.status(200).json({
+        message: `Projects before ${end}.`,
+        data: projects,
+        error: false,
+      });
+    }
+    return res.status(400).json({
+      message: 'You must specify initDate and/or endDate!',
+      data: {},
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      data: {},
+      error: true,
+    });
+  }
+};
+
 // get project by client name (Javi)
 const getProjectByClientName = async (req, res) => {
   try {
     if (req.params.clientName) {
-      const project = await models.Projects.find({ clientName: req.params.clientName });
+      const project = await models.Projects.find({ clientName: req.params.clientName }).populate('members.employeeId', {
+        firstName: 1,
+        lastName: 1,
+        active: 1,
+        _id: 0,
+      });
       if (project.length === 0) {
         return res.status(404).json({
           message: `No project with client: ${req.params.clientName}`,
-          data: undefined,
+          data: {},
           error: true,
         });
       }
@@ -107,25 +196,31 @@ const getProjectByClientName = async (req, res) => {
     }
     return res.status(400).json({
       message: 'Please enter a client name',
-      data: undefined,
+      data: {},
       error: true,
     });
   } catch (error) {
     return res.status(400).json({
       message: error.message,
-      data: undefined,
+      data: {},
       error: true,
     });
   }
 };
+
 // get project by status (Javi)
 const getProjectByStatus = async (req, res) => {
   try {
-    const project = await models.Projects.find({ active: req.params.active });
+    const project = await models.Projects.find({ active: req.params.active }).populate('members.employeeId', {
+      firstName: 1,
+      lastName: 1,
+      active: 1,
+      _id: 0,
+    });
     if (project.length < 1) {
       return res.status(404).json({
         message: 'No projects found',
-        data: undefined,
+        data: {},
         error: true,
       });
     }
@@ -137,12 +232,14 @@ const getProjectByStatus = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       message: error.message,
-      data: undefined,
+      data: {},
       error: true,
     });
   }
 };
+
 // create new project (Javi)
+// adapted by Pinche (:
 const createNewProject = async (req, res) => {
   try {
     const project = new models.Projects({
@@ -163,23 +260,25 @@ const createNewProject = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       message: error.message,
-      data: undefined,
+      data: {},
       error: true,
     });
   }
 };
+
 const updateProject = async (req, res) => {
   try {
-    if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    const { id } = req.params;
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
       const result = await models.Projects.findByIdAndUpdate(
-        req.params.id,
+        id,
         req.body,
         { new: true },
       );
       if (!result) {
         return res.status(404).json({
           message: 'Project not found',
-          data: undefined,
+          data: {},
           error: true,
         });
       }
@@ -214,11 +313,11 @@ const deleteProject = async (req, res) => {
           error: true,
         });
       }
-      return res.status(200).json({
+      return res.json({
         message: 'The project deleted successfully',
         data: result,
         error: false,
-      });
+      }).status(204);
     }
     return res.status(400).json({
       message: 'ID format is not valid',
@@ -238,6 +337,7 @@ export default {
   createNewProject,
   getProjectById,
   getProjectByName,
+  getByPeriod,
   getProjectByClientName,
   getProjectByStatus,
   updateProject,
