@@ -3,7 +3,7 @@ import models from '../models';
 // GET ALL by Ana
 const getAllTimesheets = async (req, res) => {
   try {
-    const allTimesheets = await models.TimeSheet.find({});
+    const allTimesheets = await models.TimeSheet.find({}).populate('projectId', 'task');
     return res.status(200).json({
       message: 'Time-Sheets',
       data: allTimesheets,
@@ -319,7 +319,7 @@ const updateTimeSheet = async (req, res) => {
       });
     }
     const updatedTimeSheet = await
-    models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true });
+    models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true }).populate('projectId', 'taskId');
     return res.status(200).json({
       message: 'Time-sheet updated',
       data: updatedTimeSheet,
