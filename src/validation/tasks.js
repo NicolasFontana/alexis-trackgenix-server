@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 const validateCreation = (req, res, next) => {
   const taskValidation = Joi.object({
-    date: Joi.date().required(),
+    taskDate: Joi.date().required(),
     workedHours: Joi.number().required(),
     description: Joi.string().min(1).max(250).required(),
   });
@@ -19,7 +19,7 @@ const validateCreation = (req, res, next) => {
 
 const validateUpdate = (req, res, next) => {
   const schema = Joi.object({
-    date: Joi.date(),
+    taskDate: Joi.date(),
     workedHours: Joi.number(),
     description: Joi.string().min(1).max(250),
   });

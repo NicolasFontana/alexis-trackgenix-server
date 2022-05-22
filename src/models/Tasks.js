@@ -4,7 +4,8 @@ const { Schema } = mongoose;
 
 const tasksSchema = new Schema(
   {
-    date: { type: Date, required: true },
+    taskId: { type: Schema.Types.ObjectId },
+    taskDate: { type: Date, required: true },
     workedHours: { type: Number, required: true },
     description: { type: String, required: true },
   },

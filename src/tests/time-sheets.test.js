@@ -17,4 +17,12 @@ describe('GET /api/time-sheets', () => {
     const response = await request(app).get('/api/time/sheets').send();
     await expect(response.status).toBe(404);
   });
+  test('response should return false error', async () => {
+    const response = await request(app).get('/api/timesheets').send();
+    await expect(response.status).toBe(404);
+  });
+  test('response should return false error', async () => {
+    const response = await request(app).get('/api').send();
+    await expect(response.status).toBe(404);
+  });
 });
