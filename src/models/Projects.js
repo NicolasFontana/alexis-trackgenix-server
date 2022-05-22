@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const projectSchema = new Schema(
   {
+    projectId: { type: Schema.Types.ObjectId },
     name: { type: String, required: true },
     description: { type: String, required: true },
     startDate: { type: Date, required: true },

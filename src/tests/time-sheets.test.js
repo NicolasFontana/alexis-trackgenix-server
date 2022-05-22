@@ -8,13 +8,8 @@ beforeAll(async () => {
 });
 
 describe('GET /api/time-sheets', () => {
-  test('Response should return a 200 status', async () => {
+  test('Response should return a status 200', async () => {
     const response = await request(app).get('/api/time-sheets').send();
-    await expect(response.status).toBe(200);
-  });
-
-  test('response should return false error', async () => {
-    const response = await request(app).get('/api/time/sheets').send();
-    await expect(response.status).toBe(404);
+    expect(response.error).toBeFalsy();
   });
 });

@@ -3,8 +3,15 @@ import Joi from 'joi';
 // CREATE VALIDATION by Martín Pueblas
 const createTimeValidation = (req, res, next) => {
   const timesheetValidation = Joi.object({
-    projectId: Joi.array().alphanum().length(24),
-    task: Joi.array().items(Joi.number().required()),
+    projectId: Joi.string().alphanum().length(24).required(),
+    task: Joi.array().items(
+      {
+        taskId: Joi.string().alphanum().length(24).required(),
+        taskDate: Joi.date().required(),
+        workedHours: Joi.number().required(),
+        description: Joi.string().required(),
+      },
+    ),
     approved: Joi.boolean().valid(true).required(),
   });
 
