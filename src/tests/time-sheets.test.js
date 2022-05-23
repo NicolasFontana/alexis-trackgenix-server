@@ -42,6 +42,11 @@ describe('GetById /api/time-sheets/:id', () => {
     expect(response.status).toBe(404);
     expect(response.body.message).toBe('Time Sheet not found');
   });
+  test('get incorret id format', async () => {
+    const response = await request(app).get('/api/time-sheets/628').send();
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBeTruthy();
+  });
 });
 
 // Test for POST method by Mati & Fran
@@ -65,6 +70,27 @@ describe('POST /api/time-sheets', () => {
   });
 });
 
+// Test for PUT method by Fran
+/*
+describe('Update timesheet', () => {
+  test('Should update a timesheet', async () => {
+    const response = await request(app).put(`/api/time-sheets/${timesheetId}`).send({
+      projectId: '6289c467fc13ae72d6000054',
+      Task: [
+        {
+          taskId: '6289c467fc13ae72d60000cc',
+          taskDate: '2022/04/12',
+          workedHours: 42,
+          description: 'Testing /put',
+        },
+      ],
+      approved: true,
+    });
+    expect(response.status).toBe(200);
+    expect(response.body.error).toBeFalsy();
+  });
+});
+*/
 // Test for DELETE method by Fer & Fran
 describe('Delete timesheet', () => {
   test('Should delete a timesheet', async () => {

@@ -311,7 +311,7 @@ const updateTimeSheet = async (req, res) => {
   const { id } = req.params;
   try {
     if (!id) {
-      return res.status(400).json({
+      return res.status(404).json({
         message: 'Please provide an ID',
         data: {},
         error: true,
@@ -325,7 +325,7 @@ const updateTimeSheet = async (req, res) => {
       error: false,
     });
   } catch (error) {
-    return res.status(404).json({
+    return res.status(400).json({
       message: error,
       data: {},
       error: true,

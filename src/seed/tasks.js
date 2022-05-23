@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 export default [{
   _id: mongoose.Types.ObjectId('6289c467fc13ae72d60000ca'),
-  taskDate: '6/21/2021',
+  taskDate: '2021/06/21',
   workedHours: 33,
-  description: 'Suspendisse potenti. Cras in purus eu magna vulputate luctus.',
+  description: 'description',
 }];
