@@ -284,25 +284,23 @@ const getBetweenDatesTimesheets = async (req, res) => {
     });
   }
 };
-// CREATE TIMESHEET by Martín
+// CREATE TIMESHEET
 const createTimesheet = async (req, res) => {
   try {
     const timesheet = new models.TimeSheet({
       projectId: req.body.projectId,
-      Task: [{
-        taskId: req.body.taskId,
-        taskDate: req.body.taskDate,
-        workedHours: req.body.workedHours,
-        description: req.body.description,
-      },
-      ],
+      Task: req.body.Task,
       approved: req.body.approved,
     });
     const result = await timesheet.save();
-    return res.status(201).json(result);
+    return res.status(201).json({
+      message: 'Timesheet created',
+      data: result,
+      error: false,
+    });
   } catch (error) {
-    return res.json({
-      msg: 'An error has ocurred',
+    return res.status(400).json({
+      message: 'An error has ocurred',
       data: error,
       error: true,
     });
@@ -334,12 +332,12 @@ const updateTimeSheet = async (req, res) => {
     });
   }
 };
-// DELETE TIMSHEET by Martín Pueblas
+// DELETE TIMSHEET
 const deleteTimesheet = async (req, res) => {
   try {
     if (!req.params.id) {
-      return res.status(400).json({
-        msg: 'An error has ocurred',
+      return res.status(404).json({
+        message: 'Missing Id',
         data: undefined,
         error: true,
       });
@@ -347,18 +345,18 @@ const deleteTimesheet = async (req, res) => {
     const result = await models.TimeSheet.findByIdAndDelete(req.params.id);
     if (!result) {
       return res.status(404).json({
-        msg: `There is no timesheet with this Id ${req.params.id}`,
+        message: `There is no timesheet with this Id ${req.params.id}`,
         data: undefined,
         error: true,
       });
     }
     return res.status(200).json({
-      msg: `The ${req.params.id} timesheet has been susccesfully deleted`,
+      message: `The ${req.params.id} timesheet has been susccesfully deleted`,
       error: false,
     });
   } catch (error) {
-    return res.json({
-      msg: 'An error has ocurred',
+    return res.status(400).json({
+      message: 'An error has ocurred',
       data: undefined,
       error: true,
     });
