@@ -1,17 +1,22 @@
 import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
-const timeSheetSchema = new Schema(
-  {
-    description: { type: String, required: true },
-    date: { type: Date, required: true },
-    taskId: { type: String, required: true },
-    validated: { type: Boolean, required: true },
-    employeeId: { type: String, required: true },
-    projectId: { type: String, required: true },
-    projectManagerId: { type: String, required: true },
-    role: { type: String, required: true },
-  },
-);
 
+const timeSheetSchema = new Schema({
+  projectId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Project',
+  },
+  Task: [
+    {
+      taskId: { type: mongoose.Schema.Types.ObjectId, ref: 'Task' },
+      taskDate: { type: Date, required: true, ref: 'Task' },
+      workedHours: { type: Number, required: true, ref: 'Task' },
+      description: { type: String, required: true, ref: 'Task' },
+    },
+    { timestamps: true },
+  ],
+  approved: { type: Boolean, required: true },
+});
 export default mongoose.model('TimeSheet', timeSheetSchema);

@@ -3,7 +3,7 @@ import models from '../models';
 // GET ALL by Ana
 const getAllTimesheets = async (req, res) => {
   try {
-    const allTimesheets = await models.TimeSheet.find({});
+    const allTimesheets = await models.TimeSheet.find({}).populate('projectId', 'Project').populate('Task');
     return res.status(200).json({
       message: 'Time-Sheets',
       data: allTimesheets,
@@ -288,14 +288,15 @@ const getBetweenDatesTimesheets = async (req, res) => {
 const createTimesheet = async (req, res) => {
   try {
     const timesheet = new models.TimeSheet({
-      description: req.body.description,
-      date: req.body.date,
-      taskId: req.body.taskId,
-      validated: req.body.validated,
-      employeeId: req.body.employeeId,
       projectId: req.body.projectId,
-      projectManagerId: req.body.projectManagerId,
-      role: req.body.role,
+      Task: [{
+        taskId: req.body.taskId,
+        taskDate: req.body.taskDate,
+        workedHours: req.body.workedHours,
+        description: req.body.description,
+      },
+      ],
+      approved: req.body.approved,
     });
     const result = await timesheet.save();
     return res.status(201).json(result);
@@ -319,7 +320,7 @@ const updateTimeSheet = async (req, res) => {
       });
     }
     const updatedTimeSheet = await
-    models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true });
+    models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true }).populate('projectId').populate('taskId');
     return res.status(200).json({
       message: 'Time-sheet updated',
       data: updatedTimeSheet,
