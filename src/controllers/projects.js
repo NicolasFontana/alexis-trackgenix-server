@@ -322,7 +322,7 @@ const deleteProject = async (req, res) => {
         });
       }
       return res.json({
-        message: 'The project deleted successfully',
+        message: 'The project was successfully deleted',
         data: result,
         error: false,
       }).status(204);
