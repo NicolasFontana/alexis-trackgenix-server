@@ -5,4 +5,6 @@ export default [{
   firstName: 'Emilio',
   lastName: 'Perez',
   email: 'emilioPerez@mail.com',
+  password: 'emiperez123',
+  active: true,
 }];

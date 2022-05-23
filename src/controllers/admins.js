@@ -36,7 +36,7 @@ const getAdminById = async (req, res) => {
         error: false,
       });
     }
-    return res.status(400).json({
+    return res.status(404).json({
       message: 'You must specify an id',
       data: undefined,
       error: true,
@@ -209,7 +209,7 @@ const createAdmin = async (req, res) => {
 const deleteAdmin = async (req, res) => {
   try {
     if (!req.params.id) {
-      return res.status(400).json({
+      return res.status(404).json({
         message: 'You must specify an id',
         data: undefined,
         error: true,
