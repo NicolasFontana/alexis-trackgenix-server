@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 export default [{
   _id: mongoose.Types.ObjectId('628ab4225aae617fa8002c21'),
-  name: 'Proyect 1',
+  name: 'Patata',
   description: 'This is a descriptive String',
   startDate: '2020-04-03',
   endDate: '2022-04-03',
