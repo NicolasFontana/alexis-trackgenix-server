@@ -8,8 +8,37 @@ beforeAll(async () => {
 });
 
 describe('GET /api/time-sheets', () => {
-  test('Response should return a status 200', async () => {
+  test('Response should return a 200 status', async () => {
     const response = await request(app).get('/api/time-sheets').send();
-    expect(response.error).toBeFalsy();
+    await expect(response.status).toBe(200);
+  });
+
+  test('response should return false error', async () => {
+    const response = await request(app).get('/api/time/sheets').send();
+    await expect(response.status).toBe(404);
+  });
+  test('response should return false error', async () => {
+    const response = await request(app).get('/api/timesheets').send();
+    await expect(response.status).toBe(404);
+  });
+  test('response should return false error', async () => {
+    const response = await request(app).get('/api').send();
+    await expect(response.status).toBe(404);
   });
 });
+// POST by Mati ;)
+/*
+describe('POST /api/time-sheets', () => {
+  test('New time-sheet created', async () => {
+    const response = await request(app).post('/api/time-sheets').send({
+      Task: {
+        taskDate: '7/7/2021',
+        workedHours: 50,
+        description: 'Testing /post',
+      },
+      approved: true,
+    });
+    expect(response.status).toEqual(201);
+  });
+});
+*/

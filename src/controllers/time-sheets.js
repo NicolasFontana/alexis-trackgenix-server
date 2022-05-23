@@ -289,13 +289,11 @@ const createTimesheet = async (req, res) => {
   try {
     const timesheet = new models.TimeSheet({
       description: req.body.description,
-      date: req.body.date,
+      taskDate: req.body.taskDate,
       taskId: req.body.taskId,
-      validated: req.body.validated,
-      employeeId: req.body.employeeId,
       projectId: req.body.projectId,
-      projectManagerId: req.body.projectManagerId,
-      role: req.body.role,
+      workedHours: req.body.workedHours,
+      approved: req.body.approved,
     });
     const result = await timesheet.save();
     return res.status(201).json(result);
@@ -319,7 +317,7 @@ const updateTimeSheet = async (req, res) => {
       });
     }
     const updatedTimeSheet = await
-    models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true }).populate('projectId', 'taskId');
+    models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true }).populate('projectId').populate('taskId');
     return res.status(200).json({
       message: 'Time-sheet updated',
       data: updatedTimeSheet,
