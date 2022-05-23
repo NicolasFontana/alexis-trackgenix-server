@@ -29,7 +29,7 @@ describe('GET /api/time-sheets', () => {
   });
 });
 
-// CREATED
+// Test for CREATE method by Fer
 describe('POST /api/time-sheets', () => {
   test('New time-sheet created', async () => {
     const response = await request(app).post('/api/time-sheets').send({
@@ -37,9 +37,6 @@ describe('POST /api/time-sheets', () => {
       Task: [
         {
           taskId: '6289c467fc13ae72d60000cb',
-          taskDate: '2020/07/01',
-          workedHours: 50,
-          description: 'Testing /post',
         },
       ],
       approved: true,
@@ -47,6 +44,24 @@ describe('POST /api/time-sheets', () => {
     expect(response.status).toBe(201);
     // eslint-disable-next-line no-underscore-dangle
     timesheetId = response.body.data._id;
+  });
+});
+
+// Test for PUT method by Fran
+
+describe('Update timesheet', () => {
+  test('Should update a timesheet', async () => {
+    const response = await request(app).put('/api/time-sheets/6289c467fc13ae72d60000c7').send({
+      projectId: '6289c467fc13ae72d60000c9',
+      Task: [
+        {
+          taskId: '6289c467fc13ae72d60000ca',
+        },
+      ],
+      approved: true,
+    });
+    expect(response.status).toBe(200);
+    expect(response.body.error).toBeFalsy();
   });
 });
 

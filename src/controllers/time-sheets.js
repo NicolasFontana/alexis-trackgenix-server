@@ -294,7 +294,7 @@ const createTimesheet = async (req, res) => {
     });
     const result = await timesheet.save();
     return res.status(201).json({
-      message: 'Timesheet created',
+      msg: 'Timesheet created',
       data: result,
       error: false,
     });
@@ -312,21 +312,21 @@ const updateTimeSheet = async (req, res) => {
   try {
     if (!id) {
       return res.status(400).json({
-        message: 'Please provide an ID',
+        msg: 'Please provide an ID',
         data: {},
         error: true,
       });
     }
     const updatedTimeSheet = await
-    models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true }).populate('projectId').populate('taskId');
+    models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true });
     return res.status(200).json({
-      message: 'Time-sheet updated',
+      msg: 'Time-sheet updated',
       data: updatedTimeSheet,
       error: false,
     });
   } catch (error) {
     return res.status(404).json({
-      message: error,
+      msg: error,
       data: {},
       error: true,
     });
