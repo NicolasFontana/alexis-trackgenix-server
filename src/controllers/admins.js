@@ -64,7 +64,7 @@ const getAdminByFirstName = async (req, res) => {
         });
       }
       return res.status(200).json({
-        message: 'Admin by first name',
+        message: 'Admins by first name',
         data: admin,
         error: false,
       });
@@ -97,7 +97,7 @@ const getAdminByLastName = async (req, res) => {
         });
       }
       return res.status(200).json({
-        message: 'Admin by last name',
+        message: 'Admins by last name',
         data: admin,
         error: false,
       });
