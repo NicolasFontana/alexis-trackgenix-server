@@ -116,7 +116,7 @@ const updateTask = async (req, res) => {
       );
       if (!taskToUpdate) {
         return res.status(404).json({
-          message: 'Missing id parameter',
+          message: 'Task not found',
           data: {},
           error: true,
         });
@@ -124,7 +124,7 @@ const updateTask = async (req, res) => {
       return res.status(200).json({
         message: `Task ${req.params.id} updated`,
         data: taskToUpdate,
-        error: true,
+        error: false,
       });
     }
     return res.status(400).json({

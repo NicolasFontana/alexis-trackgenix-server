@@ -41,7 +41,6 @@ describe('GetById /api/tasks', () => {
 });
 
 // Test GET by description by Fran
-
 describe('GetByDescription /api/tasks', () => {
   test('get task by description', async () => {
     const response = await request(app).get('/api/tasks/taskDescription/description');
@@ -99,6 +98,39 @@ describe('POST /api/tasks', () => {
     });
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('There was an error during the request validation');
+    expect(response.body.error).toBe(true);
+  });
+});
+
+// Test UPDATE by Fran
+describe('UPDATE /api/tasks', () => {
+  test('Update a task', async () => {
+    const response = await request(app).put(`/api/tasks/${taskId}`).send({
+      taskDate: '2021/04/10',
+      workedHours: 15,
+      description: 'Testing /put',
+    });
+    expect(response.status).toBe(200);
+    expect(response.body.error).toBe(false);
+  });
+  test('Update a task, bad id', async () => {
+    const response = await request(app).put('/api/tasks/6280062d5f0b9b4131e527e4').send({
+      taskDate: '2021/04/10',
+      workedHours: 15,
+      description: 'Testing /put',
+    });
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Task not found');
+    expect(response.body.error).toBe(true);
+  });
+  test('Update a task, bad id format', async () => {
+    const response = await request(app).put('/api/tasks/6280').send({
+      taskDate: '2021/04/10',
+      workedHours: 15,
+      description: 'Testing /put',
+    });
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('An error has ocurred');
     expect(response.body.error).toBe(true);
   });
 });
