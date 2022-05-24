@@ -1,15 +1,15 @@
 import Joi from 'joi';
 
-// CREATE VALIDATION by Martín Pueblas
+// CREATE VALIDATION
 const createTimeValidation = (req, res, next) => {
   const timesheetValidation = Joi.object({
     projectId: Joi.string().alphanum().length(24).required(),
     Task: Joi.array().items(
       {
         taskId: Joi.string().alphanum().length(24).required(),
-        taskDate: Joi.date().required(),
-        workedHours: Joi.number().required(),
-        description: Joi.string().required(),
+        // taskDate: Joi.date().required(),
+        // workedHours: Joi.number().required(),
+        // description: Joi.string().required(),
       },
     ),
     approved: Joi.boolean().valid(true).required(),
@@ -23,16 +23,16 @@ const createTimeValidation = (req, res, next) => {
   }
   return next();
 };
-// UPDATE TIMESHEET VALIDATION by Ana
+// UPDATE TIMESHEET VALIDATION
 const updateValidation = (req, res, next) => {
   const timesheetValidation = Joi.object({
     projectId: Joi.string().alphanum().length(24),
     Task: Joi.array().items(
       {
         taskId: Joi.string().alphanum().length(24),
-        taskDate: Joi.date(),
-        workedHours: Joi.number(),
-        description: Joi.string(),
+        // taskDate: Joi.date(),
+        // workedHours: Joi.number(),
+        // description: Joi.string(),
       },
     ),
     approved: Joi.boolean().valid(true),
