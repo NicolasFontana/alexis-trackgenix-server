@@ -318,7 +318,7 @@ const updateTimeSheet = async (req, res) => {
       });
     }
     const updatedTimeSheet = await
-    models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true }).populate('projectId').populate('taskId');
+    models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true });
     return res.status(200).json({
       message: 'Time-sheet updated',
       data: updatedTimeSheet,

@@ -9,7 +9,7 @@ const validateCreation = (req, res, next) => {
   const validation = taskValidation.validate(req.body);
   if (validation.error) {
     return res.status(400).json({
-      message: validation.error.details[0].message,
+      message: 'There was an error during the request validation',
       data: undefined,
       error: true,
     });
@@ -27,7 +27,8 @@ const validateUpdate = (req, res, next) => {
   if (validation.error) {
     return res.status(400).json({
       message: 'There was an error during the request validation',
-      error: validation.error.details[0],
+      data: undefined,
+      error: true,
     });
   }
   return next();

@@ -55,6 +55,13 @@ const getTaskByDescription = async (req, res) => {
   try {
     if (req.params.description) {
       const task = await models.Tasks.find({ description: req.params.description });
+      if (task.length <= 0) {
+        return res.status(404).json({
+          message: 'Task not found',
+          data: undefined,
+          error: true,
+        });
+      }
       return res.status(200).json({
         message: `Task ${req.params.description} found.`,
         data: task,
@@ -68,7 +75,7 @@ const getTaskByDescription = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: 'error.message',
       data: {},
       error: true,
     });
@@ -83,7 +90,6 @@ const createTask = async (req, res) => {
       workedHours: req.body.workedHours,
       description: req.body.description,
     });
-
     const result = await task.save();
     return res.status(201).json({
       message: 'Task created',

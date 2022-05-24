@@ -57,9 +57,6 @@ describe('POST /api/time-sheets', () => {
       Task: [
         {
           taskId: '6289c467fc13ae72d60000cb',
-          taskDate: '2021/07/07',
-          workedHours: 50,
-          description: 'Testing /post',
         },
       ],
       approved: true,
@@ -71,7 +68,7 @@ describe('POST /api/time-sheets', () => {
 });
 
 // Test for PUT method by Fran
-/*
+
 describe('Update timesheet', () => {
   test('Should update a timesheet', async () => {
     const response = await request(app).put(`/api/time-sheets/${timesheetId}`).send({
@@ -79,9 +76,6 @@ describe('Update timesheet', () => {
       Task: [
         {
           taskId: '6289c467fc13ae72d60000cc',
-          taskDate: '2022/04/12',
-          workedHours: 42,
-          description: 'Testing /put',
         },
       ],
       approved: true,
@@ -90,7 +84,7 @@ describe('Update timesheet', () => {
     expect(response.body.error).toBeFalsy();
   });
 });
-*/
+
 // Test for DELETE method by Fer & Fran
 describe('Delete timesheet', () => {
   test('Should delete a timesheet', async () => {
