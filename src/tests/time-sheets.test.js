@@ -49,7 +49,7 @@ describe('POST /api/time-sheets', () => {
 
 // Test for PUT method by Fran
 
-describe('Update timesheet', () => {
+describe('PUT /api/time-sheets', () => {
   test('Should update a timesheet', async () => {
     const response = await request(app).put('/api/time-sheets/6289c467fc13ae72d60000c7').send({
       projectId: '6289c467fc13ae72d60000c9',
@@ -66,7 +66,7 @@ describe('Update timesheet', () => {
 });
 
 // Test for DELETE method by Fer
-describe('Delete timesheet', () => {
+describe('DELETE /api/time-sheets', () => {
   test('Should delete a timesheet', async () => {
     // eslint-disable-next-line no-undef
     const response = await request(app).delete(`/api/time-sheets/${timesheetId}`).send();
