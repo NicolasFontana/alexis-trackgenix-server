@@ -11,7 +11,7 @@ const employeeSchema = new Schema(
     password: { type: String, required: true },
     active: { type: Boolean, required: true },
     projects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Project' }],
-    timeSheets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Timesheets' }],
+    timeSheets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TimeSheet' }],
   },
 );
 
