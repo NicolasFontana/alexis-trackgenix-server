@@ -16,7 +16,6 @@ const validateCreate = (req, res, next) => {
         rate: Joi.number().required(),
       },
     ),
-    // Added a .required caused the test was failing.
   });
 
   const validation = projectValidation.validate(req.body);

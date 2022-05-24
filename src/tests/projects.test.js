@@ -12,8 +12,8 @@ beforeAll(async () => {
 describe('GET ALL project', () => {
   test('All projects list response succesfull', async () => {
     const response = await request(app).get('/api/projects').send();
-    expect(response.body.message).toBe('Success!');
     expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('Success!');
     expect(response.body.data.length).toBeGreaterThan(0);
     expect(response.body.error).toBeFalsy();
   });
@@ -27,21 +27,22 @@ describe('GET ALL project', () => {
 describe('GET BY ID project', () => {
   test('response succesfull', async () => {
     const response = await request(app).get('/api/projects/628ab4225aae617fa8002c21').send();
-    expect(response.body.message).toBe('Project found');
     expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('Project found');
     expect(response.body.error).toBeFalsy();
   });
   test('id not found', async () => {
     const response = await request(app).get('/api/projects/628ab4225aae617fa8002c22').send();
-    expect(response.body.message).toBe('Project with id 628ab4225aae617fa8002c22 not found');
     expect(response.statusCode).toBe(404);
+    expect(response.body.data).toEqual({});
+    expect(response.body.message).toBe('Project with id 628ab4225aae617fa8002c22 not found');
     expect(response.body.error).toBeTruthy();
   });
   test('id not valid', async () => {
     const response = await request(app).get('/api/projects/calabaza54').send();
     expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBeTruthy();
     expect(response.body.message.length).toBeGreaterThan(10);
+    expect(response.body.error).toBeTruthy();
   });
 });
 
@@ -49,22 +50,22 @@ describe('GET BY ID project', () => {
 describe('GET BY project name', () => {
   test('response succesfull', async () => {
     const response = await request(app).get('/api/projects/name/Patata').send();
-    expect(response.body.message).toBe('Project found!');
     expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('Project found!');
     expect(response.body.error).toBeFalsy();
   });
   test('name not found', async () => {
     const response = await request(app).get('/api/projects/name/perejil').send();
-    expect(response.body.message).toBe('No project with name: perejil');
     expect(response.statusCode).toBe(404);
-    expect(response.body.error).toBeTruthy();
+    expect(response.body.message).toBe('No project with name: perejil');
     expect(response.body.data).toEqual({});
+    expect(response.body.error).toBeTruthy();
   });
   test('invalid path', async () => {
     const response = await request(app).get('/api/projects/name/').send();
     expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBeTruthy();
     expect(response.body.data).toEqual({});
+    expect(response.body.error).toBeTruthy();
   });
 });
 
@@ -72,50 +73,50 @@ describe('GET BY project name', () => {
 describe('GET BY client name', () => {
   test('response succesfull', async () => {
     const response = await request(app).get('/api/projects/client/Tito').send();
-    expect(response.body.message).toBe('Project found!');
     expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('Project found!');
     expect(response.body.error).toBeFalsy();
   });
   test('name not found', async () => {
     const response = await request(app).get('/api/projects/client/berenjena').send();
-    expect(response.body.message).toBe('No project with client: berenjena');
     expect(response.statusCode).toBe(404);
-    expect(response.body.error).toBeTruthy();
+    expect(response.body.message).toBe('No project with client: berenjena');
     expect(response.body.data).toEqual({});
+    expect(response.body.error).toBeTruthy();
   });
   test('invalid path', async () => {
     const response = await request(app).get('/api/projects/client/').send();
     expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBeTruthy();
     expect(response.body.data).toEqual({});
+    expect(response.body.error).toBeTruthy();
   });
 });
 // Get proyect by status by Ana
 describe('GET BY project status', () => {
   test('response succesfull', async () => {
     const response = await request(app).get('/api/projects/status/true').send();
-    expect(response.body.message).toBe('Projects found!');
     expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('Projects found!');
     expect(response.body.error).toBeFalsy();
   });
   test('status not found', async () => {
     const response = await request(app).get('/api/projects/status/false').send();
-    expect(response.body.message).toBe('No projects found');
     expect(response.statusCode).toBe(404);
-    expect(response.body.error).toBeTruthy();
+    expect(response.body.message).toBe('No projects found');
     expect(response.body.data).toEqual({});
+    expect(response.body.error).toBeTruthy();
   });
   test('invalid path', async () => {
     const response = await request(app).get('/api/projects/status/falsy').send();
     expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBeTruthy();
     expect(response.body.data).toEqual({});
+    expect(response.body.error).toBeTruthy();
   });
 });
 
 // Create project by Ana
 describe('POST projects/create', () => {
-  test('Should create a proyect', async () => {
+  test('Should create a project', async () => {
     const response = await request(app).post('/api/projects').send({
       name: 'Patata',
       description: 'This is a descriptive String',
@@ -132,13 +133,13 @@ describe('POST projects/create', () => {
       ],
     });
     expect(response.status).toBe(201);
-    expect(response.body.error).toBeFalsy();
     expect(response.body.message).toBe('Project created');
     expect(response.body.data).toHaveProperty('_id');
     expect(response.body.data).toHaveProperty('name', 'Patata');
     // leaving an example that fails:
     // expect(response.body.data).toHaveProperty('name', 'Patatas fritas');
     expect(response.body.data).toHaveProperty('description', 'This is a descriptive String');
+    expect(response.body.error).toBeFalsy();
     // eslint-disable-next-line no-underscore-dangle
     projectId = response.body.data._id;
   });
@@ -152,10 +153,10 @@ describe('POST projects/create', () => {
       active: true,
     });
     expect(response.status).toBe(201);
-    expect(response.body.error).toBeFalsy();
     expect(response.body.message).toBe('Project created');
     expect(response.body.data).toHaveProperty('_id');
     expect(response.body.data).toHaveProperty('name', 'Patata');
+    expect(response.body.error).toBeFalsy();
   });
   test('Missing required fields: Should not create a project due to failed validation', async () => {
     const response = await request(app).post('/api/projects').send({
@@ -222,22 +223,23 @@ describe('POST projects/create', () => {
 describe('DELETE proyects/id', () => {
   test('Should delete a proyect ', async () => {
     const response = await request(app).delete(`/api/projects/${projectId}`).send();
-    expect(response.status).toEqual(200);
-    expect(response.body.message).toBe('The project was successfully deleted');
+    expect(response.status).toBe(200);
     expect(response.body.data).toHaveProperty('_id', projectId);
+    expect(response.body.message).toBe('The project was successfully deleted');
+    expect(response.body.error).toBeFalsy();
   });
   test('id not found', async () => {
     const response = await request(app).delete('/api/projects/628ab4225aae617fa8002c22').send();
     expect(response.status).toEqual(404);
+    expect(response.body.message).toBe('Id 628ab4225aae617fa8002c22 does not exist');
     expect(response.body.data).toEqual({});
     expect(response.body.error).toBeTruthy();
-    expect(response.body.message).toBe('Id 628ab4225aae617fa8002c22 does not exist');
   });
   test('Id with invalid format error', async () => {
     const response = await request(app).delete('/api/projects/verdura123').send();
     expect(response.status).toEqual(400);
-    expect(response.body.error).toBeTruthy();
     expect(response.body.message).toBe('id:verdura123 is not valid');
+    expect(response.body.error).toBeTruthy();
   });
   test('invalid path', async () => {
     const response = await request(app).delete('/api/project/hgcuylu').send();
