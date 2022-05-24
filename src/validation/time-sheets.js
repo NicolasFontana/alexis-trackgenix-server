@@ -7,9 +7,6 @@ const createTimeValidation = (req, res, next) => {
     Task: Joi.array().items(
       {
         taskId: Joi.string().alphanum().length(24).required(),
-        // taskDate: Joi.date().required(),
-        // workedHours: Joi.number().required(),
-        // description: Joi.string().required(),
       },
     ),
     approved: Joi.boolean().valid(true).required(),
@@ -30,9 +27,6 @@ const updateValidation = (req, res, next) => {
     Task: Joi.array().items(
       {
         taskId: Joi.string().alphanum().length(24),
-        // taskDate: Joi.date(),
-        // workedHours: Joi.number(),
-        // description: Joi.string(),
       },
     ),
     approved: Joi.boolean().valid(true),
