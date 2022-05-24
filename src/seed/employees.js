@@ -6,12 +6,13 @@ export default [{
   firstName: 'Puche',
   lastName: 'Lopez',
   phone: 7761785000,
-  email: 'juanssssopez@people.com.cn',
+  email: 'juanssssopez@people.com',
+  password: 'password123',
   active: false,
-  projects: [
-    '62883891a6c3e40d965f7f8c',
+  /* projects: [
+    '62883891a6c3e40d965f7f8d',
   ],
   timeSheets: [
     '62883891a6c3e40d965f7f8c',
-  ],
+  ], */
 }];

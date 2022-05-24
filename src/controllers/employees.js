@@ -11,12 +11,12 @@ const getAllEmployees = async (req, res) => {
         endDate: 1,
         clientName: 1,
         active: 1,
-      })
-      .populate('timeSheets', {
-        projectId: 1,
-        taskId: 1,
-        approved: 1,
       });
+    /*      .populate('timeSheets', {
+        projectId: 1,
+        Task: 1,
+        approved: 1,
+      }); */
     res.status(200).json({
       message: 'All employees',
       data: allEmployees,
@@ -36,34 +36,40 @@ const getEmployeeById = async (req, res) => {
   try {
     if (req.params.id) {
       const singleEmployee = await models.Employees.findById(req.params.id)
-        .populate('projects', {
+        .populate('projects', 'Project');/* {
           name: 1,
           description: 1,
           startDate: 1,
           endDate: 1,
           clientName: 1,
           active: 1,
-        })
-        .populate('timeSheets', {
+    } ); */
+      /* .populate('timeSheets', {
           projectId: 1,
-          taskId: 1,
+          Task: 1,
           approved: 1,
+        }); */
+      if (!singleEmployee) {
+        return res.status(404).json({
+          message: 'There are no employees with that id',
+          data: undefined,
+          error: true,
         });
-      res.status(200).json({
-        message: `Employee with id ${req.params.id}`,
+      }
+      return res.status(200).json({
+        msg: `Employee with id ${req.params.id}`,
         data: singleEmployee,
         error: false,
       });
-    } else {
-      res.status(400).json({
-        message: 'missing id parameter',
-        data: undefined,
-        error: true,
-      });
     }
+    return res.status(400).json({
+      msg: 'missing id parameter',
+      data: undefined,
+      error: true,
+    });
   } catch (err) {
-    res.status(400).json({
-      message: err.message,
+    return res.status(400).json({
+      msg: err.msg,
       data: undefined,
       error: true,
     });
@@ -83,12 +89,12 @@ const getEmployeeByFirstName = async (req, res) => {
           endDate: 1,
           clientName: 1,
           active: 1,
-        })
-        .populate('timeSheets', {
-          projectId: 1,
-          taskId: 1,
-          approved: 1,
         });
+      /*  .populate('timeSheets', {
+          projectId: 1,
+          Task: 1,
+          approved: 1,
+        }); */
       res.status(200).json({
         message: `Employee with firstName ${firstNameParam}`,
         data: Employees,
@@ -123,12 +129,12 @@ const getEmployeeByLastName = async (req, res) => {
           endDate: 1,
           clientName: 1,
           active: 1,
-        })
-        .populate('timeSheets', {
+        });
+      /*  .populate('timeSheets', {
           projectId: 1,
           taskId: 1,
           approved: 1,
-        });
+        }); */
       res.status(200).json({
         message: `Employee with lastName ${lastNameParam}`,
         data: Employees,
@@ -163,12 +169,12 @@ const getEmployeeByActivity = async (req, res) => {
           endDate: 1,
           clientName: 1,
           active: 1,
-        })
-        .populate('timeSheets', {
+        });
+      /*  .populate('timeSheets', {
           projectId: 1,
           taskId: 1,
           approved: 1,
-        });
+        }); */
       res.status(200).json({
         message: `Employee with status ${activeParam}`,
         data: Employees,

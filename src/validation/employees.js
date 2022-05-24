@@ -6,6 +6,7 @@ const createEmployeeValidation = (req, res, next) => {
     lastName: Joi.string().min(3).required(),
     phone: Joi.string().min(10).required(),
     email: Joi.string().email().required(),
+    password: Joi.string().min(8).alphanum().required(),
     active: Joi.boolean(),
   });
   const validation = Schema.validate(req.body);
