@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+// SEED IMPORT BY JAVIER Y MARTIN
 // Generate ObjetId on https://observablehq.com/@hugodf/mongodb-objectid-generator
 export default [{
   _id: mongoose.Types.ObjectId('6288fe568cb389708e53eb0e'),

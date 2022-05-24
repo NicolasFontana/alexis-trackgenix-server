@@ -31,7 +31,7 @@ const getAllEmployees = async (req, res) => {
   }
 };
 
-// get employee by id
+// get employee by id **UPDATED BY MARTIN P.
 
 const getEmployeeById = async (req, res) => {
   try {
@@ -70,7 +70,7 @@ const getEmployeeById = async (req, res) => {
   }
 };
 
-// get employee by firstName
+// get employee by firstName **UPDATED BY MARTIN P.
 const getEmployeeByFirstName = async (req, res) => {
   try {
     const Employees = await models.Employees.find({ firstName: req.params.firstName })
@@ -108,7 +108,7 @@ const getEmployeeByFirstName = async (req, res) => {
   }
 };
 
-// get employee by lastName
+// get employee by lastName **UPDATED BY MARTIN P.
 const getEmployeeByLastName = async (req, res) => {
   try {
     const lastNameParam = req.params.lastName;
@@ -147,7 +147,7 @@ const getEmployeeByLastName = async (req, res) => {
   }
 };
 
-// get employee by activity
+// get employee by activity **UPDATED BY MARTIN P.
 const getEmployeeByActivity = async (req, res) => {
   try {
     const activeParam = req.params.active;
@@ -187,7 +187,7 @@ const getEmployeeByActivity = async (req, res) => {
   }
 };
 
-// create employee
+// create employee **UPDATED BY MARTIN P.
 const createEmployee = async (req, res) => {
   try {
     const employee = new models.Employees({

@@ -6,7 +6,7 @@ import app from '../app';
 beforeAll(async () => {
   await Employees.collection.insertMany(employeesSeed);
 });
-
+// GETS TEST BY MARTIN
 describe('Get all employees', () => {
   test('response should return a 200 status', async () => {
     const response = await request(app).get('/api/employees').send();
@@ -172,7 +172,7 @@ describe('get by active status', () => {
     expect(response.body.msg).toBe('missing active parameter');
   });
 });
-
+// CREATE TESTS BY MARTIN
 describe('create an employee', () => {
   test('Create an employee', async () => {
     const response = await request(app).post('/api/employees/').send({
