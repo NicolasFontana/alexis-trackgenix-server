@@ -127,3 +127,24 @@ describe('DELETE an admin', () => {
     expect(response.error).toBeTruthy();
   });
 });
+
+describe('UPDATE an admin', () => {
+  test('Admin updated status response successful', async () => {
+    const response = await request(app).put('/api/admins/628ab4225aae617fa8002c21').send({
+      firstName: 'pedro',
+      lastName: 'gomez',
+      email: 'pedroGomezz@mail.com',
+      password: 'pedrogomez123',
+      active: false,
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toEqual('Admin updated');
+    expect(response.body.error).toBeFalsy();
+  });
+
+  test('SuperAdmin updated status response unsuccessful', async () => {
+    const response = await request(app).put('/api/admins/').send();
+    expect(response.statusCode).toBe(404);
+    expect(response.error).toBeTruthy();
+  });
+});

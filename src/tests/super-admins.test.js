@@ -25,9 +25,39 @@ describe('GET superAdmin by ID', () => {
     expect(response.statusCode).toBe(200);
     expect(response.error).toBeFalsy();
   });
+
+  test('SuperAdmin search by ID status response unsuccessful', async () => {
+    const response = await request(app).get('/api/super-admins/id/').send();
+    expect(response.statusCode).toBe(400);
+    expect(response.error).toBeTruthy();
+  });
 });
 
-describe('CREATE a superAadmin', () => {
+describe('GET superAdmins by filters', () => {
+  test('SuperAdmins search by filters status response successful', async () => {
+    const response = await request(app).get('/api/super-admins/filter').send({
+      firstName: 'pedro',
+      lastName: 'gomez',
+      email: 'pedroGomezz@mail.com',
+      active: false,
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.error).toBeFalsy();
+  });
+
+  test('SuperAdmins search by filters status response unsuccessful', async () => {
+    const response = await request(app).get('/api/super-admins/filter').send({
+      firstName: '',
+      lastName: '',
+      email: '',
+      active: '',
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.error).toBeTruthy();
+  });
+});
+
+describe('CREATE a superAdmin', () => {
   test('SuperAdmin created status response successful', async () => {
     const response = await request(app).post('/api/super-admins').send({
       firstName: 'juan',
@@ -50,7 +80,7 @@ describe('CREATE a superAadmin', () => {
   });
 });
 
-describe('DELETE a superAadmin', () => {
+describe('DELETE a superAdmin', () => {
   test('SuperAdmin deleted status response successful', async () => {
     const response = await request(app).delete(`/api/super-admins/${superAdminId}`).send();
     expect(response.statusCode).toBe(200);
@@ -60,6 +90,27 @@ describe('DELETE a superAadmin', () => {
 
   test('SuperAdmin deleted status response unsuccessful', async () => {
     const response = await request(app).delete('/api/super-admins').send();
+    expect(response.statusCode).toBe(404);
+    expect(response.error).toBeTruthy();
+  });
+});
+
+describe('UPDATE a superAdmin', () => {
+  test('SuperAdmin updated status response successful', async () => {
+    const response = await request(app).put('/api/super-admins/628ab4225aae617fa8002c22').send({
+      firstName: 'pedro',
+      lastName: 'gomez',
+      email: 'pedroGomezz@mail.com',
+      password: 'pedrogomez123',
+      active: false,
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toEqual('Super-Admin updated');
+    expect(response.body.error).toBeFalsy();
+  });
+
+  test('SuperAdmin updated status response unsuccessful', async () => {
+    const response = await request(app).put('/api/super-admins/').send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
   });
