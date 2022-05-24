@@ -8,18 +8,22 @@ beforeAll(async () => {
   await Projects.collection.insertMany(projectsSeed);
 });
 
+// Get all by Ana
 describe('GET ALL project', () => {
   test('All projects list response succesfull', async () => {
     const response = await request(app).get('/api/projects').send();
-    // i don't know why dthe .send() I can run it without it
     expect(response.body.message).toBe('Success!');
     expect(response.statusCode).toBe(200);
     expect(response.body.data.length).toBeGreaterThan(0);
     expect(response.body.error).toBeFalsy();
-    // Can I do the test this way? or should I write test for each one? Nop, bad practice
+  });
+  test('Wrong path', async () => {
+    const response = await request(app).get('/api/project').send();
+    expect(response.statusCode).toBe(404);
   });
 });
 
+// Get by Id by Ana
 describe('GET BY ID project', () => {
   test('response succesfull', async () => {
     const response = await request(app).get('/api/projects/628ab4225aae617fa8002c21').send();
@@ -27,8 +31,21 @@ describe('GET BY ID project', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.error).toBeFalsy();
   });
+  test('id not found', async () => {
+    const response = await request(app).get('/api/projects/628ab4225aae617fa8002c22').send();
+    expect(response.body.message).toBe('Project with id 628ab4225aae617fa8002c22 not found');
+    expect(response.statusCode).toBe(404);
+    expect(response.body.error).toBeTruthy();
+  });
+  test('id not valid', async () => {
+    const response = await request(app).get('/api/projects/calabaza54').send();
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBeTruthy();
+    expect(response.body.message.length).toBeGreaterThan(10);
+  });
 });
 
+// Get by project name by Ana
 describe('GET BY project name', () => {
   test('response succesfull', async () => {
     const response = await request(app).get('/api/projects/name/Patata').send();
@@ -36,17 +53,16 @@ describe('GET BY project name', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.error).toBeFalsy();
   });
-});
-
-describe('GET BY project name', () => {
-  test('response succesfull', async () => {
-    const response = await request(app).get('/api/projects/name/Patata').send();
-    expect(response.body.message).toBe('Project found!');
-    expect(response.statusCode).toBe(200);
-    expect(response.body.error).toBeFalsy();
+  test('name not found', async () => {
+    const response = await request(app).get('/api/projects/name/Batatas').send();
+    expect(response.body.message).toBe('No project with name: Batatas');
+    expect(response.statusCode).toBe(404);
+    expect(response.body.error).toBeTruthy();
+    expect(response.body.data).toEqual({});
   });
 });
 
+// Create project by Ana
 describe('POST projects/create', () => {
   test('Should create a proyect', async () => {
     const response = await request(app).post('/api/projects').send({
@@ -100,12 +116,13 @@ describe('POST projects/create', () => {
       startDate: '2020-04-03',
       endDate: '2022-04-03',
       clientName: 'Tito',
-      // if i only took out employee i didnt get the error
+      // if i only took out employee i didnt get the error i think we should add a pm
     });
     expect(response.status).toBe(400);
   });
 });
 
+// Delete projects by Ana
 describe('DELETE proyects/id', () => {
   test('Should delete a proyect ', async () => {
     const response = await request(app).delete(`/api/projects/${projectId}`).send();
