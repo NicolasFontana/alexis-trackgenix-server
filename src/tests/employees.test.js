@@ -66,6 +66,7 @@ describe('Edit employee', () => {
   test('response should return a true error when no id is send', async () => {
     const response = await request(app).put('/api/employees/').send({});
     expect(response.error).toBeTruthy();
+    expect(response.status).toBe(404);
   });
 
   test('response should return a true error and 404 status when the id entered is not found', async () => {
@@ -85,6 +86,7 @@ describe('Edit employee', () => {
     });
     expect(response.error).toBeTruthy();
     expect(response.status).toBe(404);
+    expect(response.body.message).toEqual('The employee has not been found');
   });
 });
 
