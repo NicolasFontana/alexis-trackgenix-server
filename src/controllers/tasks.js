@@ -75,7 +75,7 @@ const getTaskByDescription = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: 'error.message',
+      message: error.message,
       data: {},
       error: true,
     });
