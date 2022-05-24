@@ -35,7 +35,7 @@ describe('Get employee by id', () => {
     expect(response.error).not.toBeTruthy();
   });
 
-  test('response should not empty', async () => {
+  test('response should not be empty', async () => {
     const response = await request(app).get('/api/employees/6288fe568cb389708e53eb0e').send();
     expect.arrayContaining(response.data);
   });
@@ -58,7 +58,7 @@ describe('Get employee by id', () => {
 
   test('response should be a message like this: missing id parameter', async () => {
     const response = await request(app).get('/api/employees/6288fe568cb389708e53eb0f').send();
-    expect(response.message).toBe(response.data);
+    expect(response.body.msg).toBe('missing id parameter');
   });
 });
 
@@ -93,7 +93,7 @@ describe('Get employee by first name', () => {
     expect(response.error).toBeTruthy();
   });
 
-  test('response should be a message like this: missing id parameter', async () => {
+  test('response should be a message like this: missing firstName parameter', async () => {
     const response = await request(app).get('/api/employees/firstName/1Puche').send();
     expect(response.body.msg).toBe('missing firstName parameter');
   });
@@ -115,12 +115,12 @@ describe('get by lastName', () => {
     expect(response.error).not.toBeTruthy();
   });
 
-  test('response should not empty', async () => {
+  test('response should not be empty', async () => {
     const response = await request(app).get('/api/employees/lastName/Lopez').send();
     expect(response.body.data.length).toBeGreaterThan(0);
   });
 
-  test('response should be a 400 status', async () => {
+  test('response should be a 404 status', async () => {
     const response = await request(app).get('/api/employees/lastName/1Lopez').send();
     expect(response.status).toBe(404);
   });
@@ -142,7 +142,7 @@ describe('get by active status', () => {
     expect(response.status).toBe(200);
   });
 
-  test('response should be a message like this: Employee with status active', async () => {
+  test('response should be a message like this: Employee with status false', async () => {
     const response = await request(app).get('/api/employees/active/false').send();
     expect(response.body.msg).toBe('Employee with status false');
   });
@@ -170,5 +170,93 @@ describe('get by active status', () => {
   test('response should be a message like this: missing active parameter', async () => {
     const response = await request(app).get('/api/employees/active/true').send();
     expect(response.body.msg).toBe('missing active parameter');
+  });
+});
+
+describe('create an employee', () => {
+  test('Create an employee', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
+      lastName: 'Lopez',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com',
+      password: 'password123',
+      active: false,
+    });
+    expect(response.status).toBe(201);
+    expect(response.body.message).toBe('Employee created');
+    expect(response.body.error).toBeFalsy();
+  });
+  test('No first name error', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      lastName: 'Lopez',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com',
+      password: 'password123',
+      active: false,
+    });
+    expect(response.status).toBe(400);
+    expect(response.body.message).toContain('Employee validation failed');
+    expect(response.body.error).toBeTruthy();
+  });
+  test('No last name error', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com',
+      password: 'password123',
+      active: false,
+    });
+    expect(response.status).toBe(400);
+    expect(response.body.message).toContain('Employee validation failed');
+    expect(response.body.error).toBeTruthy();
+  });
+  test('No phone error', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
+      lastName: 'Lopez',
+      email: 'juanssssopez@people.com',
+      password: 'password123',
+      active: false,
+    });
+    expect(response.status).toBe(400);
+    expect(response.body.message).toContain('Employee validation failed');
+    expect(response.body.error).toBeTruthy();
+  });
+  test('No email error', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
+      lastName: 'Lopez',
+      phone: 7761785000,
+      password: 'password123',
+      active: false,
+    });
+    expect(response.status).toBe(400);
+    expect(response.body.message).toContain('Employee validation failed');
+    expect(response.body.error).toBeTruthy();
+  });
+  test('No password error', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
+      lastName: 'Lopez',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com',
+      active: false,
+    });
+    expect(response.status).toBe(400);
+    expect(response.body.message).toContain('Employee validation failed');
+    expect(response.body.error).toBeTruthy();
+  });
+  test('No status error', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
+      lastName: 'Lopez',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com',
+      password: 'password123',
+    });
+    expect(response.status).toBe(400);
+    expect(response.body.message).toContain('Employee validation failed');
+    expect(response.body.error).toBeTruthy();
   });
 });

@@ -9,10 +9,10 @@ export default [{
   email: 'juanssssopez@people.com',
   password: 'password123',
   active: false,
-  /* projects: [
+  projects: [
     '62883891a6c3e40d965f7f8d',
   ],
   timeSheets: [
     '62883891a6c3e40d965f7f8c',
-  ], */
+  ],
 }];

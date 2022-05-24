@@ -3,20 +3,20 @@ import models from '../models';
 // get all employees
 const getAllEmployees = async (req, res) => {
   try {
-    const allEmployees = await models.Employees.find({});
-    /*    .populate('projects', {
+    const allEmployees = await models.Employees.find({})
+      .populate('projects', {
         name: 1,
         description: 1,
         startDate: 1,
         endDate: 1,
         clientName: 1,
         active: 1,
-      });
-        .populate('timeSheets', {
+      })
+      .populate('timeSheets', {
         projectId: 1,
         Task: 1,
         approved: 1,
-      }); */
+      });
     res.status(200).json({
       message: 'All employees',
       data: allEmployees,
@@ -32,59 +32,23 @@ const getAllEmployees = async (req, res) => {
 };
 
 // get employee by id
-/* const getEmployeeById = async (req, res) => {
-  try {
-    if (req.params.id) {
-      const singleEmployee = await models.Employees.findById(req.params.id)
-        .populate('projects', 'Project');/* {
-          name: 1,
-          description: 1,
-          startDate: 1,
-          endDate: 1,
-          clientName: 1,
-          active: 1,
-    } );
-        .populate('timeSheets', {
-          projectId: 1,
-          Task: 1,
-          approved: 1,
-        });
-      return res.status(200).json({
-        msg: `Employee with id ${req.params.id}`,
-        data: singleEmployee,
-        error: false,
-      });
-    }
-      return res.status(400).json({
-        msg: 'missing id parameter',
-        data: undefined,
-        error: true,
-      });
-    }
-  } catch (err) {
-    return res.status(400).json({
-      msg: err.msg,
-      data: undefined,
-      error: true,
-    });
-  }
-}; */
+
 const getEmployeeById = async (req, res) => {
   try {
-    const singleEmployee = await models.Employees.findById(req.params.id);
-    /*  .populate('projects', 'Project'); {
-          name: 1,
-          description: 1,
-          startDate: 1,
-          endDate: 1,
-          clientName: 1,
-          active: 1,
-    } ); */
-    /* .populate('timeSheets', {
-          projectId: 1,
-          Task: 1,
-          approved: 1,
-        }); */
+    const singleEmployee = await models.Employees.findById(req.params.id)
+      .populate('projects', {
+        name: 1,
+        description: 1,
+        startDate: 1,
+        endDate: 1,
+        clientName: 1,
+        active: 1,
+      })
+      .populate('timeSheets', {
+        projectId: 1,
+        Task: 1,
+        approved: 1,
+      });
     if (singleEmployee) {
       return res.status(200).json({
         msg: `Employee with id ${req.params.id}`,
@@ -109,20 +73,20 @@ const getEmployeeById = async (req, res) => {
 // get employee by firstName
 const getEmployeeByFirstName = async (req, res) => {
   try {
-    const Employees = await models.Employees.find({ firstName: req.params.firstName });
-    /* .populate('projects', {
-          name: 1,
-          description: 1,
-          startDate: 1,
-          endDate: 1,
-          clientName: 1,
-          active: 1,
-        });
-        .populate('timeSheets', {
-          projectId: 1,
-          Task: 1,
-          approved: 1,
-        }); */
+    const Employees = await models.Employees.find({ firstName: req.params.firstName })
+      .populate('projects', {
+        name: 1,
+        description: 1,
+        startDate: 1,
+        endDate: 1,
+        clientName: 1,
+        active: 1,
+      })
+      .populate('timeSheets', {
+        projectId: 1,
+        Task: 1,
+        approved: 1,
+      });
     if (Employees.length !== 0) {
       return res.status(200).json({
         msg: `Employee with firstName ${req.params.firstName}`,
@@ -148,20 +112,20 @@ const getEmployeeByFirstName = async (req, res) => {
 const getEmployeeByLastName = async (req, res) => {
   try {
     const lastNameParam = req.params.lastName;
-    const Employees = await models.Employees.find({ lastName: req.params.lastName });
-    /*  .populate('projects', {
+    const Employees = await models.Employees.find({ lastName: req.params.lastName })
+      .populate('projects', {
         name: 1,
         description: 1,
         startDate: 1,
         endDate: 1,
         clientName: 1,
         active: 1,
-      });
+      })
       .populate('timeSheets', {
         projectId: 1,
         taskId: 1,
         approved: 1,
-      }); */
+      });
     if (Employees.length !== 0) {
       return res.status(200).json({
         msg: `Employee with lastName ${lastNameParam}`,
@@ -233,8 +197,6 @@ const createEmployee = async (req, res) => {
       email: req.body.email,
       password: req.body.password,
       active: req.body.active,
-      projects: req.body.projects,
-      timesheets: req.body.timesheets,
     });
     const result = await employee.save();
     return res.status(201).json({
@@ -251,11 +213,11 @@ const createEmployee = async (req, res) => {
   }
 };
 
-// update employee
+/// update employee
 const updateEmployee = async (req, res) => {
   try {
     if (!req.params) {
-      res.status(400).json({
+      return res.status(400).json({
         message: 'missing id parameter',
         data: undefined,
         error: true,
@@ -266,22 +228,34 @@ const updateEmployee = async (req, res) => {
       req.params.id,
       req.body,
       { new: true },
-    ).populate('projects', 'timeSheets');
+    ).populate('projects', {
+      name: 1,
+      description: 1,
+      startDate: 1,
+      endDate: 1,
+      clientName: 1,
+      active: 1,
+    })
+      .populate('timeSheets', {
+        projectId: 1,
+        taskId: 1,
+        approved: 1,
+      });
     if (!result) {
-      res.status(404).json({
+      return res.status(404).json({
         message: 'The employee has not been found',
         data: undefined,
         error: true,
       });
     }
-    res.status(200).json({
+    return res.status(200).json({
       message: 'Employee updated',
       data: result,
       error: false,
     });
   } catch (err) {
-    res.status(400).json({
-      message: 'An error has ocurred',
+    return res.status(400).json({
+      message: err.message,
       data: undefined,
       err: true,
     });
