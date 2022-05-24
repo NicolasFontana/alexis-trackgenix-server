@@ -54,9 +54,60 @@ describe('GET BY project name', () => {
     expect(response.body.error).toBeFalsy();
   });
   test('name not found', async () => {
-    const response = await request(app).get('/api/projects/name/Batatas').send();
-    expect(response.body.message).toBe('No project with name: Batatas');
+    const response = await request(app).get('/api/projects/name/perejil').send();
+    expect(response.body.message).toBe('No project with name: perejil');
     expect(response.statusCode).toBe(404);
+    expect(response.body.error).toBeTruthy();
+    expect(response.body.data).toEqual({});
+  });
+  test('invalid path', async () => {
+    const response = await request(app).get('/api/projects/name/').send();
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBeTruthy();
+    expect(response.body.data).toEqual({});
+  });
+});
+
+// Get project by client name by Ana
+describe('GET BY client name', () => {
+  test('response succesfull', async () => {
+    const response = await request(app).get('/api/projects/client/Tito').send();
+    expect(response.body.message).toBe('Project found!');
+    expect(response.statusCode).toBe(200);
+    expect(response.body.error).toBeFalsy();
+  });
+  test('name not found', async () => {
+    const response = await request(app).get('/api/projects/client/berenjena').send();
+    expect(response.body.message).toBe('No project with client: berenjena');
+    expect(response.statusCode).toBe(404);
+    expect(response.body.error).toBeTruthy();
+    expect(response.body.data).toEqual({});
+  });
+  test('invalid path', async () => {
+    const response = await request(app).get('/api/projects/client/').send();
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBeTruthy();
+    expect(response.body.data).toEqual({});
+  });
+});
+// Get proyect by status by Ana
+describe('GET BY project status', () => {
+  test('response succesfull', async () => {
+    const response = await request(app).get('/api/projects/status/true').send();
+    expect(response.body.message).toBe('Projects found!');
+    expect(response.statusCode).toBe(200);
+    expect(response.body.error).toBeFalsy();
+  });
+  test('status not found', async () => {
+    const response = await request(app).get('/api/projects/status/false').send();
+    expect(response.body.message).toBe('No projects found');
+    expect(response.statusCode).toBe(404);
+    expect(response.body.error).toBeTruthy();
+    expect(response.body.data).toEqual({});
+  });
+  test('invalid path', async () => {
+    const response = await request(app).get('/api/projects/status/falsy').send();
+    expect(response.statusCode).toBe(400);
     expect(response.body.error).toBeTruthy();
     expect(response.body.data).toEqual({});
   });
@@ -107,7 +158,7 @@ describe('POST projects/create', () => {
     // expect(response.body).to.have.property('active');
     // doesn't reads have
     // expect(response.body).should.have.lengthOf(7);
-    // the one that Agustin sgested
+    // the one that Agustin suggested
   });
   test('Should not create a project', async () => {
     const response = await request(app).post('/api/projects').send({
@@ -129,9 +180,22 @@ describe('DELETE proyects/id', () => {
     expect(response.status).toEqual(200);
     expect(response.body.message).toBe('The project was successfully deleted');
   });
-  test('Should NOT delete a proyect ', async () => {
+  test('id not found', async () => {
+    const response = await request(app).delete('/api/projects/628ab4225aae617fa8002c22').send();
+    expect(response.status).toEqual(404);
+    expect(response.body.data).toEqual({});
+    expect(response.body.error).toBeTruthy();
+    expect(response.body.message).toBe('Id 628ab4225aae617fa8002c22 does not exist');
+  });
+  test('Id with invalid format error', async () => {
     const response = await request(app).delete('/api/projects/verdura123').send();
     expect(response.status).toEqual(400);
+    expect(response.body.error).toBeTruthy();
     expect(response.body.message).toBe('id:verdura123 is not valid');
+  });
+  test('invalid path', async () => {
+    const response = await request(app).delete('/api/project/hgcuylu').send();
+    expect(response.statusCode).toBe(404);
+    expect(response.body.error).toBeUndefined();
   });
 });
