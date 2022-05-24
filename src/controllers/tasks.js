@@ -5,7 +5,7 @@ const getAllTasks = async (req, res) => {
   try {
     const allTasks = await models.Tasks.find({});
     return res.status(200).json({
-      message: 'All tasks.',
+      message: 'All tasks',
       data: allTasks,
       error: false,
     });

@@ -12,10 +12,13 @@ beforeAll(async () => {
 describe('GET /api/tasks', () => {
   test('Response should return a 200 status', async () => {
     const response = await request(app).get('/api/tasks').send();
-    await expect(response.status).toBe(200);
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('All tasks');
+    expect(response.body.data).toEqual(expect.any(Object));
+    expect(response.body.error).toBeFalsy();
   });
 
-  test('response should return false error', async () => {
+  test('Wrong path', async () => {
     const response = await request(app).get('/api-tasks').send();
     await expect(response.status).toBe(404);
   });
