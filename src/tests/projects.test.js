@@ -132,12 +132,53 @@ describe('POST projects/create', () => {
       ],
     });
     expect(response.status).toBe(201);
+    expect(response.body.error).toBeFalsy();
+    expect(response.body.message).toBe('Project created');
+    expect(response.body.data).toHaveProperty('_id');
+    expect(response.body.data).toHaveProperty('name', 'Patata');
+    // leaving an example that fails:
+    // expect(response.body.data).toHaveProperty('name', 'Patatas fritas');
+    expect(response.body.data).toHaveProperty('description', 'This is a descriptive String');
     // eslint-disable-next-line no-underscore-dangle
     projectId = response.body.data._id;
   });
-  test('Message should indicate de creation of a new project and error false', async () => {
+  test('Should create project(member is not required)', async () => {
     const response = await request(app).post('/api/projects').send({
       name: 'Patata',
+      description: 'This is a descriptive String',
+      startDate: '2020-04-03',
+      endDate: '2022-04-03',
+      clientName: 'Tito',
+      active: true,
+    });
+    expect(response.status).toBe(201);
+    expect(response.body.error).toBeFalsy();
+    expect(response.body.message).toBe('Project created');
+    expect(response.body.data).toHaveProperty('_id');
+    expect(response.body.data).toHaveProperty('name', 'Patata');
+  });
+  test('Missing required fields: Should not create a project due to failed validation', async () => {
+    const response = await request(app).post('/api/projects').send({
+      name: 'Patata',
+      description: 'This is a descriptive String',
+      startDate: '2020-04-03',
+      endDate: '2022-04-03',
+      active: true,
+      members: [
+        {
+          employeeId: '628ab4485a6f0bba3f2585d3',
+          role: 'DEV',
+          rate: 24,
+        },
+      ],
+    });
+    expect(response.status).toBe(400);
+    expect(response.body.msg).toBe('There was an error');
+    expect(response.body.error.length).toBeGreaterThan(5);
+  });
+  test('Name too short: Should not create a project due to failed validation', async () => {
+    const response = await request(app).post('/api/projects').send({
+      name: 'P',
       description: 'This is a descriptive String',
       startDate: '2020-04-03',
       endDate: '2022-04-03',
@@ -151,25 +192,29 @@ describe('POST projects/create', () => {
         },
       ],
     });
-    // expect(response.body.message).toEqual('Project created');
-    expect(response.body.error).toBeFalsy();
-    // expect(response.body.data).that.includes.all.keys(['name', 'description', 'active']);
-    // doesn't reads includes
-    // expect(response.body).to.have.property('active');
-    // doesn't reads have
-    // expect(response.body).should.have.lengthOf(7);
-    // the one that Agustin suggested
+    expect(response.status).toBe(400);
+    expect(response.body.msg).toBe('There was an error');
+    expect(response.body.error.length).toBeGreaterThan(5);
   });
-  test('Should not create a project', async () => {
+  test('Invalid date: Should not create a project due to failed validation', async () => {
     const response = await request(app).post('/api/projects').send({
-      name: 'Patata',
+      name: 'P',
       description: 'This is a descriptive String',
-      startDate: '2020-04-03',
+      startDate: '04-03-2020',
       endDate: '2022-04-03',
       clientName: 'Tito',
-      // if i only took out employee i didnt get the error i think we should add a pm
+      active: true,
+      members: [
+        {
+          employeeId: '628ab4485a6f0bba3f2585d3',
+          role: 'DEV',
+          rate: 24,
+        },
+      ],
     });
     expect(response.status).toBe(400);
+    expect(response.body.msg).toBe('There was an error');
+    expect(response.body.error.length).toBeGreaterThan(5);
   });
 });
 
@@ -179,6 +224,7 @@ describe('DELETE proyects/id', () => {
     const response = await request(app).delete(`/api/projects/${projectId}`).send();
     expect(response.status).toEqual(200);
     expect(response.body.message).toBe('The project was successfully deleted');
+    expect(response.body.data).toHaveProperty('_id', projectId);
   });
   test('id not found', async () => {
     const response = await request(app).delete('/api/projects/628ab4225aae617fa8002c22').send();
