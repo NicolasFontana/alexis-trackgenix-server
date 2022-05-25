@@ -1,6 +1,6 @@
 describe('void test', () => {
-  test('Dummy test', async () => {
+  test('Dummy test', () => {
     const num = 2;
-    await expect(num).toBe(2);
+    expect(num).toBe(2);
   });
 });

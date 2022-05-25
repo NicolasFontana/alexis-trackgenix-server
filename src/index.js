@@ -4,9 +4,10 @@ import app from './app';
 
 dotenv.config();
 const port = process.env.PORT || 3000;
+const MONGODB_URL = process.env.URL_MONGO;
 
 mongoose.connect(
-  'mongodb+srv://pucheRR:BaSP2022@cluster0.3uv6a.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+  MONGODB_URL,
   (error) => {
     if (error) {
       // eslint-disable-next-line no-console
