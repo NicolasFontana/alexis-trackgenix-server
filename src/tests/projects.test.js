@@ -9,6 +9,7 @@ beforeAll(async () => {
 
 // GET BY PERIOD by Karu
 describe('GET BY PERIOD /project', () => {
+  // if there is end and init date
   test('SUCCESS. Should return a status 200', async () => {
     const response = await request(app).get('/api/projects/date').send({
       startDate: '2020-04-03',
@@ -16,7 +17,7 @@ describe('GET BY PERIOD /project', () => {
     });
     expect(response.status).toBe(200);
   });
-  test('SUCCESS. Should return message (Project after {init} and before {end}.)', async () => {
+  test('SUCCESS. Should return message Project after {init} and before {end}.', async () => {
     const response = await request(app).get('/api/projects/date').send({
       startDate: '2020-04-03',
       endDate: '2020-04-03',
@@ -73,7 +74,7 @@ describe('GET BY PERIOD /project', () => {
     expect(response.status).toBe(404);
   });
 });
-// UPDATE A PROYECT
+// UPDATE A PROYECT by Karu
 describe('UPDATE /api/projects/:id', () => {
   test('WRONG ROUTE, should return a 404', async () => {
     const response = await request(app).put('/theRouteisWrong').send({
