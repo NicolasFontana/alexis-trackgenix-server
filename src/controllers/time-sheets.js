@@ -81,7 +81,6 @@ const getByRoleTimesheets = async (req, res) => {
   }
 };
 
-
 const getByTaskTimesheets = async (req, res) => {
   try {
     if (!req.params) {
