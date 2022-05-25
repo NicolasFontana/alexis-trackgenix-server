@@ -7,30 +7,36 @@ beforeAll(async () => {
   await Proyects.collection.insertMany(proyectsSeed);
 });
 
-// GET ALL by Karu
-/*
-describe('GET BY DATE /project', () => {
-  test('response should return a 200 status', async () => {
-    const response = await request(app).get('/api/projects/date').send();
+// GET BY PERIOD by Karu
+describe('GET BY PERIOD /project', () => {
+  test('SUCCESS. Should return a status 200', async () => {
+    const response = await request(app).get('/api/projects/date').send({
+      startDate: '2020-04-03',
+      endDate: '2020-04-03',
+    });
     expect(response.status).toBe(200);
-    // si pongo mal la ruta o sea un 404 falla o sea que esta bien
   });
-  test('response should return a false error', async () => {
-    const response = await request(app).get('/api/projects').send();
-    expect(response.body.error).toBe(false);
-    // si pongo false el test falla asi que ok
+  test('ROUTE IS NOT SPECIFIED. Should return a status 400', async () => {
+    const response = await request(app).get('/api/projects/date').send();
+    expect(response.status).toBe(400);
   });
-  test('response should return at least one proyect', async () => {
-    const response = await request(app).get('/api/projects').send();
-    expect(response.body.data.length).toBeGreaterThan(0);
+  test('ROUTE IS NOT SPECIFIED. Should return \'You must specify initDate and/or endDate!\'', async () => {
+    const response = await request(app).get('/api/projects/date').send();
+    expect(response.body.message).toEqual('You must specify initDate and/or endDate!');
   });
-  test('response should return a message of success', async () => {
-    const response = await request(app).get('/api/projects').send();
-    expect(response.body.message).toBe('Success!');
+  test('ROUTE IS NOT SPECIFIED. Error should be true', async () => {
+    const response = await request(app).get('/api/projects/date').send();
+    expect(response.body.error).toBeTruthy();
+  });
+  test('ROUTE IS NOT SPECIFIED. Data should be an empty object', async () => {
+    const response = await request(app).get('/api/projects/date').send();
+    expect(response.body.data).toStrictEqual({});
+  });
+  test('WRONG ROUTE. Status should be 404', async () => {
+    const response = await request(app).get('/api/proj/date').send();
+    expect(response.status).toBe(404);
   });
 });
- */
-
 // UPDATE A PROYECT
 describe('UPDATE /api/projects/:id', () => {
   test('WRONG ROUTE, should return a 404', async () => {
