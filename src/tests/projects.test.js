@@ -16,24 +16,60 @@ describe('GET BY PERIOD /project', () => {
     });
     expect(response.status).toBe(200);
   });
-  test('ROUTE IS NOT SPECIFIED. Should return a status 400', async () => {
-    const response = await request(app).get('/api/projects/date').send();
+  test('SUCCESS. Should return message (Project after {init} and before {end}.)', async () => {
+    const response = await request(app).get('/api/projects/date').send({
+      startDate: '2020-04-03',
+      endDate: '2020-04-03',
+    });
+    expect(response.body.message).toEqual(expect.any(String));
+  });
+  test('SUCCESS. Should return projects data', async () => {
+    const response = await request(app).get('/api/projects/date').send({
+      startDate: '2020-04-03',
+      endDate: '2020-04-03',
+    });
+    expect(response.body.data).toEqual(expect.any(Object));
+  });
+  test('SUCCESS. Should return false error', async () => {
+    const response = await request(app).get('/api/projects/date').send({
+      startDate: '2020-04-03',
+      endDate: '2020-04-03',
+    });
+    expect(response.body.error).toBeFalsy();
+  });
+  test('ERROR - UNSPECIFIED PERIOD. Should return a status 400', async () => {
+    const response = await request(app).get('/api/projects/date').send({
+      startDate: '',
+      endDate: '',
+    });
     expect(response.status).toBe(400);
   });
-  test('ROUTE IS NOT SPECIFIED. Should return \'You must specify initDate and/or endDate!\'', async () => {
-    const response = await request(app).get('/api/projects/date').send();
+  test('ERROR - UNSPECIFIED PERIOD. Should return \'You must specify initDate and/or endDate!\'', async () => {
+    const response = await request(app).get('/api/projects/date').send({
+      startDate: '',
+      endDate: '',
+    });
     expect(response.body.message).toEqual('You must specify initDate and/or endDate!');
   });
-  test('ROUTE IS NOT SPECIFIED. Error should be true', async () => {
-    const response = await request(app).get('/api/projects/date').send();
+  test('ERROR - UNSPECIFIED PERIOD. Should return for data an empty object', async () => {
+    const response = await request(app).get('/api/projects/date').send({
+      startDate: '',
+      endDate: '',
+    });
+    expect(response.body.data).toEqual({});
+  });
+  test('ERROR - UNSPECIFIED PERIOD. Should return a true error', async () => {
+    const response = await request(app).get('/api/projects/date').send({
+      startDate: '',
+      endDate: '',
+    });
     expect(response.body.error).toBeTruthy();
   });
-  test('ROUTE IS NOT SPECIFIED. Data should be an empty object', async () => {
-    const response = await request(app).get('/api/projects/date').send();
-    expect(response.body.data).toStrictEqual({});
-  });
   test('WRONG ROUTE. Status should be 404', async () => {
-    const response = await request(app).get('/api/proj/date').send();
+    const response = await request(app).get('/api/proj/date').send({
+      startDate: '2020-04-03',
+      endDate: '2020-04-03',
+    });
     expect(response.status).toBe(404);
   });
 });
