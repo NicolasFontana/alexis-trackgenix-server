@@ -1,6 +1,6 @@
 import models from '../models';
 
-// GET ALL / Populated by Mati ;D
+// GET ALL by Ana // Populated by Mati and edited by Fer
 const getAllTimesheets = async (req, res) => {
   try {
     const allTimesheets = await models.TimeSheet.find({}).populate('projectId', 'Project').populate('Task');
@@ -17,7 +17,7 @@ const getAllTimesheets = async (req, res) => {
     });
   }
 };
-// GET BY ID
+// GET BY ID by Ana
 const getByIdTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -49,7 +49,7 @@ const getByIdTimesheets = async (req, res) => {
     });
   }
 };
-// GET BY ROLE
+
 const getByRoleTimesheets = async (req, res) => {
   try {
     if (!req.params || !['QA', 'DEV', 'TL', 'PM'].includes(req.params.role)) {
@@ -81,7 +81,7 @@ const getByRoleTimesheets = async (req, res) => {
   }
 };
 
-// GET A TIMESHEET BY TASK
+
 const getByTaskTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -113,7 +113,7 @@ const getByTaskTimesheets = async (req, res) => {
   }
 };
 
-// GET TIME SHEETS BY VALIDATED
+// GET TIME SHEETS BY VALIDATED by Ana
 const getByValidatedTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -145,7 +145,7 @@ const getByValidatedTimesheets = async (req, res) => {
   }
 };
 
-// GET TIME SHEETS BY PROJECT
+// GET TIME SHEETS BY PROJECT by Ana
 const getByProjecTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -176,7 +176,7 @@ const getByProjecTimesheets = async (req, res) => {
     });
   }
 };
-// GET TIMESHEETS BY EMPLOYEE
+// GET TIMESHEETS BY EMPLOYEE by Ana
 const getByEmployeeTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -208,7 +208,7 @@ const getByEmployeeTimesheets = async (req, res) => {
   }
 };
 
-// GET TIMESHEETS BY PROJECT MANAGER
+// GET TIMESHEETS BY PROJECT MANAGER by Ana
 const getByPMTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -240,7 +240,7 @@ const getByPMTimesheets = async (req, res) => {
     });
   }
 };
-// GET TIMESHEETS BY PROJECT MANAGER
+// GET TIMESHEETS BY PROJECT MANAGER by Ana
 const getBetweenDatesTimesheets = async (req, res) => {
   try {
     if (!req.query.init || !req.query.final) {
@@ -294,25 +294,25 @@ const createTimesheet = async (req, res) => {
     });
     const result = await timesheet.save();
     return res.status(201).json({
-      msg: 'Timesheet created',
+      message: 'Timesheet created',
       data: result,
       error: false,
     });
   } catch (error) {
-    return res.json({
-      msg: 'An error has ocurred',
+    return res.status(400).json({
+      message: 'An error has ocurred',
       data: error,
       error: true,
     });
   }
 };
-// UPDATE A TIME SHEET
+// UPDATE A TIME SHEET by Ana
 const updateTimeSheet = async (req, res) => {
   const { id } = req.params;
   try {
     if (!id) {
-      return res.status(400).json({
-        msg: 'Please provide an ID',
+      return res.status(404).json({
+        message: 'Please provide an ID',
         data: {},
         error: true,
       });
@@ -320,13 +320,13 @@ const updateTimeSheet = async (req, res) => {
     const updatedTimeSheet = await
     models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true });
     return res.status(200).json({
-      msg: 'Time-sheet updated',
+      message: 'Time-sheet updated',
       data: updatedTimeSheet,
       error: false,
     });
   } catch (error) {
-    return res.status(404).json({
-      msg: error,
+    return res.status(400).json({
+      message: error,
       data: {},
       error: true,
     });
@@ -336,8 +336,8 @@ const updateTimeSheet = async (req, res) => {
 const deleteTimesheet = async (req, res) => {
   try {
     if (!req.params.id) {
-      return res.status(400).json({
-        msg: 'An error has ocurred',
+      return res.status(404).json({
+        message: 'Missing Id',
         data: undefined,
         error: true,
       });
@@ -345,18 +345,18 @@ const deleteTimesheet = async (req, res) => {
     const result = await models.TimeSheet.findByIdAndDelete(req.params.id);
     if (!result) {
       return res.status(404).json({
-        msg: `There is no timesheet with this Id ${req.params.id}`,
+        message: `There is no timesheet with this Id ${req.params.id}`,
         data: undefined,
         error: true,
       });
     }
     return res.status(200).json({
-      msg: `The ${req.params.id} timesheet has been susccesfully deleted`,
+      message: `The ${req.params.id} timesheet has been susccesfully deleted`,
       error: false,
     });
   } catch (error) {
     return res.status(400).json({
-      msg: 'An error has ocurred',
+      message: 'An error has ocurred',
       data: undefined,
       error: true,
     });

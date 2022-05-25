@@ -15,6 +15,7 @@ describe('GET /api/time-sheets', () => {
     const response = await request(app).get('/api/time-sheets').send();
     await expect(response.status).toBe(200);
   });
+
   test('response should return false error', async () => {
     const response = await request(app).get('/api/time/sheets').send();
     await expect(response.status).toBe(404);
@@ -29,7 +30,26 @@ describe('GET /api/time-sheets', () => {
   });
 });
 
-// Test for CREATE method by Fer
+// Test for GET by Id by Fran
+describe('GetById /api/time-sheets/:id', () => {
+  test('get by Id', async () => {
+    const response = await request(app).get('/api/time-sheets/6289c467fc13ae72d60000c7').send();
+    expect(response.status).toBe(200);
+    expect(response.body.error).toBeFalsy();
+  });
+  test('get incorret id', async () => {
+    const response = await request(app).get('/api/time-sheets/6280062d5f0b9b4131e527e4').send();
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Time Sheet not found');
+  });
+  test('get incorret id format', async () => {
+    const response = await request(app).get('/api/time-sheets/628').send();
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBeTruthy();
+  });
+});
+
+// Test for POST method by Mati & Fran
 describe('POST /api/time-sheets', () => {
   test('New time-sheet created', async () => {
     const response = await request(app).post('/api/time-sheets').send({
@@ -51,11 +71,11 @@ describe('POST /api/time-sheets', () => {
 
 describe('Update timesheet', () => {
   test('Should update a timesheet', async () => {
-    const response = await request(app).put('/api/time-sheets/6289c467fc13ae72d60000c7').send({
-      projectId: '6289c467fc13ae72d60000c9',
+    const response = await request(app).put(`/api/time-sheets/${timesheetId}`).send({
+      projectId: '6289c467fc13ae72d6000054',
       Task: [
         {
-          taskId: '6289c467fc13ae72d60000ca',
+          taskId: '6289c467fc13ae72d60000cc',
         },
       ],
       approved: true,
@@ -65,17 +85,22 @@ describe('Update timesheet', () => {
   });
 });
 
-// Test for DELETE method by Fer
+// Test for DELETE method by Fer & Fran
 describe('Delete timesheet', () => {
   test('Should delete a timesheet', async () => {
     // eslint-disable-next-line no-undef
     const response = await request(app).delete(`/api/time-sheets/${timesheetId}`).send();
     expect(response.status).toEqual(200);
-    expect(response.body.msg).toBe(`The ${timesheetId} timesheet has been susccesfully deleted`);
+    expect(response.body.message).toBe(`The ${timesheetId} timesheet has been susccesfully deleted`);
   });
-  test('Should not delete a proyect ', async () => {
+  test('Should not delete a timesheet ', async () => {
     const response = await request(app).delete('/api/time-sheets/6280062d5f0b9b4131e527e4').send();
     expect(response.status).toEqual(404);
-    expect(response.body.msg).toBe('There is no timesheet with this Id 6280062d5f0b9b4131e527e4');
+    expect(response.body.message).toBe('There is no timesheet with this Id 6280062d5f0b9b4131e527e4');
+  });
+  test('Incorrect Id format', async () => {
+    const response = await request(app).delete('/api/time-sheets/asd').send();
+    expect(response.status).toEqual(400);
+    expect(response.body.message).toBe('An error has ocurred');
   });
 });

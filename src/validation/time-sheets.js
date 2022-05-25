@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-// CREATE VALIDATION
+// CREATE VALIDATION by Martín Pueblas
 const createTimeValidation = (req, res, next) => {
   const timesheetValidation = Joi.object({
     projectId: Joi.string().alphanum().length(24).required(),
@@ -23,7 +23,7 @@ const createTimeValidation = (req, res, next) => {
   }
   return next();
 };
-// UPDATE TIMESHEET VALIDATION
+// UPDATE TIMESHEET VALIDATION by Ana
 const updateValidation = (req, res, next) => {
   const timesheetValidation = Joi.object({
     projectId: Joi.string().alphanum().length(24),
