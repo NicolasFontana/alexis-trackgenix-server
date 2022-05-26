@@ -111,6 +111,44 @@ describe('CREATE an admin', () => {
     expect(response.statusCode).toBe(400);
     expect(response.error).toBeTruthy();
   });
+
+  test('Admin created status response unsuccessful due to required fields incomplete', async () => {
+    const response = await request(app).post('/api/admins').send({
+      firstName: 'Emilio',
+      email: 'emilioPerez@mail.com',
+      password: 'emiperez123',
+      active: true,
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data).toBe(undefined);
+    expect(response.body.error).toBeTruthy();
+  });
+
+  test('Admin created status response unsuccessful due to incorrect mail format', async () => {
+    const response = await request(app).post('/api/admins').send({
+      firstName: 'Emilio',
+      lastName: 'Perez',
+      email: '...',
+      password: 'emiperez123',
+      active: true,
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data).toBe(undefined);
+    expect(response.body.error).toBeTruthy();
+  });
+
+  test('Admin created status response unsuccessful due to firstName with numbers', async () => {
+    const response = await request(app).post('/api/admins').send({
+      firstName: 'Emilio123',
+      lastName: 'Perez',
+      email: '...',
+      password: 'emiperez123',
+      active: true,
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data).toBe(undefined);
+    expect(response.body.error).toBeTruthy();
+  });
 });
 
 describe('DELETE an admin', () => {
@@ -142,9 +180,47 @@ describe('UPDATE an admin', () => {
     expect(response.body.error).toBeFalsy();
   });
 
-  test('SuperAdmin updated status response unsuccessful', async () => {
+  test('Admin updated status response successful despite required fields incomplete', async () => {
+    const response = await request(app).put('/api/admins/628ab4225aae617fa8002c21').send({
+      firstName: 'Emilio',
+      email: 'emilioPerez@mail.com',
+      password: 'emiperez123',
+      active: true,
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toEqual('Admin updated');
+    expect(response.body.error).toBeFalsy();
+  });
+
+  test('Admin updated status response unsuccessful', async () => {
     const response = await request(app).put('/api/admins/').send();
     expect(response.statusCode).toBe(404);
+    expect(response.error).toBeTruthy();
+  });
+
+  test('Admin updated status response unsuccessful due to incorrect mail format', async () => {
+    const response = await request(app).put('/api/admins/628ab4225aae617fa8002c21').send({
+      firstName: 'Emilio',
+      lastName: 'Perez',
+      email: '...',
+      password: 'emiperez123',
+      active: true,
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data).toBe(undefined);
+    expect(response.error).toBeTruthy();
+  });
+
+  test('Admin updated status response unsuccessful due to firstName with numbers', async () => {
+    const response = await request(app).put('/api/admins/628ab4225aae617fa8002c21').send({
+      firstName: 'Emilio123',
+      lastName: 'Perez',
+      email: 'emilioPerez@mail.com',
+      password: 'emiperez123',
+      active: true,
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data).toBe(undefined);
     expect(response.error).toBeTruthy();
   });
 });

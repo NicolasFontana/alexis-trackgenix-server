@@ -78,6 +78,44 @@ describe('CREATE a superAdmin', () => {
     expect(response.statusCode).toBe(400);
     expect(response.error).toBeTruthy();
   });
+
+  test('SuperAdmin created status response unsuccessful due to required fields incomplete', async () => {
+    const response = await request(app).post('/api/super-admins').send({
+      firstName: 'juan',
+      email: 'juanGomezz@mail.com',
+      password: 'juangomez123',
+      active: false,
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data).toBe(undefined);
+    expect(response.body.error).toBeTruthy();
+  });
+
+  test('SuperAdmin created status response unsuccessful due to incorrect mail format', async () => {
+    const response = await request(app).post('/api/super-admins').send({
+      firstName: 'juan',
+      lastName: 'gomez',
+      email: '...',
+      password: 'juangomez123',
+      active: false,
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data).toBe(undefined);
+    expect(response.body.error).toBeTruthy();
+  });
+
+  test('SuperAdmin created status response unsuccessful due to firstName with numbers', async () => {
+    const response = await request(app).post('/api/super-admins').send({
+      firstName: 'juan123',
+      lastName: 'gomez',
+      email: 'juanGomezz@mail.com',
+      password: 'juangomez123',
+      active: false,
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data).toBe(undefined);
+    expect(response.body.error).toBeTruthy();
+  });
 });
 
 describe('DELETE a superAdmin', () => {
@@ -109,9 +147,47 @@ describe('UPDATE a superAdmin', () => {
     expect(response.body.error).toBeFalsy();
   });
 
+  test('SuperAdmin updated status response successful despite required fields incomplete', async () => {
+    const response = await request(app).put('/api/super-admins/628ab4225aae617fa8002c22').send({
+      firstName: 'pedro',
+      email: 'pedroGomezz@mail.com',
+      password: 'pedrogomez123',
+      active: false,
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toEqual('Super-Admin updated');
+    expect(response.body.error).toBeFalsy();
+  });
+
   test('SuperAdmin updated status response unsuccessful', async () => {
     const response = await request(app).put('/api/super-admins/').send();
     expect(response.statusCode).toBe(404);
+    expect(response.error).toBeTruthy();
+  });
+
+  test('SuperAdmin updated status response unsuccessful due to incorrect mail format', async () => {
+    const response = await request(app).put('/api/super-admins/628ab4225aae617fa8002c22').send({
+      firstName: 'pedro',
+      lastName: 'gomez',
+      email: '...',
+      password: 'pedrogomez123',
+      active: false,
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data).toBe(undefined);
+    expect(response.error).toBeTruthy();
+  });
+
+  test('SuperAdmin updated status response unsuccessful due to firstName with numbers', async () => {
+    const response = await request(app).put('/api/super-admins/628ab4225aae617fa8002c22').send({
+      firstName: 'Emilio123',
+      lastName: 'Perez',
+      email: 'pedroGomezz@mail.com',
+      password: 'emiperez123',
+      active: true,
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data).toBe(undefined);
     expect(response.error).toBeTruthy();
   });
 });
