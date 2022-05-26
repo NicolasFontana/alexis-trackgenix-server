@@ -1,45 +1,41 @@
 import Joi from 'joi';
 
-// CREATE VALIDATION by Martín Pueblas
+// CREATE VALIDATION
 const createTimeValidation = (req, res, next) => {
   const timesheetValidation = Joi.object({
-    description: Joi.string().min(20).max(150).required(),
-    date: Joi.date().required(),
-    taskId: Joi.string().alphanum().length(24),
-    validated: Joi.boolean().valid(true).required(),
-    employeeId: Joi.string().alphanum().length(24),
-    projectId: Joi.string().alphanum().length(24),
-    projectManagerId: Joi.string().alphanum().length(24),
-    role: Joi.string().valid('QA', 'DEV', 'TL', 'PM').required(),
+    projectId: Joi.string().alphanum().length(24).required(),
+    Task: Joi.array().items(
+      {
+        taskId: Joi.string().alphanum().length(24).required(),
+      },
+    ),
+    approved: Joi.boolean().valid(true).required(),
   });
-
   const validatorTimesheets = timesheetValidation.validate(req.body);
-
   if (validatorTimesheets.error) {
     return res.status(400).json({
-      msg: 'There was an error during the validation of the request',
+      message: 'There was an error during the validation of the request',
       error: validatorTimesheets.error.details[0].message,
     });
   }
   return next();
 };
-// UPDATE TIMESHEET VALIDATION by Ana
+// UPDATE TIMESHEET VALIDATION
 const updateValidation = (req, res, next) => {
-  const timeSheetSchema = Joi.object({
-    description: Joi.string(),
-    date: Joi.date().max('now'),
-    taskId: Joi.string().alphanum().length(24),
-    validated: Joi.boolean(),
-    employeeId: Joi.string().alphanum().length(24),
+  const timesheetValidation = Joi.object({
     projectId: Joi.string().alphanum().length(24),
-    projectManagerId: Joi.string().alphanum().length(24),
-    role: Joi.string().valid('QA', 'DEV', 'TL', 'PM'),
+    Task: Joi.array().items(
+      {
+        taskId: Joi.string().alphanum().length(24),
+      },
+    ),
+    approved: Joi.boolean().valid(true),
   });
-  const validation = timeSheetSchema.validate(req.body);
-  if (validation.error) {
+  const validatorTimesheets = timesheetValidation.validate(req.body);
+  if (validatorTimesheets.error) {
     return res.status(400).json({
       message: 'Please check your fields',
-      error: validation.error,
+      error: validatorTimesheets.error,
     });
   }
   return next();

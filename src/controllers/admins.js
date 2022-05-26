@@ -36,7 +36,7 @@ const getAdminById = async (req, res) => {
         error: false,
       });
     }
-    return res.status(400).json({
+    return res.status(404).json({
       message: 'You must specify an id',
       data: undefined,
       error: true,
@@ -64,7 +64,7 @@ const getAdminByFirstName = async (req, res) => {
         });
       }
       return res.status(200).json({
-        message: 'Admin by first name',
+        message: 'Admins by first name',
         data: admin,
         error: false,
       });
@@ -97,7 +97,7 @@ const getAdminByLastName = async (req, res) => {
         });
       }
       return res.status(200).json({
-        message: 'Admin by last name',
+        message: 'Admins by last name',
         data: admin,
         error: false,
       });
@@ -209,7 +209,7 @@ const createAdmin = async (req, res) => {
 const deleteAdmin = async (req, res) => {
   try {
     if (!req.params.id) {
-      return res.status(400).json({
+      return res.status(404).json({
         message: 'You must specify an id',
         data: undefined,
         error: true,
