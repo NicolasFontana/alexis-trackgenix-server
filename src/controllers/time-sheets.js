@@ -294,13 +294,13 @@ const createTimesheet = async (req, res) => {
     });
     const result = await timesheet.save();
     return res.status(201).json({
-      msg: 'Timesheet created',
+      message: 'Timesheet created',
       data: result,
       error: false,
     });
   } catch (error) {
-    return res.json({
-      msg: 'An error has ocurred',
+    return res.status(400).json({
+      message: 'An error has ocurred',
       data: error,
       error: true,
     });
@@ -311,8 +311,8 @@ const updateTimeSheet = async (req, res) => {
   const { id } = req.params;
   try {
     if (!id) {
-      return res.status(400).json({
-        msg: 'Please provide an ID',
+      return res.status(404).json({
+        message: 'Please provide an ID',
         data: {},
         error: true,
       });
@@ -320,13 +320,13 @@ const updateTimeSheet = async (req, res) => {
     const updatedTimeSheet = await
     models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true });
     return res.status(200).json({
-      msg: 'Time-sheet updated',
+      message: 'Time-sheet updated',
       data: updatedTimeSheet,
       error: false,
     });
   } catch (error) {
-    return res.status(404).json({
-      msg: error,
+    return res.status(400).json({
+      message: error,
       data: {},
       error: true,
     });
@@ -336,8 +336,8 @@ const updateTimeSheet = async (req, res) => {
 const deleteTimesheet = async (req, res) => {
   try {
     if (!req.params.id) {
-      return res.status(400).json({
-        msg: 'An error has ocurred',
+      return res.status(404).json({
+        message: 'Missing Id',
         data: undefined,
         error: true,
       });
@@ -345,18 +345,18 @@ const deleteTimesheet = async (req, res) => {
     const result = await models.TimeSheet.findByIdAndDelete(req.params.id);
     if (!result) {
       return res.status(404).json({
-        msg: `There is no timesheet with this Id ${req.params.id}`,
+        message: `There is no timesheet with this Id ${req.params.id}`,
         data: undefined,
         error: true,
       });
     }
     return res.status(200).json({
-      msg: `The ${req.params.id} timesheet has been susccesfully deleted`,
+      message: `The ${req.params.id} timesheet has been susccesfully deleted`,
       error: false,
     });
   } catch (error) {
     return res.status(400).json({
-      msg: 'An error has ocurred',
+      message: 'An error has ocurred',
       data: undefined,
       error: true,
     });

@@ -14,7 +14,7 @@ const createTimeValidation = (req, res, next) => {
   const validatorTimesheets = timesheetValidation.validate(req.body);
   if (validatorTimesheets.error) {
     return res.status(400).json({
-      msg: 'There was an error during the validation of the request',
+      message: 'There was an error during the validation of the request',
       error: validatorTimesheets.error.details[0].message,
     });
   }
