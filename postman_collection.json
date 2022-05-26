@@ -773,7 +773,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/superadmin/",
+							"raw": "http://localhost:3000/api/super-admins/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -781,7 +781,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"superadmin",
+								"super-admins",
 								""
 							]
 						}
@@ -794,7 +794,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/superadmin/627fce189d4423e59a900ba3",
+							"raw": "http://localhost:3000/api/super-admins/627fce189d4423e59a900ba3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -802,7 +802,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"superadmin",
+								"super-admins",
 								"627fce189d4423e59a900ba3"
 							]
 						}
@@ -815,7 +815,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/superadmin/asdasdasd",
+							"raw": "http://localhost:3000/api/super-admins/asdasdasd",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -823,7 +823,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"superadmin",
+								"super-admins",
 								"asdasdasd"
 							]
 						}
@@ -854,7 +854,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/superadmin/filter",
+							"raw": "http://localhost:3000/api/super-admins/filter",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -862,7 +862,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"superadmin",
+								"super-admins",
 								"filter"
 							]
 						}
@@ -893,7 +893,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/superadmin/filter",
+							"raw": "http://localhost:3000/api/super-admins/filter",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -901,7 +901,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"superadmin",
+								"super-admins",
 								"filter"
 							]
 						}
@@ -932,7 +932,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/superadmin/filter",
+							"raw": "http://localhost:3000/api/super-admins/filter",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -940,7 +940,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"superadmin",
+								"super-admins",
 								"filter"
 							]
 						}
@@ -963,7 +963,7 @@
 							"raw": "{\r\n    \"firstName\": \"mimimi\",\r\n    \"lastName\": \"Alvarez\",\r\n    \"email\": \"asdasd@gmail.com\",\r\n    \"password\": \"1234qwer\",\r\n    \"active\": true\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/superadmin/",
+							"raw": "http://localhost:3000/api/super-admins/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -971,7 +971,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"superadmin",
+								"super-admins",
 								""
 							]
 						}
@@ -994,7 +994,7 @@
 							"raw": "{\r\n    \"firstName\": \"Alvaro\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/superadmin/",
+							"raw": "http://localhost:3000/api/super-admins/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1002,7 +1002,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"superadmin",
+								"super-admins",
 								""
 							]
 						}
@@ -1024,7 +1024,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/superadmin/627fd3799d4423e59a900ba6",
+							"raw": "http://localhost:3000/api/super-admins/627fd3799d4423e59a900ba6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1032,7 +1032,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"superadmin",
+								"super-admins",
 								"627fd3799d4423e59a900ba6"
 							]
 						}
@@ -1054,7 +1054,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/superadmin/627fd3799d4423e59a900ba6",
+							"raw": "http://localhost:3000/api/super-admins/627fd3799d4423e59a900ba6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1062,7 +1062,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"superadmin",
+								"super-admins",
 								"627fd3799d4423e59a900ba6"
 							]
 						}
@@ -1075,7 +1075,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/superadmin/6281c69a5ea926aff95a76f5",
+							"raw": "http://localhost:3000/api/super-admins/6281c69a5ea926aff95a76f5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1083,7 +1083,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"superadmin",
+								"super-admins",
 								"6281c69a5ea926aff95a76f5"
 							]
 						}
@@ -1096,7 +1096,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/superadmin/6280062d5f0b9b4131e527e4",
+							"raw": "http://localhost:3000/api/super-admins/6280062d5f0b9b4131e527e4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1104,7 +1104,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"superadmin",
+								"super-admins",
 								"6280062d5f0b9b4131e527e4"
 							]
 						}
