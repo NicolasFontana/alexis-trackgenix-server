@@ -22,9 +22,9 @@ const getAllEmployees = async (req, res) => {
       data: allEmployees,
       error: false,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(400).json({
-      message: err.message,
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -61,9 +61,9 @@ const getEmployeeById = async (req, res) => {
         error: true,
       });
     }
-  } catch (err) {
+  } catch (error) {
     res.status(400).json({
-      message: err.message,
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -101,9 +101,9 @@ const getEmployeeByFirstName = async (req, res) => {
         error: true,
       });
     }
-  } catch (err) {
+  } catch (error) {
     res.status(400).json({
-      message: err,
+      message: error,
       data: undefined,
       error: true,
     });
@@ -141,9 +141,9 @@ const getEmployeeByLastName = async (req, res) => {
         error: true,
       });
     }
-  } catch (err) {
+  } catch (error) {
     res.status(400).json({
-      message: err,
+      message: error,
       data: undefined,
       error: true,
     });
@@ -181,9 +181,9 @@ const getEmployeeByActivity = async (req, res) => {
         error: true,
       });
     }
-  } catch (err) {
+  } catch (error) {
     res.status(400).json({
-      message: err,
+      message: error,
       data: undefined,
       error: true,
     });
@@ -209,9 +209,9 @@ const createEmployee = async (req, res) => {
       data: result,
       error: false,
     });
-  } catch (err) {
+  } catch (error) {
     return res.status(400).json({
-      message: err.message,
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -258,9 +258,9 @@ const updateEmployee = async (req, res) => {
       data: result,
       error: false,
     });
-  } catch (err) {
+  } catch (error) {
     return res.status(400).json({
-      message: err.message,
+      message: error.message,
       data: undefined,
       err: true,
     });
