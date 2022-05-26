@@ -5,34 +5,9 @@ const getAllTasks = async (req, res) => {
   try {
     const allTasks = await models.Tasks.find({});
     return res.status(200).json({
-      message: 'All tasks.',
+      message: 'All tasks',
       data: allTasks,
       error: false,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: error,
-      data: {},
-      error: true,
-    });
-  }
-};
-
-// GET TASK BY NAME
-const getTaskByName = async (req, res) => {
-  try {
-    if (req.params.taskName) {
-      const task = await models.Tasks.find({ taskName: req.params.taskName });
-      return res.status(200).json({
-        message: `Task ${req.params.taskName} found.`,
-        data: task,
-        error: false,
-      });
-    }
-    return res.status(400).json({
-      message: 'Please enter a name',
-      data: undefined,
-      error: true,
     });
   } catch (error) {
     return res.status(400).json({
@@ -65,14 +40,38 @@ const getTaskById = async (req, res) => {
   }
 };
 
+// GET TASK BY DESCRIPTION
+const getTaskByDescription = async (req, res) => {
+  try {
+    if (req.params.description) {
+      const task = await models.Tasks.find({ description: req.params.description });
+      return res.status(200).json({
+        message: `Task ${req.params.description} found.`,
+        data: task,
+        error: false,
+      });
+    }
+    return res.status(400).json({
+      message: 'Please enter a name',
+      data: undefined,
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
+    });
+  }
+};
+
 // CREATE A TASK
 const createTask = async (req, res) => {
   try {
     const task = new models.Tasks({
-      taskName: req.body.taskName,
-      startDate: req.body.startDate,
+      date: req.body.date,
+      workedHours: req.body.workedHours,
       description: req.body.description,
-      status: req.body.status,
     });
 
     const result = await task.save();
@@ -149,7 +148,7 @@ const deleteTask = async (req, res) => {
 
 export default {
   getAllTasks,
-  getTaskByName,
+  getTaskByDescription,
   getTaskById,
   createTask,
   updateTask,
