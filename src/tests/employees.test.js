@@ -196,7 +196,7 @@ describe('create an employee', () => {
       active: false,
     });
     expect(response.status).toBe(400);
-    expect(response.body.message).toContain('Employee validation failed');
+    expect(response.body.message).toContain('There was an error during the validation process');
     expect(response.body.error).toBeTruthy();
   });
   test('No last name error', async () => {
@@ -208,7 +208,7 @@ describe('create an employee', () => {
       active: false,
     });
     expect(response.status).toBe(400);
-    expect(response.body.message).toContain('Employee validation failed');
+    expect(response.body.message).toContain('There was an error during the validation process');
     expect(response.body.error).toBeTruthy();
   });
   test('No phone error', async () => {
@@ -220,7 +220,7 @@ describe('create an employee', () => {
       active: false,
     });
     expect(response.status).toBe(400);
-    expect(response.body.message).toContain('Employee validation failed');
+    expect(response.body.message).toContain('There was an error during the validation process');
     expect(response.body.error).toBeTruthy();
   });
   test('No email error', async () => {
@@ -232,7 +232,7 @@ describe('create an employee', () => {
       active: false,
     });
     expect(response.status).toBe(400);
-    expect(response.body.message).toContain('Employee validation failed');
+    expect(response.body.message).toContain('There was an error during the validation process');
     expect(response.body.error).toBeTruthy();
   });
   test('No password error', async () => {
@@ -244,7 +244,7 @@ describe('create an employee', () => {
       active: false,
     });
     expect(response.status).toBe(400);
-    expect(response.body.message).toContain('Employee validation failed');
+    expect(response.body.message).toContain('There was an error during the validation process');
     expect(response.body.error).toBeTruthy();
   });
   test('No status error', async () => {
@@ -256,7 +256,23 @@ describe('create an employee', () => {
       password: 'password123',
     });
     expect(response.status).toBe(400);
-    expect(response.body.message).toContain('Employee validation failed');
+    expect(response.body.message).toContain('There was an error during the validation process');
+    expect(response.body.error).toBeTruthy();
+  });
+});
+
+describe('create invalidated', () => {
+  test('invalid firstName', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: '_',
+      lastName: 'Lopez',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com',
+      password: 'password123',
+      active: false,
+    });
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('There was an error during the validation process');
     expect(response.body.error).toBeTruthy();
   });
 });

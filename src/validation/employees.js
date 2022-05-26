@@ -10,10 +10,10 @@ const createEmployeeValidation = (req, res, next) => {
     active: Joi.boolean().required(),
   });
   const validation = Schema.validate(req.body);
-  if (validation.err) {
+  if (validation.error) {
     return res.status(400).json({
       message: 'There was an error during the validation process',
-      err: validation.err.details[0],
+      error: true,
     });
   }
   return next();
@@ -31,10 +31,10 @@ const updateEmployeeValidation = (req, res, next) => {
     timeSheets: Joi.array().items({}),
   });
   const validation = Schema.validate(req.body);
-  if (validation.err) {
+  if (validation.error) {
     return res.status(400).json({
       message: 'There was an error during the validation process',
-      err: validation.err.details[0],
+      error: true,
     });
   }
   return next();
