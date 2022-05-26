@@ -39,7 +39,7 @@ describe('GetById /api/tasks', () => {
     expect(response.body.error).toBeTruthy();
   });
 });
-/*
+
 // Test GET by description by Fran
 describe('GetByDescription /api/tasks', () => {
   test('get task by description', async () => {
@@ -58,7 +58,7 @@ describe('GetByDescription /api/tasks', () => {
     expect(response.body.error).toBe(true);
   });
 });
-*/
+
 // Test POST by Fran
 describe('POST /api/tasks', () => {
   test('Create a task', async () => {

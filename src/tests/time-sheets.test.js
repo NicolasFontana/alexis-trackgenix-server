@@ -83,6 +83,24 @@ describe('Update timesheet', () => {
     expect(response.status).toBe(200);
     expect(response.body.error).toBeFalsy();
   });
+
+  test('incorrect format id', async () => {
+    const response = await request(app).post('/api/time-sheets/628b9ce3b61').send();
+    expect(response.status).toBe(404);
+  });
+
+  test('With an incompletes body fields the response should return a status 404', async () => {
+    const response = await request(app).post(`/api/time-sheets/${timesheetId}`).send({
+      projectId: '',
+      Task: [
+        {
+          taskId: '',
+        },
+      ],
+      approved: true,
+    });
+    expect(response.status).toBe(404);
+  });
 });
 
 // Test for DELETE method by Fer & Fran

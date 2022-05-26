@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
-// Created by Mati and edited by Fer
+
 const timeSheetSchema = new Schema({
   projectId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Project' },
   Task: [

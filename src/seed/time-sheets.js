@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-// Created by Mati & Edited by Fer
+
 export default [{
   _id: mongoose.Types.ObjectId('6289c467fc13ae72d60000c7'),
   projectId: {

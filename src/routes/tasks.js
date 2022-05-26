@@ -7,7 +7,7 @@ const router = express.Router();
 router
   .get('/', tasksControllers.getAllTasks)
   .get('/:id', tasksControllers.getTaskById)
-  .get('/taskDescription/:taskDescription', tasksControllers.getTaskByDescription)
+  .get('/taskDescription/:description', tasksControllers.getTaskByDescription)
   .post('/', tasksValidation.validateCreation, tasksControllers.createTask)
   .put('/:id', tasksValidation.validateUpdate, tasksControllers.updateTask)
   .delete('/:id', tasksControllers.deleteTask);

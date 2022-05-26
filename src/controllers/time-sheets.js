@@ -1,6 +1,6 @@
 import models from '../models';
 
-// GET ALL by Ana // Populated by Mati and edited by Fer
+// GET ALL by Ana
 const getAllTimesheets = async (req, res) => {
   try {
     const allTimesheets = await models.TimeSheet.find({}).populate('projectId', 'Project').populate('Task');
@@ -49,7 +49,7 @@ const getByIdTimesheets = async (req, res) => {
     });
   }
 };
-
+// GET BY ROLE by Ana
 const getByRoleTimesheets = async (req, res) => {
   try {
     if (!req.params || !['QA', 'DEV', 'TL', 'PM'].includes(req.params.role)) {
@@ -81,6 +81,7 @@ const getByRoleTimesheets = async (req, res) => {
   }
 };
 
+// GET A TIMESHEET BY TASK by Ana
 const getByTaskTimesheets = async (req, res) => {
   try {
     if (!req.params) {
