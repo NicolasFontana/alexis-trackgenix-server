@@ -70,24 +70,31 @@ const getProjectById = async (req, res) => {
 // get project by name (Javi)(and Pinche)
 const getProjectByName = async (req, res) => {
   try {
-    const project = await models.Projects.find({ name: req.params.name })
-      .populate('members.employeeId', {
-        _id: 1,
-        firstName: 1,
-        lastName: 1,
-        active: 1,
-      });
-    if (project.length === 0) {
-      return res.status(404).json({
-        message: `No project with name: ${req.params.name}`,
-        data: {},
-        error: true,
+    if (req.params.name) {
+      const project = await models.Projects.find({ name: req.params.name })
+        .populate('members.employeeId', {
+          _id: 1,
+          firstName: 1,
+          lastName: 1,
+          active: 1,
+        });
+      if (project.length === 0) {
+        return res.status(404).json({
+          message: `No project with name: ${req.params.name}`,
+          data: {},
+          error: true,
+        });
+      }
+      return res.status(200).json({
+        message: 'Project found!',
+        data: project,
+        error: false,
       });
     }
-    return res.status(200).json({
-      message: 'Project found!',
-      data: project,
-      error: false,
+    return res.status(400).json({
+      message: 'Please enter a name',
+      data: {},
+      error: true,
     });
   } catch (error) {
     return res.status(400).json({
@@ -171,25 +178,32 @@ const getByPeriod = async (req, res) => {
 // get project by client name (Javi)
 const getProjectByClientName = async (req, res) => {
   try {
-    const project = await models.Projects
-      .find({ clientName: req.params.clientName })
-      .populate('members.employeeId', {
-        _id: 1,
-        firstName: 1,
-        lastName: 1,
-        active: 1,
-      });
-    if (project.length === 0) {
-      return res.status(404).json({
-        message: `No project with client: ${req.params.clientName}`,
-        data: {},
-        error: true,
+    if (req.params.clientName) {
+      const project = await models.Projects
+        .find({ clientName: req.params.clientName })
+        .populate('members.employeeId', {
+          _id: 1,
+          firstName: 1,
+          lastName: 1,
+          active: 1,
+        });
+      if (project.length === 0) {
+        return res.status(404).json({
+          message: `No project with client: ${req.params.clientName}`,
+          data: {},
+          error: true,
+        });
+      }
+      return res.status(200).json({
+        message: 'Project found!',
+        data: project,
+        error: false,
       });
     }
-    return res.status(200).json({
-      message: 'Project found!',
-      data: project,
-      error: false,
+    return res.status(400).json({
+      message: 'Please enter a client name',
+      data: {},
+      error: true,
     });
   } catch (error) {
     return res.status(400).json({
@@ -258,7 +272,7 @@ const createNewProject = async (req, res) => {
     });
   }
 };
-// Update project
+
 const updateProject = async (req, res) => {
   try {
     const { id } = req.params;
@@ -309,10 +323,10 @@ const deleteProject = async (req, res) => {
         });
       }
       return res.json({
-        message: 'The project was successfully deleted',
+        message: 'The project deleted successfully',
         data: result,
         error: false,
-      }).status(200);
+      }).status(204);
     }
     return res.status(400).json({
       message: `id:${req.params.id} is not valid`,
@@ -333,9 +347,9 @@ export default {
   createNewProject,
   getProjectById,
   getProjectByName,
-  getProjectByStatus,
   getByPeriod,
   getProjectByClientName,
+  getProjectByStatus,
   updateProject,
   deleteProject,
 };
