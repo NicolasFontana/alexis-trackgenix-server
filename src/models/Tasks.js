@@ -4,23 +4,10 @@ const { Schema } = mongoose;
 
 const tasksSchema = new Schema(
   {
-    taskName: {
-      type: String,
-      required: true,
-    },
-    startDate: {
-      type: Date,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: false,
-    },
-    status: {
-      type: String,
-      required: true,
-      enum: ['Completed', 'Paused', 'In progress', 'Cancelled'],
-    },
+    taskId: { type: Schema.Types.ObjectId },
+    taskDate: { type: Date, required: true },
+    workedHours: { type: Number, required: true },
+    description: { type: String, required: true },
   },
   { timestamps: true },
 );

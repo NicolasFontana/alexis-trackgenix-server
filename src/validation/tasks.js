@@ -2,17 +2,14 @@ import Joi from 'joi';
 
 const validateCreation = (req, res, next) => {
   const taskValidation = Joi.object({
-    taskName: Joi.string().min(1).max(50).required(),
-    startDate: Joi.date().required(),
-    description: Joi.string().min(1).max(250).optional(),
-    status: Joi.string()
-      .valid('Completed', 'Paused', 'In progress', 'Cancelled')
-      .required(),
+    taskDate: Joi.date().required(),
+    workedHours: Joi.number().required(),
+    description: Joi.string().min(1).max(250).required(),
   });
   const validation = taskValidation.validate(req.body);
   if (validation.error) {
     return res.status(400).json({
-      message: validation.error.details[0].message,
+      message: 'There was an error during the request validation',
       data: undefined,
       error: true,
     });
@@ -22,17 +19,16 @@ const validateCreation = (req, res, next) => {
 
 const validateUpdate = (req, res, next) => {
   const schema = Joi.object({
-    taskName: Joi.string().min(1).max(50),
-    startDate: Joi.date(),
+    taskDate: Joi.date(),
+    workedHours: Joi.number(),
     description: Joi.string().min(1).max(250),
-    status: Joi.string()
-      .valid('Completed', 'Paused', 'In progress', 'Cancelled'),
   });
   const validation = schema.validate(req.body);
   if (validation.error) {
     return res.status(400).json({
       message: 'There was an error during the request validation',
-      error: validation.error.details[0],
+      data: undefined,
+      error: true,
     });
   }
   return next();
