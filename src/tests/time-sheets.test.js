@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../app';
-import timeSheets from '../models/Time-sheets';
 import timeSheetSeed from '../seed/time-sheets';
+import timeSheets from '../models/Time-sheets';
 
 let timesheetId;
 
@@ -9,6 +9,7 @@ beforeAll(async () => {
   await timeSheets.collection.insertMany(timeSheetSeed);
 });
 
+// Test for GET method by Fer
 // Test for GET method by Fer
 describe('GET /api/time-sheets', () => {
   test('Response should return a 200 status', async () => {
@@ -162,6 +163,24 @@ describe('Update timesheet', () => {
     });
     expect(response.status).toBe(200);
     expect(response.body.error).toBeFalsy();
+  });
+
+  test('incorrect format id', async () => {
+    const response = await request(app).post('/api/time-sheets/628b9ce3b61').send();
+    expect(response.status).toBe(404);
+  });
+
+  test('With an incompletes body fields the response should return a status 404', async () => {
+    const response = await request(app).post(`/api/time-sheets/${timesheetId}`).send({
+      projectId: '',
+      Task: [
+        {
+          taskId: '',
+        },
+      ],
+      approved: true,
+    });
+    expect(response.status).toBe(404);
   });
 });
 

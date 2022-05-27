@@ -15,7 +15,6 @@ beforeAll(async () => {
   };
   await mongoose.connect(uri, mongooseOpts);
 });
-
 // Disconnection the fake database
 afterAll(async () => {
   await mongoose.connection.dropDatabase();
