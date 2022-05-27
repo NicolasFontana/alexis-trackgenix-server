@@ -58,6 +58,13 @@ const getFilteredSuperadmins = async (req, res) => {
       email: { $regex: new RegExp(email || '', 'i') },
       active: active ?? { $in: [false, true] },
     });
+    if (!filtered) {
+      return res.status(404).json({
+        message: 'There is not an admin matching the provided filter',
+        data: {},
+        error: true,
+      });
+    }
     return res.status(200).json({
       message: 'Superadmins filtered',
       data: filtered,
@@ -78,14 +85,16 @@ const getSuperadminById = async (req, res) => {
     const { id } = req.params;
     if (id) {
       const superadminByID = await models.SuperAdmin.findById(id);
-      return res.status(200).json({
-        message: `Superadmin with id: ${id}`,
-        data: superadminByID,
-        error: false,
-      });
+      if (superadminByID) {
+        return res.status(200).json({
+          message: `Superadmin with id: ${id}`,
+          data: superadminByID,
+          error: false,
+        });
+      }
     }
     return res.status(404).json({
-      message: 'You must specify an id',
+      message: 'Super admin not found',
       data: {},
       error: true,
     });
@@ -102,7 +111,7 @@ const getSuperadminById = async (req, res) => {
 const updateSuperadmin = async (req, res) => {
   try {
     if (!req.params) {
-      return res.status(404).json({
+      return res.status(400).json({
         message: 'You must specify an id',
         data: {},
         error: true,
@@ -110,6 +119,13 @@ const updateSuperadmin = async (req, res) => {
     }
     const { id } = req.params;
     const updatedAdmin = await models.SuperAdmin.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updatedAdmin) {
+      return res.status(404).json({
+        message: `Superadmin with id:${req.params.id} not found`,
+        data: {},
+        error: true,
+      });
+    }
     return res.status(200).json({
       message: 'Super-Admin updated',
       data: updatedAdmin,
