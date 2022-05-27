@@ -178,9 +178,9 @@ const getEmployeeByActivity = async (req, res) => {
         error: false,
       });
     }
-  } catch (err) {
+  } catch (error) {
     res.status(400).json({
-      message: err,
+      message: error,
       data: undefined,
       error: true,
     });
@@ -253,11 +253,11 @@ const updateEmployee = async (req, res) => {
       data: result,
       error: false,
     });
-  } catch (err) {
+  } catch (error) {
     return res.status(400).json({
-      message: err.message,
+      message: error.message,
       data: undefined,
-      err: true,
+      error: true,
     });
   }
 };
@@ -285,11 +285,11 @@ const deleteEmployee = async (req, res) => {
       data: result,
       error: false,
     }).status(204);
-  } catch (err) {
+  } catch (error) {
     res.status(400).json({
-      message: err,
+      message: error,
       data: undefined,
-      err: true,
+      error: true,
     });
   }
 };
