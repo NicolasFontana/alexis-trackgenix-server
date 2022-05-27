@@ -301,7 +301,7 @@ const createTimesheet = async (req, res) => {
     return res.status(201).json(result);
   } catch (error) {
     return res.json({
-      msg: 'An error has ocurred',
+      message: 'An error has ocurred',
       data: error,
       error: true,
     });
@@ -338,7 +338,7 @@ const deleteTimesheet = async (req, res) => {
   try {
     if (!req.params.id) {
       return res.status(400).json({
-        msg: 'An error has ocurred',
+        message: 'An error has ocurred',
         data: undefined,
         error: true,
       });
@@ -346,18 +346,18 @@ const deleteTimesheet = async (req, res) => {
     const result = await models.TimeSheet.findByIdAndDelete(req.params.id);
     if (!result) {
       return res.status(404).json({
-        msg: `There is no timesheet with this Id ${req.params.id}`,
+        message: `There is no timesheet with this Id ${req.params.id}`,
         data: undefined,
         error: true,
       });
     }
     return res.status(200).json({
-      msg: `The ${req.params.id} timesheet has been susccesfully deleted`,
+      message: `The ${req.params.id} timesheet has been susccesfully deleted`,
       error: false,
     });
   } catch (error) {
     return res.json({
-      msg: 'An error has ocurred',
+      message: 'An error has ocurred',
       data: undefined,
       error: true,
     });

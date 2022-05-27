@@ -58,7 +58,7 @@ describe('Get employee by id', () => {
 
   test('response should be a message like this: missing id parameter', async () => {
     const response = await request(app).get('/api/employees/6288fe568cb389708e53eb0f').send();
-    expect(response.body.msg).toBe('missing id parameter');
+    expect(response.body.message).toBe('missing id parameter');
   });
 });
 
@@ -70,7 +70,7 @@ describe('Get employee by first name', () => {
 
   test('response should be a message like this: Employee with firstName Puche', async () => {
     const response = await request(app).get('/api/employees/firstName/Puche').send();
-    expect(response.body.msg).toContain('Employee with firstName');
+    expect(response.body.message).toContain('Employee with firstName');
   });
 
   test('response should be false error', async () => {
@@ -95,7 +95,7 @@ describe('Get employee by first name', () => {
 
   test('response should be a message like this: missing firstName parameter', async () => {
     const response = await request(app).get('/api/employees/firstName/1Puche').send();
-    expect(response.body.msg).toBe('missing firstName parameter');
+    expect(response.body.message).toBe('missing firstName parameter');
   });
 });
 
@@ -107,7 +107,7 @@ describe('get by lastName', () => {
 
   test('response should be a message like this: Employee with lastName Lopez', async () => {
     const response = await request(app).get('/api/employees/lastName/Lopez').send();
-    expect(response.body.msg).toBe('Employee with lastName Lopez');
+    expect(response.body.message).toBe('Employee with lastName Lopez');
   });
 
   test('response should be false error', async () => {
@@ -132,7 +132,7 @@ describe('get by lastName', () => {
 
   test('response should be a message like this: missing lastName parameter', async () => {
     const response = await request(app).get('/api/employees/lastName/1Lopez').send();
-    expect(response.body.msg).toBe('missing lastName parameter');
+    expect(response.body.message).toBe('missing lastName parameter');
   });
 });
 
@@ -144,7 +144,7 @@ describe('get by active status', () => {
 
   test('response should be a message like this: Employee with status false', async () => {
     const response = await request(app).get('/api/employees/active/false').send();
-    expect(response.body.msg).toBe('Employee with status false');
+    expect(response.body.message).toBe('Employee with status false');
   });
 
   test('response should be false error', async () => {
@@ -169,7 +169,7 @@ describe('get by active status', () => {
 
   test('response should be a message like this: missing active parameter', async () => {
     const response = await request(app).get('/api/employees/active/true').send();
-    expect(response.body.msg).toBe('missing active parameter');
+    expect(response.body.message).toBe('missing active parameter');
   });
 });
 // CREATE TESTS BY MARTIN

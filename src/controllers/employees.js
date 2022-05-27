@@ -51,19 +51,19 @@ const getEmployeeById = async (req, res) => {
       });
     if (singleEmployee) {
       return res.status(200).json({
-        msg: `Employee with id ${req.params.id}`,
+        message: `Employee with id ${req.params.id}`,
         data: singleEmployee,
         error: false,
       });
     }
     return res.status(404).json({
-      msg: 'missing id parameter',
+      message: 'missing id parameter',
       data: undefined,
       error: true,
     });
   } catch (error) {
     return res.status(400).json({
-      msg: [error, { id: req.params.id }],
+      message: [error, { id: req.params.id }],
       data: {},
       error: true,
     });
@@ -89,19 +89,19 @@ const getEmployeeByFirstName = async (req, res) => {
       });
     if (Employees.length !== 0) {
       return res.status(200).json({
-        msg: `Employee with firstName ${req.params.firstName}`,
+        message: `Employee with firstName ${req.params.firstName}`,
         data: Employees,
         error: false,
       });
     }
     return res.status(404).json({
-      msg: 'missing firstName parameter',
+      message: 'missing firstName parameter',
       data: undefined,
       error: true,
     });
   } catch (error) {
     return res.status(400).json({
-      msg: [error, { id: req.params.id }],
+      message: [error, { id: req.params.id }],
       data: {},
       error: true,
     });
@@ -128,19 +128,19 @@ const getEmployeeByLastName = async (req, res) => {
       });
     if (Employees.length !== 0) {
       return res.status(200).json({
-        msg: `Employee with lastName ${lastNameParam}`,
+        message: `Employee with lastName ${lastNameParam}`,
         data: Employees,
         error: false,
       });
     }
     return res.status(404).json({
-      msg: 'missing lastName parameter',
+      message: 'missing lastName parameter',
       data: undefined,
       error: true,
     });
   } catch (error) {
     return res.status(400).json({
-      msg: [error, { id: req.params.id }],
+      message: [error, { id: req.params.id }],
       data: {},
       error: true,
     });
@@ -167,20 +167,20 @@ const getEmployeeByActivity = async (req, res) => {
       });
     if (Employees.length <= 0) {
       res.status(404).json({
-        msg: 'missing active parameter',
+        message: 'missing active parameter',
         data: undefined,
         error: true,
       });
     } else {
       res.status(200).json({
-        msg: `Employee with status ${activeParam}`,
+        message: `Employee with status ${activeParam}`,
         data: Employees,
         error: false,
       });
     }
   } catch (err) {
     res.status(400).json({
-      msg: err,
+      message: err,
       data: undefined,
       error: true,
     });
