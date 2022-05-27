@@ -9,14 +9,12 @@ const createEmployeeValidation = (req, res, next) => {
     email: Joi.string().email().required(),
     password: Joi.string().min(8).required(),
     active: Joi.boolean().required(),
-    projects: Joi.array().items({}).required(),
-    timeSheets: Joi.array().items({}).required(),
   });
   const validation = Schema.validate(req.body);
-  if (validation.err) {
+  if (validation.error) {
     return res.status(400).json({
       message: 'There was an error during the validation process',
-      err: validation.err.details[0],
+      error: true,
     });
   }
   return next();
@@ -30,14 +28,14 @@ const updateEmployeeValidation = (req, res, next) => {
     email: Joi.string().email(),
     password: Joi.string().min(8),
     active: Joi.boolean(),
-    projects: Joi.array().items({}),
-    timeSheets: Joi.array().items({}),
+    projects: Joi.array().items(),
+    timeSheets: Joi.array().items(),
   });
   const validation = Schema.validate(req.body);
-  if (validation.err) {
+  if (validation.error) {
     return res.status(400).json({
       message: 'There was an error during the validation process',
-      err: validation.err.details[0],
+      error: true,
     });
   }
   return next();

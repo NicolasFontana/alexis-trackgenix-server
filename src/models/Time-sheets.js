@@ -7,9 +7,6 @@ const timeSheetSchema = new Schema({
   Task: [
     {
       taskId: { type: mongoose.Schema.Types.ObjectId, ref: 'Task' },
-    //   taskDate: { type: Date, required: true, ref: 'Task' },
-    //   workedHours: { type: Number, required: true, ref: 'Task' },
-    //   description: { type: String, required: true, ref: 'Task' },
     },
     { timestamps: true },
   ],

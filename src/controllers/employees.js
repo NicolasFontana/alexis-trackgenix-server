@@ -31,155 +31,152 @@ const getAllEmployees = async (req, res) => {
   }
 };
 
-// get employee by id
+// get employee by id **UPDATED BY MARTIN P.
+
 const getEmployeeById = async (req, res) => {
   try {
-    if (req.params.id) {
-      const singleEmployee = await models.Employees.findById(req.params.id)
-        .populate('projects', {
-          name: 1,
-          description: 1,
-          startDate: 1,
-          endDate: 1,
-          clientName: 1,
-          active: 1,
-        })
-        .populate('timeSheets', {
-          projectId: 1,
-          Task: 1,
-          approved: 1,
-        });
-      res.status(200).json({
+    const singleEmployee = await models.Employees.findById(req.params.id)
+      .populate('projects', {
+        name: 1,
+        description: 1,
+        startDate: 1,
+        endDate: 1,
+        clientName: 1,
+        active: 1,
+      })
+      .populate('timeSheets', {
+        projectId: 1,
+        Task: 1,
+        approved: 1,
+      });
+    if (singleEmployee) {
+      return res.status(200).json({
         message: `Employee with id ${req.params.id}`,
         data: singleEmployee,
         error: false,
       });
-    } else {
-      res.status(400).json({
-        message: 'missing id parameter',
-        data: undefined,
-        error: true,
-      });
     }
-  } catch (error) {
-    res.status(400).json({
-      message: error.message,
+    return res.status(404).json({
+      message: 'missing id parameter',
       data: undefined,
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: [error, { id: req.params.id }],
+      data: {},
       error: true,
     });
   }
 };
 
-// get employee by firstName
+// get employee by firstName **UPDATED BY MARTIN P.
 const getEmployeeByFirstName = async (req, res) => {
   try {
-    if (req.params.firstName) {
-      const firstNameParam = req.params.firstName;
-      const Employees = await models.Employees.find({ firstName: firstNameParam })
-        .populate('projects', {
-          name: 1,
-          description: 1,
-          startDate: 1,
-          endDate: 1,
-          clientName: 1,
-          active: 1,
-        })
-        .populate('timeSheets', {
-          projectId: 1,
-          taskId: 1,
-          approved: 1,
-        });
-      res.status(200).json({
-        message: `Employee with firstName ${firstNameParam}`,
+    const Employees = await models.Employees.find({ firstName: req.params.firstName })
+      .populate('projects', {
+        name: 1,
+        description: 1,
+        startDate: 1,
+        endDate: 1,
+        clientName: 1,
+        active: 1,
+      })
+      .populate('timeSheets', {
+        projectId: 1,
+        Task: 1,
+        approved: 1,
+      });
+    if (Employees.length !== 0) {
+      return res.status(200).json({
+        message: `Employee with firstName ${req.params.firstName}`,
         data: Employees,
         error: false,
       });
-    } else {
-      res.status(400).json({
-        message: 'missing firstName parameter',
-        data: undefined,
-        error: true,
-      });
     }
-  } catch (error) {
-    res.status(400).json({
-      message: error,
+    return res.status(404).json({
+      message: 'missing firstName parameter',
       data: undefined,
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: [error, { id: req.params.id }],
+      data: {},
       error: true,
     });
   }
 };
 
-// get employee by lastName
+// get employee by lastName **UPDATED BY MARTIN P.
 const getEmployeeByLastName = async (req, res) => {
   try {
-    if (req.params.lastName) {
-      const lastNameParam = req.params.lastName;
-      const Employees = await models.Employees.find({ lastName: lastNameParam })
-        .populate('projects', {
-          name: 1,
-          description: 1,
-          startDate: 1,
-          endDate: 1,
-          clientName: 1,
-          active: 1,
-        })
-        .populate('timeSheets', {
-          projectId: 1,
-          taskId: 1,
-          approved: 1,
-        });
-      res.status(200).json({
+    const lastNameParam = req.params.lastName;
+    const Employees = await models.Employees.find({ lastName: req.params.lastName })
+      .populate('projects', {
+        name: 1,
+        description: 1,
+        startDate: 1,
+        endDate: 1,
+        clientName: 1,
+        active: 1,
+      })
+      .populate('timeSheets', {
+        projectId: 1,
+        taskId: 1,
+        approved: 1,
+      });
+    if (Employees.length !== 0) {
+      return res.status(200).json({
         message: `Employee with lastName ${lastNameParam}`,
         data: Employees,
         error: false,
       });
-    } else {
-      res.status(400).json({
-        message: 'missing lastName parameter',
-        data: undefined,
-        error: true,
-      });
     }
-  } catch (error) {
-    res.status(400).json({
-      message: error,
+    return res.status(404).json({
+      message: 'missing lastName parameter',
       data: undefined,
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: [error, { id: req.params.id }],
+      data: {},
       error: true,
     });
   }
 };
 
-// get employee by activity
+// get employee by activity **UPDATED BY MARTIN P.
 const getEmployeeByActivity = async (req, res) => {
   try {
-    if (req.params.active) {
-      const activeParam = req.params.active;
-      const Employees = await models.Employees.find({ active: activeParam })
-        .populate('projects', {
-          name: 1,
-          description: 1,
-          startDate: 1,
-          endDate: 1,
-          clientName: 1,
-          active: 1,
-        })
-        .populate('timeSheets', {
-          projectId: 1,
-          taskId: 1,
-          approved: 1,
-        });
+    const activeParam = req.params.active;
+    const Employees = await models.Employees.find({ active: activeParam })
+      .populate('projects', {
+        name: 1,
+        description: 1,
+        startDate: 1,
+        endDate: 1,
+        clientName: 1,
+        active: 1,
+      })
+      .populate('timeSheets', {
+        projectId: 1,
+        taskId: 1,
+        approved: 1,
+      });
+    if (Employees.length <= 0) {
+      res.status(404).json({
+        message: 'missing active parameter',
+        data: undefined,
+        error: true,
+      });
+    } else {
       res.status(200).json({
         message: `Employee with status ${activeParam}`,
         data: Employees,
         error: false,
       });
-    } else {
-      res.status(400).json({
-        message: 'missing active parameter',
-        data: undefined,
-        error: true,
-      });
     }
   } catch (error) {
     res.status(400).json({
@@ -190,7 +187,7 @@ const getEmployeeByActivity = async (req, res) => {
   }
 };
 
-// create employee
+// create employee **UPDATED BY MARTIN P.
 const createEmployee = async (req, res) => {
   try {
     const employee = new models.Employees({
@@ -218,7 +215,7 @@ const createEmployee = async (req, res) => {
   }
 };
 
-// update employee
+/// update employee
 const updateEmployee = async (req, res) => {
   try {
     if (!req.params) {
@@ -262,7 +259,7 @@ const updateEmployee = async (req, res) => {
     return res.status(400).json({
       message: error.message,
       data: undefined,
-      err: true,
+      error: true,
     });
   }
 };

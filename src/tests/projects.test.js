@@ -174,7 +174,7 @@ describe('POST projects/create', () => {
       ],
     });
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('There was an error');
+    expect(response.body.message).toBe('There was an error');
     expect(response.body.error.length).toBeGreaterThan(5);
   });
   test('Name too short: Should not create a project due to failed validation', async () => {
@@ -194,7 +194,7 @@ describe('POST projects/create', () => {
       ],
     });
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('There was an error');
+    expect(response.body.message).toBe('There was an error');
     expect(response.body.error.length).toBeGreaterThan(5);
   });
   test('Invalid date: Should not create a project due to failed validation', async () => {
@@ -214,7 +214,7 @@ describe('POST projects/create', () => {
       ],
     });
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('There was an error');
+    expect(response.body.message).toBe('There was an error');
     expect(response.body.error.length).toBeGreaterThan(5);
   });
 });

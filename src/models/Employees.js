@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
-
+// POPULATE BY JAVIER Y MARTIN
 const employeeSchema = new Schema(
   {
     firstName: { type: String, required: true },
