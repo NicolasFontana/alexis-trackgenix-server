@@ -1,9 +1,9 @@
 import models from '../models';
 
-// GET ALL by Ana
+// GET ALL
 const getAllTimesheets = async (req, res) => {
   try {
-    const allTimesheets = await models.TimeSheet.find({});
+    const allTimesheets = await models.TimeSheet.find({}).populate('projectId', 'Project').populate('Task');
     return res.status(200).json({
       message: 'Time-Sheets',
       data: allTimesheets,
@@ -17,7 +17,7 @@ const getAllTimesheets = async (req, res) => {
     });
   }
 };
-// GET BY ID by Ana
+// GET BY ID
 const getByIdTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -49,7 +49,7 @@ const getByIdTimesheets = async (req, res) => {
     });
   }
 };
-// GET BY ROLE by Ana
+// GET BY ROLE
 const getByRoleTimesheets = async (req, res) => {
   try {
     if (!req.params || !['QA', 'DEV', 'TL', 'PM'].includes(req.params.role)) {
@@ -81,7 +81,7 @@ const getByRoleTimesheets = async (req, res) => {
   }
 };
 
-// GET A TIMESHEET BY TASK by Ana
+// GET A TIMESHEET BY TASK
 const getByTaskTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -113,7 +113,7 @@ const getByTaskTimesheets = async (req, res) => {
   }
 };
 
-// GET TIME SHEETS BY VALIDATED by Ana
+// GET TIME SHEETS BY VALIDATED
 const getByValidatedTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -145,7 +145,7 @@ const getByValidatedTimesheets = async (req, res) => {
   }
 };
 
-// GET TIME SHEETS BY PROJECT by Ana
+// GET TIME SHEETS BY PROJECT
 const getByProjecTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -176,7 +176,7 @@ const getByProjecTimesheets = async (req, res) => {
     });
   }
 };
-// GET TIMESHEETS BY EMPLOYEE by Ana
+// GET TIMESHEETS BY EMPLOYEE
 const getByEmployeeTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -208,7 +208,7 @@ const getByEmployeeTimesheets = async (req, res) => {
   }
 };
 
-// GET TIMESHEETS BY PROJECT MANAGER by Ana
+// GET TIMESHEETS BY PROJECT MANAGER
 const getByPMTimesheets = async (req, res) => {
   try {
     if (!req.params) {
@@ -240,7 +240,7 @@ const getByPMTimesheets = async (req, res) => {
     });
   }
 };
-// GET TIMESHEETS BY PROJECT MANAGER by Ana
+// GET TIMESHEETS BY PROJECT MANAGER
 const getBetweenDatesTimesheets = async (req, res) => {
   try {
     if (!req.query.init || !req.query.final) {
@@ -284,35 +284,34 @@ const getBetweenDatesTimesheets = async (req, res) => {
     });
   }
 };
-// CREATE TIMESHEET by Martín
+// CREATE TIMESHEET
 const createTimesheet = async (req, res) => {
   try {
     const timesheet = new models.TimeSheet({
-      description: req.body.description,
-      date: req.body.date,
-      taskId: req.body.taskId,
-      validated: req.body.validated,
-      employeeId: req.body.employeeId,
       projectId: req.body.projectId,
-      projectManagerId: req.body.projectManagerId,
-      role: req.body.role,
+      Task: req.body.Task,
+      approved: req.body.approved,
     });
     const result = await timesheet.save();
-    return res.status(201).json(result);
+    return res.status(201).json({
+      message: 'Timesheet created',
+      data: result,
+      error: false,
+    });
   } catch (error) {
-    return res.json({
+    return res.status(400).json({
       message: 'An error has ocurred',
       data: error,
       error: true,
     });
   }
 };
-// UPDATE A TIME SHEET by Ana
+// UPDATE A TIME SHEET
 const updateTimeSheet = async (req, res) => {
   const { id } = req.params;
   try {
     if (!id) {
-      return res.status(400).json({
+      return res.status(404).json({
         message: 'Please provide an ID',
         data: {},
         error: true,
@@ -326,19 +325,19 @@ const updateTimeSheet = async (req, res) => {
       error: false,
     });
   } catch (error) {
-    return res.status(404).json({
+    return res.status(400).json({
       message: error,
       data: {},
       error: true,
     });
   }
 };
-// DELETE TIMSHEET by Martín Pueblas
+// DELETE TIMSHEET
 const deleteTimesheet = async (req, res) => {
   try {
     if (!req.params.id) {
-      return res.status(400).json({
-        message: 'An error has ocurred',
+      return res.status(404).json({
+        message: 'Missing Id',
         data: undefined,
         error: true,
       });
@@ -356,7 +355,7 @@ const deleteTimesheet = async (req, res) => {
       error: false,
     });
   } catch (error) {
-    return res.json({
+    return res.status(400).json({
       message: 'An error has ocurred',
       data: undefined,
       error: true,

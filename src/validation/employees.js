@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import Joi from 'joi';
 
 const createEmployeeValidation = (req, res, next) => {
@@ -27,8 +28,8 @@ const updateEmployeeValidation = (req, res, next) => {
     email: Joi.string().email(),
     password: Joi.string().min(8),
     active: Joi.boolean(),
-    projects: Joi.array().items({}),
-    timeSheets: Joi.array().items({}),
+    projects: Joi.array().items(),
+    timeSheets: Joi.array().items(),
   });
   const validation = Schema.validate(req.body);
   if (validation.error) {

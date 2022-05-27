@@ -5,34 +5,9 @@ const getAllTasks = async (req, res) => {
   try {
     const allTasks = await models.Tasks.find({});
     return res.status(200).json({
-      message: 'All tasks.',
+      message: 'All tasks',
       data: allTasks,
       error: false,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: error,
-      data: {},
-      error: true,
-    });
-  }
-};
-
-// GET TASK BY NAME
-const getTaskByName = async (req, res) => {
-  try {
-    if (req.params.taskName) {
-      const task = await models.Tasks.find({ taskName: req.params.taskName });
-      return res.status(200).json({
-        message: `Task ${req.params.taskName} found.`,
-        data: task,
-        error: false,
-      });
-    }
-    return res.status(400).json({
-      message: 'Please enter a name',
-      data: undefined,
-      error: true,
     });
   } catch (error) {
     return res.status(400).json({
@@ -48,18 +23,60 @@ const getTaskById = async (req, res) => {
   try {
     if (req.params.id) {
       const task = await models.Tasks.findById(req.params.id);
-      res.status(200).json(task);
-    } else {
-      res.status(400).json({
-        message: 'id not found',
-        data: undefined,
-        error: true,
+      if (!task) {
+        return res.status(404).json({
+          message: 'id not found',
+          data: undefined,
+          error: true,
+        });
+      }
+      return res.status(200).json({
+        message: 'Task by Id',
+        data: task,
+        error: false,
       });
     }
-  } catch (err) {
-    res.status(400).json({
-      message: err,
+    return res.status(400).json({
+      message: 'Missing id',
       data: undefined,
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
+// GET TASK BY DESCRIPTION
+const getTaskByDescription = async (req, res) => {
+  try {
+    if (req.params.description) {
+      const task = await models.Tasks.find({ description: req.params.description });
+      if (task.length <= 0) {
+        return res.status(404).json({
+          message: 'Task not found',
+          data: undefined,
+          error: true,
+        });
+      }
+      return res.status(200).json({
+        message: `Task ${req.params.description} found.`,
+        data: task,
+        error: false,
+      });
+    }
+    return res.status(400).json({
+      message: 'Please enter a description',
+      data: undefined,
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      data: {},
       error: true,
     });
   }
@@ -69,17 +86,19 @@ const getTaskById = async (req, res) => {
 const createTask = async (req, res) => {
   try {
     const task = new models.Tasks({
-      taskName: req.body.taskName,
-      startDate: req.body.startDate,
+      taskDate: req.body.taskDate,
+      workedHours: req.body.workedHours,
       description: req.body.description,
-      status: req.body.status,
     });
-
     const result = await task.save();
-    return res.status(201).json(result);
+    return res.status(201).json({
+      message: 'Task created',
+      data: result,
+      error: false,
+    });
   } catch (error) {
-    return res.json({
-      msg: 'An error has ocurred',
+    return res.status(400).json({
+      message: 'An error has ocurred',
       data: error,
       error: true,
     });
@@ -97,7 +116,7 @@ const updateTask = async (req, res) => {
       );
       if (!taskToUpdate) {
         return res.status(404).json({
-          msg: 'Missing id parameter',
+          message: 'Task not found',
           data: {},
           error: true,
         });
@@ -105,7 +124,7 @@ const updateTask = async (req, res) => {
       return res.status(200).json({
         message: `Task ${req.params.id} updated`,
         data: taskToUpdate,
-        error: true,
+        error: false,
       });
     }
     return res.status(400).json({
@@ -115,7 +134,7 @@ const updateTask = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      msg: 'An error has ocurred',
+      message: 'An error has ocurred',
       data: {},
       error: true,
     });
@@ -127,29 +146,36 @@ const deleteTask = async (req, res) => {
   try {
     if (!req.params.id) {
       return res.status(400).json({
-        msg: 'Missing id',
+        message: 'Missing id',
+        data: undefined,
+        error: true,
       });
     }
     const result = await models.Tasks.findByIdAndDelete(req.params.id);
     if (!result) {
       return res.status(404).json({
-        msg: 'Task not found',
+        message: 'Task not found',
+        data: undefined,
+        error: true,
       });
     }
-
-    return res.status(200).json({
-      msg: 'Task succesfully deleted',
-    });
-  } catch (error) {
     return res.json({
-      msg: 'An error has ocurred',
+      message: 'Task succesfully deleted',
+      data: result,
+      error: false,
+    }).status(204);
+  } catch (error) {
+    return res.status(400).json({
+      message: 'An error has ocurred',
+      data: {},
+      error: true,
     });
   }
 };
 
 export default {
   getAllTasks,
-  getTaskByName,
+  getTaskByDescription,
   getTaskById,
   createTask,
   updateTask,

@@ -3,6 +3,8 @@ import Employees from '../models/Employees';
 import employeesSeed from '../seed/employees';
 import app from '../app';
 
+let employeeId;
+
 beforeAll(async () => {
   await Employees.collection.insertMany(employeesSeed);
 });
@@ -186,6 +188,8 @@ describe('create an employee', () => {
     expect(response.status).toBe(201);
     expect(response.body.message).toBe('Employee created');
     expect(response.body.error).toBeFalsy();
+    // // eslint-disable-next-line no-underscore-dangle
+    employeeId = response.body.data._id;
   });
   test('No first name error', async () => {
     const response = await request(app).post('/api/employees/').send({
@@ -274,5 +278,79 @@ describe('create invalidated', () => {
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('There was an error during the validation process');
     expect(response.body.error).toBeTruthy();
+  });
+});
+
+// Javi
+describe('Edit employee', () => {
+  test('response should be succesfull', async () => {
+    const response = await request(app).put('/api/employees/6288fe568cb389708e53eb0e').send({
+      firstName: 'Pucheprueba',
+      lastName: 'Lopez',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com',
+      password: 'tuvieja123123',
+      active: false,
+      projects: [
+        '628ab4225aae617fa8002c21',
+      ],
+      timeSheets: [
+        '6289c467fc13ae72d60000c7',
+      ],
+    });
+    expect(response.body.error).toBeFalsy();
+    expect(response.body.message).toEqual('Employee updated');
+    expect(response.status).toBe(200);
+  });
+
+  test('response should return a true error when no id is send', async () => {
+    const response = await request(app).put('/api/employees/').send({});
+    expect(response.error).toBeTruthy();
+    expect(response.status).toBe(404);
+  });
+
+  test('response should return a true error and 404 status when the id entered is not found', async () => {
+    const response = await request(app).put('/api/employees/628c6962126e9522236c0481').send({
+      firstName: 'Pucheprueba',
+      lastName: 'Lopez',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com.cn',
+      password: 'tuvieja123123',
+      active: false,
+      projects: [
+        '62883891a6c3e40d965f7f8c',
+      ],
+      timeSheets: [
+        '62883891a6c3e40d965f7f8c',
+      ],
+    });
+    expect(response.error).toBeTruthy();
+    expect(response.status).toBe(404);
+    expect(response.body.message).toEqual('The employee has not been found');
+  });
+});
+
+// Javi
+describe('Delete employee', () => {
+  test('response should return a true error when no id is send', async () => {
+    const response = await request(app).delete('/api/employees/').send();
+    expect(response.error).toBeTruthy();
+  });
+
+  test('response should be successfull ', async () => {
+    const response = await request(app).delete(`/api/employees/${employeeId}`).send();
+    expect(response.body.error).toBeFalsy();
+    expect(response.body.message).toEqual(`Employee with id ${employeeId} deleted.`);
+    expect(response.status).toBe(200);
+  });
+
+  test('response should return a 404 status after deleting the user with the id of employeeId', async () => {
+    const response = await request(app).delete(`/api/employees/${employeeId}`).send();
+    expect(response.status).toEqual(404);
+  });
+
+  test('response should also return "Employee not found"', async () => {
+    const response = await request(app).delete(`/api/employees/${employeeId}`).send();
+    expect(response.body.message).toEqual('Employee not found');
   });
 });

@@ -14,7 +14,7 @@ const getAllEmployees = async (req, res) => {
       })
       .populate('timeSheets', {
         projectId: 1,
-        Task: 1,
+        taskId: 1,
         approved: 1,
       });
     res.status(200).json({
@@ -22,9 +22,9 @@ const getAllEmployees = async (req, res) => {
       data: allEmployees,
       error: false,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(400).json({
-      message: err.message,
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -197,6 +197,8 @@ const createEmployee = async (req, res) => {
       email: req.body.email,
       password: req.body.password,
       active: req.body.active,
+      projects: req.body.projects,
+      timesheets: req.body.timesheets,
     });
     const result = await employee.save();
     return res.status(201).json({
@@ -204,9 +206,9 @@ const createEmployee = async (req, res) => {
       data: result,
       error: false,
     });
-  } catch (err) {
+  } catch (error) {
     return res.status(400).json({
-      message: err.message,
+      message: error.message,
       data: undefined,
       error: true,
     });
@@ -274,19 +276,19 @@ const deleteEmployee = async (req, res) => {
     }
     const result = await models.Employees.findByIdAndDelete(req.params.id);
     if (!result) {
-      res.status(404).json({
-        message: 'The employee has not been found',
+      return res.status(404).json({
+        message: 'Employee not found',
         data: undefined,
         error: true,
       });
     }
-    res.json({
-      message: 'The employee has been succesfully deleted',
+    return res.status(200).json({
+      message: `Employee with id ${req.params.id} deleted.`,
       data: result,
       error: false,
-    }).status(204);
+    });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       message: error,
       data: undefined,
       error: true,
