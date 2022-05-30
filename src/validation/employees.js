@@ -9,6 +9,7 @@ const createEmployeeValidation = (req, res, next) => {
     email: Joi.string().email().required(),
     password: Joi.string().min(8).required(),
     active: Joi.boolean().required(),
+    isProjectManager: Joi.boolean().required(),
   });
   const validation = Schema.validate(req.body);
   if (validation.error) {
@@ -28,6 +29,7 @@ const updateEmployeeValidation = (req, res, next) => {
     email: Joi.string().email(),
     password: Joi.string().min(8),
     active: Joi.boolean(),
+    isProjectManager: Joi.boolean(),
     projects: Joi.array().items(),
     timeSheets: Joi.array().items(),
   });

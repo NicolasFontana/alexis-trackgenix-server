@@ -175,7 +175,7 @@ describe('get by active status', () => {
   });
 });
 // CREATE TESTS BY MARTIN
-describe('create an employee', () => {
+describe('create an employee - Status 201', () => {
   test('Create an employee', async () => {
     const response = await request(app).post('/api/employees/').send({
       firstName: 'Puche',
@@ -184,15 +184,105 @@ describe('create an employee', () => {
       email: 'juanssssopez@people.com',
       password: 'password123',
       active: false,
+      isProjectManager: false,
     });
     expect(response.status).toBe(201);
-    expect(response.body.message).toBe('Employee created');
-    expect(response.body.error).toBeFalsy();
-    // // eslint-disable-next-line no-underscore-dangle
+    // eslint-disable-next-line no-underscore-dangle
     employeeId = response.body.data._id;
   });
-  test('No first name error', async () => {
+  test('Create an employee - Correct message', async () => {
     const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
+      lastName: 'Lopez',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com',
+      password: 'password123',
+      active: false,
+      isProjectManager: false,
+    });
+    expect(response.body.message).toBe('Employee created');
+  });
+  test('Create an employee - Error false', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
+      lastName: 'Lopez',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com',
+      password: 'password123',
+      active: false,
+      isProjectManager: false,
+    });
+    expect(response.body.error).toBeFalsy();
+  });
+  test('No first name - Error 400', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      lastName: 'Lopez',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com',
+      password: 'password123',
+      active: false,
+      isProjectManager: false,
+    });
+    expect(response.status).toBe(400);
+  });
+  test('No last name - Error 400', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com',
+      password: 'password123',
+      active: false,
+      isProjectManager: false,
+    });
+    expect(response.status).toBe(400);
+  });
+  test('No phone - Error 400', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
+      lastName: 'Lopez',
+      email: 'juanssssopez@people.com',
+      password: 'password123',
+      active: false,
+      isProjectManager: false,
+    });
+    expect(response.status).toBe(400);
+  });
+  test('No email - Error 400', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
+      lastName: 'Lopez',
+      phone: 7761785000,
+      password: 'password123',
+      active: false,
+      isProjectManager: false,
+    });
+    expect(response.status).toBe(400);
+  });
+  test('No password - Error 400', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
+      lastName: 'Lopez',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com',
+      active: false,
+      isProjectManager: false,
+    });
+    expect(response.status).toBe(400);
+  });
+  test('No status - Error 400', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
+      lastName: 'Lopez',
+      phone: 7761785000,
+      email: 'juanssssopez@people.com',
+      password: 'password123',
+      isProjectManager: false,
+    });
+    expect(response.status).toBe(400);
+  });
+  test('No project manager status - Error 400', async () => {
+    const response = await request(app).post('/api/employees/').send({
+      firstName: 'Puche',
       lastName: 'Lopez',
       phone: 7761785000,
       email: 'juanssssopez@people.com',
@@ -200,73 +290,11 @@ describe('create an employee', () => {
       active: false,
     });
     expect(response.status).toBe(400);
-    expect(response.body.message).toContain('There was an error during the validation process');
-    expect(response.body.error).toBeTruthy();
-  });
-  test('No last name error', async () => {
-    const response = await request(app).post('/api/employees/').send({
-      firstName: 'Puche',
-      phone: 7761785000,
-      email: 'juanssssopez@people.com',
-      password: 'password123',
-      active: false,
-    });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toContain('There was an error during the validation process');
-    expect(response.body.error).toBeTruthy();
-  });
-  test('No phone error', async () => {
-    const response = await request(app).post('/api/employees/').send({
-      firstName: 'Puche',
-      lastName: 'Lopez',
-      email: 'juanssssopez@people.com',
-      password: 'password123',
-      active: false,
-    });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toContain('There was an error during the validation process');
-    expect(response.body.error).toBeTruthy();
-  });
-  test('No email error', async () => {
-    const response = await request(app).post('/api/employees/').send({
-      firstName: 'Puche',
-      lastName: 'Lopez',
-      phone: 7761785000,
-      password: 'password123',
-      active: false,
-    });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toContain('There was an error during the validation process');
-    expect(response.body.error).toBeTruthy();
-  });
-  test('No password error', async () => {
-    const response = await request(app).post('/api/employees/').send({
-      firstName: 'Puche',
-      lastName: 'Lopez',
-      phone: 7761785000,
-      email: 'juanssssopez@people.com',
-      active: false,
-    });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toContain('There was an error during the validation process');
-    expect(response.body.error).toBeTruthy();
-  });
-  test('No status error', async () => {
-    const response = await request(app).post('/api/employees/').send({
-      firstName: 'Puche',
-      lastName: 'Lopez',
-      phone: 7761785000,
-      email: 'juanssssopez@people.com',
-      password: 'password123',
-    });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toContain('There was an error during the validation process');
-    expect(response.body.error).toBeTruthy();
   });
 });
 
 describe('create invalidated', () => {
-  test('invalid firstName', async () => {
+  test('invalid firstName - Correct message', async () => {
     const response = await request(app).post('/api/employees/').send({
       firstName: '_',
       lastName: 'Lopez',
@@ -274,10 +302,9 @@ describe('create invalidated', () => {
       email: 'juanssssopez@people.com',
       password: 'password123',
       active: false,
+      isProjectManager: false,
     });
-    expect(response.status).toBe(400);
     expect(response.body.message).toBe('There was an error during the validation process');
-    expect(response.body.error).toBeTruthy();
   });
 });
 
@@ -291,6 +318,7 @@ describe('Edit employee', () => {
       email: 'juanssssopez@people.com',
       password: 'tuvieja123123',
       active: false,
+      isProjectManager: false,
       projects: [
         '628ab4225aae617fa8002c21',
       ],
@@ -298,14 +326,11 @@ describe('Edit employee', () => {
         '6289c467fc13ae72d60000c7',
       ],
     });
-    expect(response.body.error).toBeFalsy();
     expect(response.body.message).toEqual('Employee updated');
-    expect(response.status).toBe(200);
   });
 
   test('response should return a true error when no id is send', async () => {
     const response = await request(app).put('/api/employees/').send({});
-    expect(response.error).toBeTruthy();
     expect(response.status).toBe(404);
   });
 
@@ -317,6 +342,7 @@ describe('Edit employee', () => {
       email: 'juanssssopez@people.com.cn',
       password: 'tuvieja123123',
       active: false,
+      isProjectManager: false,
       projects: [
         '62883891a6c3e40d965f7f8c',
       ],
@@ -324,9 +350,7 @@ describe('Edit employee', () => {
         '62883891a6c3e40d965f7f8c',
       ],
     });
-    expect(response.error).toBeTruthy();
     expect(response.status).toBe(404);
-    expect(response.body.message).toEqual('The employee has not been found');
   });
 });
 
@@ -337,11 +361,9 @@ describe('Delete employee', () => {
     expect(response.error).toBeTruthy();
   });
 
-  test('response should be successfull ', async () => {
+  test('response should be successfull - Correct message', async () => {
     const response = await request(app).delete(`/api/employees/${employeeId}`).send();
-    expect(response.body.error).toBeFalsy();
     expect(response.body.message).toEqual(`Employee with id ${employeeId} deleted.`);
-    expect(response.status).toBe(200);
   });
 
   test('response should return a 404 status after deleting the user with the id of employeeId', async () => {

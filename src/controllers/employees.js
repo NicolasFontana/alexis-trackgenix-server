@@ -197,6 +197,7 @@ const createEmployee = async (req, res) => {
       email: req.body.email,
       password: req.body.password,
       active: req.body.active,
+      isProjectManager: req.body.isProjectManager,
       projects: req.body.projects,
       timesheets: req.body.timesheets,
     });
