@@ -83,27 +83,24 @@ describe('POST /api/tasks', () => {
       workedHours: 11,
       description: 'Testing /post',
     });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('There was an error during the request validation');
-    expect(response.body.error).toBe(true);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"taskDate\" is required');
   });
   test('Create task, no worked hours', async () => {
     const response = await request(app).post('/api/tasks/').send({
       taskDate: '2022/03/20',
       description: 'Testing /post',
     });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('There was an error during the request validation');
-    expect(response.body.error).toBe(true);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"workedHours\" is required');
   });
   test('Create a task, no description', async () => {
     const response = await request(app).post('/api/tasks/').send({
       taskDate: '2022/03/20',
       workedHours: 11,
     });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('There was an error during the request validation');
-    expect(response.body.error).toBe(true);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"description\" is required');
   });
 });
 

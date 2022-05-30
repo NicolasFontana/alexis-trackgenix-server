@@ -173,9 +173,8 @@ describe('POST projects/create', () => {
         },
       ],
     });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('There was an error');
-    expect(response.body.error.length).toBeGreaterThan(5);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"clientName\" is required');
   });
   test('Name too short: Should not create a project due to failed validation', async () => {
     const response = await request(app).post('/api/projects').send({
@@ -193,15 +192,14 @@ describe('POST projects/create', () => {
         },
       ],
     });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('There was an error');
-    expect(response.body.error.length).toBeGreaterThan(5);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"name\" length must be at least 3 characters long');
   });
   test('Invalid date: Should not create a project due to failed validation', async () => {
     const response = await request(app).post('/api/projects').send({
-      name: 'P',
+      name: 'Pasd',
       description: 'This is a descriptive String',
-      startDate: '04-03-2020',
+      startDate: '04-2020-03',
       endDate: '2022-04-03',
       clientName: 'Tito',
       active: true,
@@ -213,9 +211,8 @@ describe('POST projects/create', () => {
         },
       ],
     });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('There was an error');
-    expect(response.body.error.length).toBeGreaterThan(5);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"startDate\" must be a valid date');
   });
 });
 

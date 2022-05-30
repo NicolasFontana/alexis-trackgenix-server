@@ -304,7 +304,8 @@ describe('create invalidated', () => {
       active: false,
       isProjectManager: false,
     });
-    expect(response.body.message).toBe('There was an error during the validation process');
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"firstName\" length must be at least 3 characters long');
   });
 });
 

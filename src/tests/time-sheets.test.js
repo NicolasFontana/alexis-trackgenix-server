@@ -61,9 +61,8 @@ describe('POST /api/time-sheets', () => {
         },
       ],
     });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('There was an error during the validation of the request');
-    expect(response.body.error.length).toBeGreaterThan(3);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"approved\" is required');
   });
   test('Must not pass projectId validation', async () => {
     const response = await request(app).post('/api/time-sheets').send({
@@ -75,9 +74,8 @@ describe('POST /api/time-sheets', () => {
       ],
       approved: true,
     });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('There was an error during the validation of the request');
-    expect(response.body.error.length).toBeGreaterThan(3);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"projectId\" length must be 24 characters long');
   });
   test('Must not pass taskId validation', async () => {
     const response = await request(app).post('/api/time-sheets').send({
@@ -89,9 +87,8 @@ describe('POST /api/time-sheets', () => {
       ],
       approved: true,
     });
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('There was an error during the validation of the request');
-    expect(response.body.error.length).toBeGreaterThan(3);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"Task[0].taskId\" length must be 24 characters long');
   });
 });
 

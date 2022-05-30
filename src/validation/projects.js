@@ -21,8 +21,9 @@ const validateCreate = (req, res, next) => {
   const validation = projectValidation.validate(req.body);
   if (validation.error) {
     return res.status(400).json({
-      message: 'There was an error',
-      error: validation.error.details[0].message,
+      message: validation.error.details[0].message,
+      data: undefined,
+      error: true,
     });
   }
   return next();
@@ -47,8 +48,9 @@ const validateUpdate = (req, res, next) => {
   const validation = projectValidationSchema.validate(req.body);
   if (validation.error) {
     return res.status(400).json({
-      message: 'There was an error',
-      error: validation.error.details[0].message,
+      message: validation.error.details[0].message,
+      data: undefined,
+      error: true,
     });
   }
   return next();
