@@ -86,11 +86,15 @@ const getTaskByDescription = async (req, res) => {
 const createTask = async (req, res) => {
   try {
     const task = new models.Tasks({
-      taskDate: req.body.taskDate,
+      taskName: req.body.taskName,
+      startDate: req.body.startDate,
       workedHours: req.body.workedHours,
       description: req.body.description,
+      status: req.body.status,
     });
+
     const result = await task.save();
+
     return res.status(201).json({
       message: 'Task created',
       data: result,

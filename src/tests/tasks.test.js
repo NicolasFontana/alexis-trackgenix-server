@@ -68,9 +68,11 @@ describe('GetByDescription /api/tasks', () => {
 describe('POST /api/tasks', () => {
   test('Create a task', async () => {
     const response = await request(app).post('/api/tasks/').send({
-      taskDate: '2022/03/20',
-      workedHours: 11,
-      description: 'Testing /post',
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      workedHours: 33,
+      description: 'description',
+      status: 'Done',
     });
     expect(response.status).toBe(201);
     expect(response.body.message).toBe('Task created');
@@ -111,18 +113,22 @@ describe('POST /api/tasks', () => {
 describe('UPDATE /api/tasks', () => {
   test('Update a task', async () => {
     const response = await request(app).put(`/api/tasks/${taskId}`).send({
-      taskDate: '2021/04/10',
-      workedHours: 15,
-      description: 'Testing /put',
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      workedHours: 33,
+      description: 'description',
+      status: 'Done',
     });
     expect(response.status).toBe(200);
     expect(response.body.error).toBe(false);
   });
   test('Update a task, bad id', async () => {
     const response = await request(app).put('/api/tasks/6280062d5f0b9b4131e527e4').send({
-      taskDate: '2021/04/10',
-      workedHours: 15,
-      description: 'Testing /put',
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      workedHours: 33,
+      description: 'description',
+      status: 'Done',
     });
     expect(response.status).toBe(404);
     expect(response.body.message).toBe('Task not found');
@@ -130,9 +136,11 @@ describe('UPDATE /api/tasks', () => {
   });
   test('Update a task, bad id format', async () => {
     const response = await request(app).put('/api/tasks/6280').send({
-      taskDate: '2021/04/10',
-      workedHours: 15,
-      description: 'Testing /put',
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      workedHours: 33,
+      description: 'description',
+      status: 'Done',
     });
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('An error has ocurred');
