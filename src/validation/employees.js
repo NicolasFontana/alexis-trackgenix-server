@@ -10,6 +10,8 @@ const createEmployeeValidation = (req, res, next) => {
     password: Joi.string().min(8).required(),
     active: Joi.boolean().required(),
     isProjectManager: Joi.boolean().required(),
+    projects: Joi.array().items(),
+    timeSheets: Joi.array().items(),
   });
   const validation = Schema.validate(req.body);
   if (validation.error) {
