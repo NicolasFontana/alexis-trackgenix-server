@@ -82,30 +82,47 @@ describe('POST /api/tasks', () => {
   });
   test('Create task, no date', async () => {
     const response = await request(app).post('/api/tasks/').send({
-      workedHours: 11,
-      description: 'Testing /post',
+      taskName: 'Test Task',
+      workedHours: 33,
+      description: 'description',
+      status: 'Done',
     });
     expect(response.status).toBe(400);
-    expect(response.body.message).toBe('There was an error during the request validation');
-    expect(response.body.error).toBe(true);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"startDate\" is required');
   });
   test('Create task, no worked hours', async () => {
     const response = await request(app).post('/api/tasks/').send({
-      taskDate: '2022/03/20',
-      description: 'Testing /post',
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      description: 'description',
+      status: 'Done',
     });
     expect(response.status).toBe(400);
-    expect(response.body.message).toBe('There was an error during the request validation');
-    expect(response.body.error).toBe(true);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"workedHours\" is required');
   });
   test('Create a task, no description', async () => {
     const response = await request(app).post('/api/tasks/').send({
-      taskDate: '2022/03/20',
-      workedHours: 11,
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      workedHours: 33,
+      status: 'Done',
     });
     expect(response.status).toBe(400);
-    expect(response.body.message).toBe('There was an error during the request validation');
-    expect(response.body.error).toBe(true);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"description\" is required');
+  });
+  test('Create a task, no status', async () => {
+    const response = await request(app).post('/api/tasks/').send({
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      workedHours: 33,
+      description: 'description',
+    });
+    expect(response.status).toBe(400);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"status\" is required');
   });
 });
 

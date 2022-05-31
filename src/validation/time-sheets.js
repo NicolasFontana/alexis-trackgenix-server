@@ -11,11 +11,12 @@ const createTimeValidation = (req, res, next) => {
     ),
     approved: Joi.boolean().valid(true).required(),
   });
-  const validatorTimesheets = timesheetValidation.validate(req.body);
-  if (validatorTimesheets.error) {
+  const validation = timesheetValidation.validate(req.body);
+  if (validation.error) {
     return res.status(400).json({
-      message: 'There was an error during the validation of the request',
-      error: validatorTimesheets.error.details[0].message,
+      message: validation.error.details[0].message,
+      data: undefined,
+      error: true,
     });
   }
   return next();
@@ -31,11 +32,12 @@ const updateValidation = (req, res, next) => {
     ),
     approved: Joi.boolean().valid(true),
   });
-  const validatorTimesheets = timesheetValidation.validate(req.body);
-  if (validatorTimesheets.error) {
+  const validation = timesheetValidation.validate(req.body);
+  if (validation.error) {
     return res.status(400).json({
-      message: 'Please check your fields',
-      error: validatorTimesheets.error,
+      message: validation.error.details[0].message,
+      data: undefined,
+      error: true,
     });
   }
   return next();
