@@ -1,20 +1,22 @@
 import Joi from 'joi';
 
 const validateCreation = (req, res, next) => {
-  const taskValidation = Joi.object({
-    taskName: Joi.string().min(3).required(),
-    startDate: Joi.date().required(),
-    workedHours: Joi.number().required(),
-    description: Joi.string().min(6).max(250).required(),
-    status: Joi.string().min(2).valid(
-      'To do',
-      'In progress',
-      'Review',
-      'Blocked',
-      'Done',
-      'Cancelled',
-    ).required(),
-  });
+  const taskValidation = Joi.object(
+    {
+      taskName: Joi.string().min(3).required(),
+      startDate: Joi.date().required(),
+      workedHours: Joi.number().integer().min(0).required(),
+      description: Joi.string().min(6).max(250).required(),
+      status: Joi.string().min(2).valid(
+        'To do',
+        'In progress',
+        'Review',
+        'Blocked',
+        'Done',
+        'Cancelled',
+      ).required(),
+    },
+  );
 
   const validation = taskValidation.validate(req.body);
 

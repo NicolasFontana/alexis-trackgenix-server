@@ -122,7 +122,7 @@ describe('UPDATE /api/tasks', () => {
     expect(response.status).toBe(200);
     expect(response.body.error).toBe(false);
   });
-  test('Update a task, bad id', async () => {
+  test('Update a task, wrong id', async () => {
     const response = await request(app).put('/api/tasks/6280062d5f0b9b4131e527e4').send({
       taskName: 'Test Task',
       startDate: '2022-05-17T16:55:32.654+00:00',
@@ -134,7 +134,7 @@ describe('UPDATE /api/tasks', () => {
     expect(response.body.message).toBe('Task not found');
     expect(response.body.error).toBe(true);
   });
-  test('Update a task, bad id format', async () => {
+  test('Update a task, wrong id format', async () => {
     const response = await request(app).put('/api/tasks/6280').send({
       taskName: 'Test Task',
       startDate: '2022-05-17T16:55:32.654+00:00',
