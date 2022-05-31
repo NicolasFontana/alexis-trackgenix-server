@@ -13,8 +13,9 @@ const createAdminValidations = (req, res, next) => {
   const validation = schema.validate(req.body);
   if (validation.error) {
     return res.status(400).json({
-      message: 'There was an error during the request validation',
-      error: validation.error.details[0],
+      message: validation.error.details[0].message,
+      data: undefined,
+      error: true,
     });
   }
   return next();
@@ -31,8 +32,9 @@ const updateAdminValidations = (req, res, next) => {
   const validation = schema.validate(req.body);
   if (validation.error) {
     return res.status(400).json({
-      message: 'There was an error during the request validation',
-      error: validation.error.details[0],
+      message: validation.error.details[0].message,
+      data: undefined,
+      error: true,
     });
   }
   return next();
