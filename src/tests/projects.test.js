@@ -173,6 +173,7 @@ describe('POST projects/create', () => {
         },
       ],
     });
+    expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('\"clientName\" is required');
   });
@@ -192,6 +193,7 @@ describe('POST projects/create', () => {
         },
       ],
     });
+    expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('\"name\" length must be at least 3 characters long');
   });
@@ -211,6 +213,7 @@ describe('POST projects/create', () => {
         },
       ],
     });
+    expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('\"startDate\" must be a valid date');
   });

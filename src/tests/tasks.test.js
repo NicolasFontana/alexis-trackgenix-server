@@ -83,6 +83,7 @@ describe('POST /api/tasks', () => {
       workedHours: 11,
       description: 'Testing /post',
     });
+    expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('\"taskDate\" is required');
   });
@@ -91,6 +92,7 @@ describe('POST /api/tasks', () => {
       taskDate: '2022/03/20',
       description: 'Testing /post',
     });
+    expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('\"workedHours\" is required');
   });
@@ -99,6 +101,7 @@ describe('POST /api/tasks', () => {
       taskDate: '2022/03/20',
       workedHours: 11,
     });
+    expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('\"description\" is required');
   });

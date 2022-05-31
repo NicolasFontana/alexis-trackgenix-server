@@ -61,6 +61,7 @@ describe('POST /api/time-sheets', () => {
         },
       ],
     });
+    expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('\"approved\" is required');
   });
@@ -74,6 +75,7 @@ describe('POST /api/time-sheets', () => {
       ],
       approved: true,
     });
+    expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('\"projectId\" length must be 24 characters long');
   });
@@ -87,6 +89,7 @@ describe('POST /api/time-sheets', () => {
       ],
       approved: true,
     });
+    expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('\"Task[0].taskId\" length must be 24 characters long');
   });
