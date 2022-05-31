@@ -188,7 +188,7 @@ describe('create an employee', () => {
     expect(response.status).toBe(201);
     expect(response.body.message).toBe('Employee created');
     expect(response.body.error).toBeFalsy();
-    // // eslint-disable-next-line no-underscore-dangle
+    // eslint-disable-next-line no-underscore-dangle
     employeeId = response.body.data._id;
   });
   test('No first name error', async () => {
