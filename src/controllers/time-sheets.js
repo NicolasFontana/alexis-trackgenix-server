@@ -3,7 +3,13 @@ import models from '../models';
 // GET ALL
 const getAllTimesheets = async (req, res) => {
   try {
-    const allTimesheets = await models.TimeSheet.find({}).populate('projectId', 'Project').populate('Task');
+    const allTimesheets = await models.TimeSheet.find({}).populate('projectId', { name: 1 }).populate('Task.taskId', {
+      taskName: 1,
+      startDate: 1,
+      workedHours: 1,
+      description: 1,
+      status: 1,
+    });
     return res.status(200).json({
       message: 'Time-Sheets',
       data: allTimesheets,
