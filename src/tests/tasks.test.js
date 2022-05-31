@@ -68,9 +68,11 @@ describe('GetByDescription /api/tasks', () => {
 describe('POST /api/tasks', () => {
   test('Create a task', async () => {
     const response = await request(app).post('/api/tasks/').send({
-      taskDate: '2022/03/20',
-      workedHours: 11,
-      description: 'Testing /post',
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      workedHours: 33,
+      description: 'description',
+      status: 'Done',
     });
     expect(response.status).toBe(201);
     expect(response.body.message).toBe('Task created');
@@ -80,17 +82,21 @@ describe('POST /api/tasks', () => {
   });
   test('Create task, no date', async () => {
     const response = await request(app).post('/api/tasks/').send({
-      workedHours: 11,
-      description: 'Testing /post',
+      taskName: 'Test Task',
+      workedHours: 33,
+      description: 'description',
+      status: 'Done',
     });
     expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
-    expect(response.body.message).toBe('\"taskDate\" is required');
+    expect(response.body.message).toBe('\"startDate\" is required');
   });
   test('Create task, no worked hours', async () => {
     const response = await request(app).post('/api/tasks/').send({
-      taskDate: '2022/03/20',
-      description: 'Testing /post',
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      description: 'description',
+      status: 'Done',
     });
     expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
@@ -98,12 +104,25 @@ describe('POST /api/tasks', () => {
   });
   test('Create a task, no description', async () => {
     const response = await request(app).post('/api/tasks/').send({
-      taskDate: '2022/03/20',
-      workedHours: 11,
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      workedHours: 33,
+      status: 'Done',
     });
     expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('\"description\" is required');
+  });
+  test('Create a task, no status', async () => {
+    const response = await request(app).post('/api/tasks/').send({
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      workedHours: 33,
+      description: 'description',
+    });
+    expect(response.status).toBe(400);
+    // eslint-disable-next-line no-useless-escape
+    expect(response.body.message).toBe('\"status\" is required');
   });
 });
 
@@ -111,28 +130,34 @@ describe('POST /api/tasks', () => {
 describe('UPDATE /api/tasks', () => {
   test('Update a task', async () => {
     const response = await request(app).put(`/api/tasks/${taskId}`).send({
-      taskDate: '2021/04/10',
-      workedHours: 15,
-      description: 'Testing /put',
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      workedHours: 33,
+      description: 'description',
+      status: 'Done',
     });
     expect(response.status).toBe(200);
     expect(response.body.error).toBe(false);
   });
-  test('Update a task, bad id', async () => {
+  test('Update a task, wrong id', async () => {
     const response = await request(app).put('/api/tasks/6280062d5f0b9b4131e527e4').send({
-      taskDate: '2021/04/10',
-      workedHours: 15,
-      description: 'Testing /put',
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      workedHours: 33,
+      description: 'description',
+      status: 'Done',
     });
     expect(response.status).toBe(404);
     expect(response.body.message).toBe('Task not found');
     expect(response.body.error).toBe(true);
   });
-  test('Update a task, bad id format', async () => {
+  test('Update a task, wrong id format', async () => {
     const response = await request(app).put('/api/tasks/6280').send({
-      taskDate: '2021/04/10',
-      workedHours: 15,
-      description: 'Testing /put',
+      taskName: 'Test Task',
+      startDate: '2022-05-17T16:55:32.654+00:00',
+      workedHours: 33,
+      description: 'description',
+      status: 'Done',
     });
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('An error has ocurred');
