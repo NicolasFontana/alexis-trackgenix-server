@@ -199,7 +199,7 @@ const createEmployee = async (req, res) => {
       active: req.body.active,
       isProjectManager: req.body.isProjectManager,
       projects: req.body.projects,
-      timesheets: req.body.timesheets,
+      timeSheets: req.body.timeSheets,
     });
     const result = await employee.save();
     return res.status(201).json({
