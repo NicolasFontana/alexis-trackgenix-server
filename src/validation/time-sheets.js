@@ -9,7 +9,7 @@ const createTimeValidation = (req, res, next) => {
         taskId: Joi.string().alphanum().length(24).required(),
       },
     ),
-    approved: Joi.boolean().valid(true).required(),
+    approved: Joi.boolean().required(),
   });
   const validation = timesheetValidation.validate(req.body);
   if (validation.error) {
@@ -30,7 +30,7 @@ const updateValidation = (req, res, next) => {
         taskId: Joi.string().alphanum().length(24),
       },
     ),
-    approved: Joi.boolean().valid(true),
+    approved: Joi.boolean(),
   });
   const validation = timesheetValidation.validate(req.body);
   if (validation.error) {
