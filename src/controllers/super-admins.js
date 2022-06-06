@@ -46,33 +46,160 @@ const createSuperadmin = async (req, res) => {
   }
 };
 
-// SEARCH SUPERADMINS WITH FILTERS INCLUDED IN BODY
-const getFilteredSuperadmins = async (req, res) => {
+// SEARCH SUPERADMINS BY EMAIL
+const getFilteredSuperadminsByEmail = async (req, res) => {
   try {
-    const {
-      firstName, lastName, email, active,
-    } = req.body;
-    const filtered = await models.SuperAdmin.find({
-      firstName: { $regex: new RegExp(firstName || '', 'i') },
-      lastName: { $regex: new RegExp(lastName || '', 'i') },
-      email: { $regex: new RegExp(email || '', 'i') },
-      active: active ?? { $in: [false, true] },
-    });
-    if (!filtered) {
-      return res.status(404).json({
-        message: 'There is not an admin matching the provided filter',
+    if (!req.params) {
+      return res.status(400).json({
+        message: 'Please provide an email',
         data: {},
         error: true,
       });
     }
-    return res.status(200).json({
-      message: 'Superadmins filtered',
-      data: filtered,
-      error: false,
+    const superAdminByEmail = await models.SuperAdmin.find({ email: req.params.email });
+    if (superAdminByEmail.length !== 0) {
+      return res.status(200).json({
+        message: 'Superadmins filtered by email',
+        data: superAdminByEmail,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Super admin not found',
+      data: {},
+      error: true,
     });
   } catch (error) {
     return res.status(400).json({
-      message: [error, { id: req.params.id }],
+      message: error.message,
+      data: {},
+      error: true,
+    });
+  }
+};
+
+// SEARCH SUPERADMINS BY FIRST NAME
+const getFilteredSuperadminsByFirstName = async (req, res) => {
+  try {
+    if (!req.params) {
+      return res.status(400).json({
+        message: 'Please provide a first name',
+        data: {},
+        error: true,
+      });
+    }
+    const superAdminByFirstName = await models.SuperAdmin.find({ firstName: req.params.firstName });
+    if (superAdminByFirstName.length !== 0) {
+      return res.status(200).json({
+        message: 'Superadmins filtered by first name',
+        data: superAdminByFirstName,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Super admin not found',
+      data: {},
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      data: {},
+      error: true,
+    });
+  }
+};
+
+// SEARCH SUPERADMINS BY LAST NAME
+const getFilteredSuperadminsByLastName = async (req, res) => {
+  try {
+    if (!req.params) {
+      return res.status(400).json({
+        message: 'Please provide a last name',
+        data: {},
+        error: true,
+      });
+    }
+    const superAdminByLastName = await models.SuperAdmin.find({ lastName: req.params.lastName });
+    if (superAdminByLastName.length !== 0) {
+      return res.status(200).json({
+        message: 'Superadmins filtered by last name',
+        data: superAdminByLastName,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Super admin not found',
+      data: {},
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      data: {},
+      error: true,
+    });
+  }
+};
+
+// SEARCH SUPERADMINS BY PASSWORD
+const getFilteredSuperadminsByPassword = async (req, res) => {
+  try {
+    if (!req.params) {
+      return res.status(400).json({
+        message: 'Please provide a password',
+        data: {},
+        error: true,
+      });
+    }
+    const superAdminByPassword = await models.SuperAdmin.find({ password: req.params.password });
+    if (superAdminByPassword.length !== 0) {
+      return res.status(200).json({
+        message: 'Superadmins filtered by password',
+        data: superAdminByPassword,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Super admin not found',
+      data: {},
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      data: {},
+      error: true,
+    });
+  }
+};
+
+// SEARCH SUPERADMINS BY ACTIVE
+const getFilteredSuperadminsByActive = async (req, res) => {
+  try {
+    if (!req.params) {
+      return res.status(400).json({
+        message: 'Please provide a value for active',
+        data: {},
+        error: true,
+      });
+    }
+    const superAdminByActive = await models.SuperAdmin.find({ active: req.params.active });
+    if (superAdminByActive.length !== 0) {
+      return res.status(200).json({
+        message: 'Superadmins filtered by active',
+        data: superAdminByActive,
+        error: false,
+      });
+    }
+    return res.status(404).json({
+      message: 'Super admin not found',
+      data: {},
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
       data: {},
       error: true,
     });
@@ -178,7 +305,11 @@ const deleteSuperadminById = async (req, res) => {
 export default {
   getAllSuperadmins,
   createSuperadmin,
-  getFilteredSuperadmins,
+  getFilteredSuperadminsByFirstName,
+  getFilteredSuperadminsByLastName,
+  getFilteredSuperadminsByEmail,
+  getFilteredSuperadminsByPassword,
+  getFilteredSuperadminsByActive,
   getSuperadminById,
   updateSuperadmin,
   deleteSuperadminById,

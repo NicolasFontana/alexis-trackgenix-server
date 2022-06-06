@@ -33,30 +33,6 @@ describe('GET superAdmin by ID', () => {
   });
 });
 
-describe('GET superAdmins by filters', () => {
-  test('SuperAdmins search by filters status response successful', async () => {
-    const response = await request(app).get('/api/super-admins/filter').send({
-      firstName: 'pedro',
-      lastName: 'gomez',
-      email: 'pedroGomezz@mail.com',
-      active: false,
-    });
-    expect(response.statusCode).toBe(200);
-    expect(response.error).toBeFalsy();
-  });
-
-  test('SuperAdmins search by filters status response unsuccessful', async () => {
-    const response = await request(app).get('/api/super-admins/filter').send({
-      firstName: '',
-      lastName: '',
-      email: '',
-      active: '',
-    });
-    expect(response.statusCode).toBe(400);
-    expect(response.error).toBeTruthy();
-  });
-});
-
 describe('CREATE a superAdmin', () => {
   test('SuperAdmin created status response successful', async () => {
     const response = await request(app).post('/api/super-admins').send({
