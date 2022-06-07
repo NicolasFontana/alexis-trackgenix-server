@@ -65,7 +65,7 @@ const getFilteredSuperadminsByEmail = async (req, res) => {
       });
     }
     return res.status(404).json({
-      message: 'Super admin not found',
+      message: `The Super Admin with email '${req.params.email}' has not been found`,
       data: {},
       error: true,
     });
@@ -97,7 +97,7 @@ const getFilteredSuperadminsByFirstName = async (req, res) => {
       });
     }
     return res.status(404).json({
-      message: 'Super admin not found',
+      message: `The Super Admin with first name '${req.params.firstName}' has not been found`,
       data: {},
       error: true,
     });
@@ -129,39 +129,7 @@ const getFilteredSuperadminsByLastName = async (req, res) => {
       });
     }
     return res.status(404).json({
-      message: 'Super admin not found',
-      data: {},
-      error: true,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: error.message,
-      data: {},
-      error: true,
-    });
-  }
-};
-
-// SEARCH SUPERADMINS BY PASSWORD
-const getFilteredSuperadminsByPassword = async (req, res) => {
-  try {
-    if (!req.params) {
-      return res.status(400).json({
-        message: 'Please provide a password',
-        data: {},
-        error: true,
-      });
-    }
-    const superAdminByPassword = await models.SuperAdmin.find({ password: req.params.password });
-    if (superAdminByPassword.length !== 0) {
-      return res.status(200).json({
-        message: 'Superadmins filtered by password',
-        data: superAdminByPassword,
-        error: false,
-      });
-    }
-    return res.status(404).json({
-      message: 'Super admin not found',
+      message: `The Super Admin with last name '${req.params.lastName}' has not been found`,
       data: {},
       error: true,
     });
@@ -193,7 +161,7 @@ const getFilteredSuperadminsByActive = async (req, res) => {
       });
     }
     return res.status(404).json({
-      message: 'Super admin not found',
+      message: `The Super Admin with active '${req.params.active}' has not been found`,
       data: {},
       error: true,
     });
@@ -308,7 +276,6 @@ export default {
   getFilteredSuperadminsByFirstName,
   getFilteredSuperadminsByLastName,
   getFilteredSuperadminsByEmail,
-  getFilteredSuperadminsByPassword,
   getFilteredSuperadminsByActive,
   getSuperadminById,
   updateSuperadmin,

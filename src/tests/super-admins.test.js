@@ -33,6 +33,66 @@ describe('GET superAdmin by ID', () => {
   });
 });
 
+describe('GET superAdmins by firstName', () => {
+  test('SuperAdmins search by firstName status response successful', async () => {
+    const response = await request(app).get('/api/super-admins/first-name/juan').send();
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toEqual('Superadmins filtered by first name');
+    expect(response.error).toBeFalsy();
+  });
+
+  test('SuperAdmins search by firstName status response unsuccessful', async () => {
+    const response = await request(app).get('/api/super-admins/first-name/maria').send();
+    expect(response.statusCode).toBe(404);
+    expect(response.error).toBeTruthy();
+  });
+});
+
+describe('GET superAdmins by lastName', () => {
+  test('SuperAdmins search by lastName status response successful', async () => {
+    const response = await request(app).get('/api/super-admins/last-name/gomez').send();
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toEqual('Superadmins filtered by last name');
+    expect(response.error).toBeFalsy();
+  });
+
+  test('SuperAdmins search by lastName status response unsuccessful', async () => {
+    const response = await request(app).get('/api/super-admins/last-name/asd').send();
+    expect(response.statusCode).toBe(404);
+    expect(response.error).toBeTruthy();
+  });
+});
+
+describe('GET superAdmins by email', () => {
+  test('SuperAdmins search by email status response successful', async () => {
+    const response = await request(app).get('/api/super-admins/email/juanGomezz@mail.com').send();
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toEqual('Superadmins filtered by email');
+    expect(response.error).toBeFalsy();
+  });
+
+  test('SuperAdmins search by email status response unsuccessful', async () => {
+    const response = await request(app).get('/api/super-admins/email/asd').send();
+    expect(response.statusCode).toBe(404);
+    expect(response.error).toBeTruthy();
+  });
+});
+
+describe('GET superAdmins by active', () => {
+  test('SuperAdmins search by active status response successful', async () => {
+    const response = await request(app).get('/api/super-admins/active/false').send();
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toEqual('Superadmins filtered by active');
+    expect(response.error).toBeFalsy();
+  });
+
+  test('SuperAdmins search by active status response unsuccessful', async () => {
+    const response = await request(app).get('/api/super-admins/active/true').send();
+    expect(response.statusCode).toBe(404);
+    expect(response.error).toBeTruthy();
+  });
+});
+
 describe('CREATE a superAdmin', () => {
   test('SuperAdmin created status response successful', async () => {
     const response = await request(app).post('/api/super-admins').send({

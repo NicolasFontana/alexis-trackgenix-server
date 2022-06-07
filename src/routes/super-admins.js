@@ -10,7 +10,6 @@ router
   .get('/first-name/:firstName', superadminsControllers.getFilteredSuperadminsByFirstName)
   .get('/last-name/:lastName', superadminsControllers.getFilteredSuperadminsByLastName)
   .get('/email/:email', superadminsControllers.getFilteredSuperadminsByEmail)
-  .get('/password/:password', superadminsControllers.getFilteredSuperadminsByPassword)
   .get('/active/:active', superadminsControllers.getFilteredSuperadminsByActive)
   .get('/:id', superadminsControllers.getSuperadminById)
   .put('/:id', superadminsValidation.validateUpdate, superadminsControllers.updateSuperadmin)
