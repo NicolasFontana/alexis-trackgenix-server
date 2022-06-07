@@ -7,7 +7,10 @@ const router = express.Router();
 router
   .get('/', superadminsControllers.getAllSuperadmins)
   .post('/', superadminsValidation.validateCreation, superadminsControllers.createSuperadmin)
-  .get('/filter', superadminsControllers.getFilteredSuperadmins)
+  .get('/first-name/:firstName', superadminsControllers.getFilteredSuperadminsByFirstName)
+  .get('/last-name/:lastName', superadminsControllers.getFilteredSuperadminsByLastName)
+  .get('/email/:email', superadminsControllers.getFilteredSuperadminsByEmail)
+  .get('/active/:active', superadminsControllers.getFilteredSuperadminsByActive)
   .get('/:id', superadminsControllers.getSuperadminById)
   .put('/:id', superadminsValidation.validateUpdate, superadminsControllers.updateSuperadmin)
   .delete('/:id', superadminsControllers.deleteSuperadminById);
