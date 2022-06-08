@@ -3,15 +3,63 @@ import Joi from 'joi';
 
 const createEmployeeValidation = (req, res, next) => {
   const Schema = Joi.object({
-    firstName: Joi.string().min(3).required(),
-    lastName: Joi.string().min(3).required(),
-    phone: Joi.number().min(10).required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().min(8).required(),
+    firstName: Joi.string()
+      .min(3)
+      .max(50)
+      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .messages({
+        'string.min': 'Invalid name, it must contain more than 3 letters',
+        'string.max': 'Invalid name, it must not contain more than 50 letters',
+        'string.pattern':
+          'Invalid name, it must contain only letters and start with upper case',
+      })
+      .required(),
+    lastName: Joi.string()
+      .min(3)
+      .max(50)
+      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .messages({
+        'string.min': 'Invalid last name, it must contain more than 3 letters',
+        'string.max':
+          'Invalid last name, it must not contain more than 50 letters',
+        'string.pattern':
+          'Invalid last name, it must contain only letters and start with upper case',
+      })
+      .required(),
+    phone: Joi.string()
+      .pattern(/^\d+$/)
+      .length(10)
+      .messages({
+        'string.pattern': 'Invalid phone number, it must contain only numbers',
+        'string.lenght': 'Invalid phone number, it must contain 10 numbers',
+      })
+      .required(),
+    email: Joi.string().email().message('Invalid email format').required(),
+    password: Joi.string()
+      .min(8)
+      .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])/)
+      .messages({
+        'string.min': 'Invalid password, it must contain at least 8 characters',
+        'string.pattern':
+          'Invalid password, it must contain both letters and numbers',
+      })
+      .required(),
     active: Joi.boolean().required(),
     isProjectManager: Joi.boolean().required(),
-    projects: Joi.array().items(),
-    timeSheets: Joi.array().items(),
+    projects: Joi.array().items(
+      Joi.string().alphanum().length(24).messages({
+        'string.alphanum':
+          'Invalid project id, it must contain both letters and numbers',
+        'string.length': 'Invalid project id, it must contain 24 characters',
+      }),
+    ),
+    timeSheets: Joi.array().items(
+      Joi.string().alphanum().length(24).messages({
+        'string.alphanum':
+          'Invalid time sheet id, it must contain both letters and numbers',
+        'string.length': 'Invalid time sheet id, it must contain 24 characters',
+      }),
+    ),
   });
   const validation = Schema.validate(req.body);
   if (validation.error) {
@@ -26,15 +74,56 @@ const createEmployeeValidation = (req, res, next) => {
 
 const updateEmployeeValidation = (req, res, next) => {
   const Schema = Joi.object({
-    firstName: Joi.string().min(3),
-    lastName: Joi.string().min(3),
-    phone: Joi.number().min(10),
-    email: Joi.string().email(),
-    password: Joi.string().min(8),
+    firstName: Joi.string()
+      .min(3)
+      .max(50)
+      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .messages({
+        'string.min': 'Invalid name, it must contain more than 3 letters',
+        'string.max': 'Invalid name, it must not contain more than 50 letters',
+        'string.pattern':
+          'Invalid name, it must contain only letters and start with upper case',
+      }),
+    lastName: Joi.string()
+      .min(3)
+      .max(50)
+      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .messages({
+        'string.min': 'Invalid last name, it must contain more than 3 letters',
+        'string.max':
+          'Invalid last name, it must not contain more than 50 letters',
+        'string.pattern':
+          'Invalid last name, it must contain only letters and start with upper case',
+      }),
+    phone: Joi.string().pattern(/^\d+$/).length(10).messages({
+      'string.pattern': 'Invalid phone number, it must contain only numbers',
+      'string.lenght': 'Invalid phone number, it must contain 10 numbers',
+    }),
+    email: Joi.string().email().message('Invalid email format'),
+    password: Joi.string()
+      .min(8)
+      .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])/)
+      .messages({
+        'string.min': 'Invalid password, it must contain at least 8 characters',
+        'string.pattern':
+          'Invalid password, it must contain both letters and numbers',
+      }),
     active: Joi.boolean(),
     isProjectManager: Joi.boolean(),
-    projects: Joi.array().items(),
-    timeSheets: Joi.array().items(),
+    projects: Joi.array().items(
+      Joi.string().alphanum().length(24).messages({
+        'string.alphanum':
+          'Invalid project id, it must contain both letters and numbers',
+        'string.length': 'Invalid project id, it must contain 24 characters',
+      }),
+    ),
+    timeSheets: Joi.array().items(
+      Joi.string().alphanum().length(24).messages({
+        'string.alphanum':
+          'Invalid time sheet id, it must contain both letters and numbers',
+        'string.length': 'Invalid time sheet id, it must contain 24 characters',
+      }),
+    ),
   });
   const validation = Schema.validate(req.body);
   if (validation.error) {
