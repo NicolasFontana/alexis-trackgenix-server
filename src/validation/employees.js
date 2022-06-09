@@ -6,24 +6,22 @@ const createEmployeeValidation = (req, res, next) => {
     firstName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .pattern(/^[a-zA-Z\s]*$/)
       .messages({
         'string.min': 'Invalid name, it must contain more than 3 letters',
         'string.max': 'Invalid name, it must not contain more than 50 letters',
-        'string.pattern':
-          'Invalid name, it must contain only letters and start with upper case',
+        'string.pattern': 'Invalid name, it must contain only letters',
       })
       .required(),
     lastName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .pattern(/^[a-zA-Z\s]*$/)
       .messages({
         'string.min': 'Invalid last name, it must contain more than 3 letters',
         'string.max':
           'Invalid last name, it must not contain more than 50 letters',
-        'string.pattern':
-          'Invalid last name, it must contain only letters and start with upper case',
+        'string.pattern': 'Invalid last name, it must contain only letters',
       })
       .required(),
     phone: Joi.string()
@@ -77,23 +75,21 @@ const updateEmployeeValidation = (req, res, next) => {
     firstName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .pattern(/^[a-zA-Z\s]*$/)
       .messages({
         'string.min': 'Invalid name, it must contain more than 3 letters',
         'string.max': 'Invalid name, it must not contain more than 50 letters',
-        'string.pattern':
-          'Invalid name, it must contain only letters and start with upper case',
+        'string.pattern': 'Invalid name, it must contain only letters',
       }),
     lastName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .pattern(/^[a-zA-Z\s]*$/)
       .messages({
         'string.min': 'Invalid last name, it must contain more than 3 letters',
         'string.max':
           'Invalid last name, it must not contain more than 50 letters',
-        'string.pattern':
-          'Invalid last name, it must contain only letters and start with upper case',
+        'string.pattern': 'Invalid last name, it must contain only letters',
       }),
     phone: Joi.string().pattern(/^\d+$/).length(10).messages({
       'string.pattern': 'Invalid phone number, it must contain only numbers',

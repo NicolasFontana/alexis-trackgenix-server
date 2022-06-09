@@ -22,12 +22,12 @@ const validateCreation = (req, res, next) => {
       .required(),
     description: Joi.string()
       .min(6)
-      .max(250)
+      .max(150)
       .messages({
         'string.min':
           'Invalid description, it must contain more than 6 letters',
         'string.max':
-          'Invalid description, it must not contain more than 250 letters',
+          'Invalid description, it must not contain more than 150 letters',
       })
       .required(),
     status: Joi.string()
@@ -66,10 +66,10 @@ const validateUpdate = (req, res, next) => {
       'number.integer': 'Invalid number, it must be an integer',
       'number.min': 'Invalid number, it must be positive',
     }),
-    description: Joi.string().min(6).max(250).messages({
+    description: Joi.string().min(6).max(150).messages({
       'string.min': 'Invalid description, it must contain more than 6 letters',
       'string.max':
-        'Invalid description, it must not contain more than 250 letters',
+        'Invalid description, it must not contain more than 150 letters',
     }),
     status: Joi.string()
       .min(2)

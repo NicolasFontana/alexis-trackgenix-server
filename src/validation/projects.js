@@ -6,14 +6,13 @@ const validateCreate = (req, res, next) => {
     name: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .pattern(/^[a-zA-Z\s]*$/)
       .messages({
         'string.min':
           'Invalid project name, it must contain more than 3 letters',
         'string.max':
           'Invalid project name, it must not contain more than 50 letters',
-        'string.pattern':
-          'Invalid project name, it must contain only letters and start with upper case',
+        'string.pattern': 'Invalid project name, it must contain only letters',
       })
       .required(),
     description: Joi.string()
@@ -28,14 +27,13 @@ const validateCreate = (req, res, next) => {
     clientName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .pattern(/^[a-zA-Z\s]*$/)
       .messages({
         'string.min':
           'Invalid client name, it must contain more than 3 letters',
         'string.max':
           'Invalid client name, it must not contain more than 50 letters',
-        'string.pattern':
-          'Invalid client name, it must contain only letters and start with upper case',
+        'string.pattern': 'Invalid client name, it must contain only letters',
       })
       .required(),
     active: Joi.boolean().required(),
@@ -55,7 +53,7 @@ const validateCreate = (req, res, next) => {
         .max(999999)
         .messages({
           'number.min': 'Invalid rate, it must be positive',
-          'number.max': 'Invalid rate, it must be lower than 999999',
+          'number.max': 'Invalid rate, it must be between 0 and 999999',
         })
         .required(),
     }),
@@ -77,14 +75,13 @@ const validateUpdate = (req, res, next) => {
     name: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .pattern(/^[a-zA-Z\s]*$/)
       .messages({
         'string.min':
           'Invalid project name, it must contain more than 3 letters',
         'string.max':
           'Invalid project name, it must not contain more than 50 letters',
-        'string.pattern':
-          'Invalid project name, it must contain only letters and start with upper case',
+        'string.pattern': 'Invalid project name, it must contain only letters',
       }),
     description: Joi.string()
       .min(4)
@@ -96,14 +93,13 @@ const validateUpdate = (req, res, next) => {
     clientName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .pattern(/^[a-zA-Z\s]*$/)
       .messages({
         'string.min':
           'Invalid client name, it must contain more than 3 letters',
         'string.max':
           'Invalid client name, it must not contain more than 50 letters',
-        'string.pattern':
-          'Invalid client name, it must contain only letters and start with upper case',
+        'string.pattern': 'Invalid client name, it must contain only letters',
       }),
     active: Joi.boolean(),
     members: Joi.array().items({
@@ -113,7 +109,10 @@ const validateUpdate = (req, res, next) => {
         'string.length': 'Invalid employee id, it must contain 24 characters',
       }),
       role: Joi.string().valid('QA', 'DEV', 'TL', 'PM'),
-      rate: Joi.number().min(0).message('Rate number must be positive'),
+      rate: Joi.number().min(0).max(999999).messages({
+        'number.min': 'Invalid rate, it must be positive',
+        'number.max': 'Invalid rate, it must be between 0 and 999999',
+      }),
     }),
   });
   const validation = projectValidationSchema.validate(req.body);
