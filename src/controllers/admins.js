@@ -5,7 +5,7 @@ const getAllAdmins = async (req, res) => {
   try {
     const allAdmins = await models.Admins.find({});
     return res.status(200).json({
-      message: 'All admins',
+      message: 'Admins found',
       data: allAdmins,
       error: false,
     });
@@ -25,13 +25,13 @@ const getAdminById = async (req, res) => {
       const admin = await models.Admins.findById(req.params.id);
       if (!admin) {
         return res.status(404).json({
-          message: `Admin with this id ${req.params.id} not found`,
+          message: `Admin with id ${req.params.id} not found`,
           data: undefined,
           error: true,
         });
       }
       return res.status(200).json({
-        message: 'Admin by id',
+        message: `Admin with id ${req.params.id} found`,
         data: admin,
         error: false,
       });
@@ -58,13 +58,13 @@ const getAdminByFirstName = async (req, res) => {
       const admin = await models.Admins.find({ firstName });
       if (admin.length <= 0) {
         return res.status(404).json({
-          message: `Admin with this first name ${req.params.firstName} not found`,
+          message: `Admin with first name ${req.params.firstName} not found`,
           data: undefined,
           error: true,
         });
       }
       return res.status(200).json({
-        message: 'Admins by first name',
+        message: 'Admins found',
         data: admin,
         error: false,
       });
@@ -91,13 +91,13 @@ const getAdminByLastName = async (req, res) => {
       const admin = await models.Admins.find({ lastName });
       if (admin.length <= 0) {
         return res.status(404).json({
-          message: `Admin with this last name ${req.params.lastName} not found`,
+          message: `Admin with last name ${req.params.lastName} not found`,
           data: undefined,
           error: true,
         });
       }
       return res.status(200).json({
-        message: 'Admins by last name',
+        message: 'Admins found',
         data: admin,
         error: false,
       });
@@ -123,13 +123,13 @@ const getAdminByEmail = async (req, res) => {
       const admin = await models.Admins.find({ email: req.params.email });
       if (admin.length <= 0) {
         return res.status(404).json({
-          message: `Admin with this email ${req.params.email} not found`,
+          message: `Admin with email ${req.params.email} not found`,
           data: undefined,
           error: true,
         });
       }
       return res.status(200).json({
-        message: 'Admin by email',
+        message: 'Admin found',
         data: admin,
         error: false,
       });
@@ -152,7 +152,9 @@ const getAdminByEmail = async (req, res) => {
 const getAdminByStatus = async (req, res) => {
   try {
     if (req.params.active) {
-      const adminsList = await models.Admins.find({ active: req.params.active });
+      const adminsList = await models.Admins.find({
+        active: req.params.active,
+      });
       if (adminsList.length <= 0) {
         return res.status(404).json({
           message: `Admin with the active of ${req.params.active} not found`,
@@ -161,7 +163,7 @@ const getAdminByStatus = async (req, res) => {
         });
       }
       return res.status(200).json({
-        message: 'Admins by active status',
+        message: 'Admins found',
         data: adminsList,
         error: false,
       });
@@ -218,16 +220,18 @@ const deleteAdmin = async (req, res) => {
     const admin = await models.Admins.findByIdAndDelete(req.params.id);
     if (!admin) {
       return res.status(404).json({
-        message: `Admin with this id ${req.params.id} not found`,
+        message: `Admin with id ${req.params.id} not found`,
         data: undefined,
         error: true,
       });
     }
-    return res.json({
-      message: `Admin with this id ${req.params.id} deleted`,
-      data: admin,
-      error: false,
-    }).status(204);
+    return res
+      .json({
+        message: `Admin with id ${req.params.id} deleted`,
+        data: admin,
+        error: false,
+      })
+      .status(204);
   } catch (error) {
     return res.status(400).json({
       message: error.message,
@@ -241,7 +245,11 @@ const deleteAdmin = async (req, res) => {
 const updateAdmin = async (req, res) => {
   try {
     if (req.params.id) {
-      const admin = await models.Admins.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      const admin = await models.Admins.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true },
+      );
       if (!admin) {
         return res.status(404).json({
           message: `Admin with this id ${req.params.id} not found`,

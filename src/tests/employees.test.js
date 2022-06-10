@@ -70,11 +70,11 @@ describe('Get employee by id', () => {
     expect(response.error).toBeTruthy();
   });
 
-  test('response should return a message like this: missing id parameter', async () => {
+  test('response should return a message like this: Missing id parameter', async () => {
     const response = await request(app)
       .get('/api/employees/6288fe568cb389708e53eb0f')
       .send();
-    expect(response.body.message).toBe('missing id parameter');
+    expect(response.body.message).toBe('Missing id parameter');
   });
 });
 
@@ -125,7 +125,7 @@ describe('Get employee by first name', () => {
     const response = await request(app)
       .get('/api/employees/firstName/1Puche')
       .send();
-    expect(response.body.message).toBe('missing firstName parameter');
+    expect(response.body.message).toBe('Missing firstName parameter');
   });
 });
 
@@ -141,7 +141,7 @@ describe('Get employee by lastName', () => {
     const response = await request(app)
       .get('/api/employees/lastName/Lopez')
       .send();
-    expect(response.body.message).toBe('Employee with lastName Lopez');
+    expect(response.body.message).toBe('Employee with lastName Lopez found');
   });
 
   test('response should return false error', async () => {
@@ -176,7 +176,7 @@ describe('Get employee by lastName', () => {
     const response = await request(app)
       .get('/api/employees/lastName/1Lopez')
       .send();
-    expect(response.body.message).toBe('missing lastName parameter');
+    expect(response.body.message).toBe('Missing lastName parameter');
   });
 });
 
@@ -192,7 +192,7 @@ describe('Get employee by active status', () => {
     const response = await request(app)
       .get('/api/employees/active/false')
       .send();
-    expect(response.body.message).toBe('Employee with status false');
+    expect(response.body.message).toBe('Employee with status false found');
   });
 
   test('response should return false error', async () => {
@@ -236,7 +236,7 @@ describe('Create employee', () => {
     const response = await request(app).post('/api/employees/').send({
       firstName: 'Puche',
       lastName: 'Lopez',
-      phone: 7761785000,
+      phone: '7761785000',
       email: 'juanssssopez@people.com',
       password: 'password123',
       active: false,
@@ -250,7 +250,7 @@ describe('Create employee', () => {
     const response = await request(app).post('/api/employees/').send({
       firstName: 'Puche',
       lastName: 'Lopez',
-      phone: 7761785000,
+      phone: '7761785000',
       email: 'juanssssopez@people.com',
       password: 'password123',
       active: false,
@@ -262,7 +262,7 @@ describe('Create employee', () => {
     const response = await request(app).post('/api/employees/').send({
       firstName: 'Puche',
       lastName: 'Lopez',
-      phone: 7761785000,
+      phone: '7761785000',
       email: 'juanssssopez@people.com',
       password: 'password123',
       active: false,
@@ -273,7 +273,7 @@ describe('Create employee', () => {
   test('no first name - response should return 400 status', async () => {
     const response = await request(app).post('/api/employees/').send({
       lastName: 'Lopez',
-      phone: 7761785000,
+      phone: '7761785000',
       email: 'juanssssopez@people.com',
       password: 'password123',
       active: false,
@@ -284,7 +284,7 @@ describe('Create employee', () => {
   test('no last name - response should return 400 status', async () => {
     const response = await request(app).post('/api/employees/').send({
       firstName: 'Puche',
-      phone: 7761785000,
+      phone: '7761785000',
       email: 'juanssssopez@people.com',
       password: 'password123',
       active: false,
@@ -307,7 +307,7 @@ describe('Create employee', () => {
     const response = await request(app).post('/api/employees/').send({
       firstName: 'Puche',
       lastName: 'Lopez',
-      phone: 7761785000,
+      phone: '7761785000',
       password: 'password123',
       active: false,
       isProjectManager: false,
@@ -318,7 +318,7 @@ describe('Create employee', () => {
     const response = await request(app).post('/api/employees/').send({
       firstName: 'Puche',
       lastName: 'Lopez',
-      phone: 7761785000,
+      phone: '7761785000',
       email: 'juanssssopez@people.com',
       active: false,
       isProjectManager: false,
@@ -329,7 +329,7 @@ describe('Create employee', () => {
     const response = await request(app).post('/api/employees/').send({
       firstName: 'Puche',
       lastName: 'Lopez',
-      phone: 7761785000,
+      phone: '7761785000',
       email: 'juanssssopez@people.com',
       password: 'password123',
       isProjectManager: false,
@@ -340,7 +340,7 @@ describe('Create employee', () => {
     const response = await request(app).post('/api/employees/').send({
       firstName: 'Puche',
       lastName: 'Lopez',
-      phone: 7761785000,
+      phone: '7761785000',
       email: 'juanssssopez@people.com',
       password: 'password123',
       active: false,
@@ -350,11 +350,11 @@ describe('Create employee', () => {
 });
 
 describe('Create employee invalid', () => {
-  test('invalid firstName - response should be: "firstName" length must be at least 3 characters long', async () => {
+  test('invalid firstName - response should be: Invalid name, it must contain more than 3 letters', async () => {
     const response = await request(app).post('/api/employees/').send({
       firstName: '_',
       lastName: 'Lopez',
-      phone: 7761785000,
+      phone: '7761785000',
       email: 'juanssssopez@people.com',
       password: 'password123',
       active: false,
@@ -362,7 +362,7 @@ describe('Create employee invalid', () => {
     });
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe(
-      '"firstName" length must be at least 3 characters long',
+      'Invalid name, it must contain more than 3 letters',
     );
   });
 });
@@ -375,7 +375,7 @@ describe('Edit employee', () => {
       .send({
         firstName: 'Pucheprueba',
         lastName: 'Lopez',
-        phone: 7761785000,
+        phone: '7761785000',
         email: 'juanssssopez@people.com',
         password: 'tuvieja123123',
         active: false,
@@ -397,7 +397,7 @@ describe('Edit employee', () => {
       .send({
         firstName: 'Pucheprueba',
         lastName: 'Lopez',
-        phone: 7761785000,
+        phone: '7761785000',
         email: 'juanssssopez@people.com.cn',
         password: 'tuvieja123123',
         active: false,

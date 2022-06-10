@@ -1,13 +1,38 @@
 import Joi from 'joi';
 
-const stringPattern = /^[a-zA-Z]*$/;
-
 const validateCreation = (req, res, next) => {
   const schema = Joi.object({
-    firstName: Joi.string().regex(stringPattern).min(3).required(),
-    lastName: Joi.string().regex(stringPattern).min(3).required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().min(8).alphanum().required(),
+    firstName: Joi.string()
+      .min(3)
+      .max(50)
+      .pattern(/^[a-zA-Z\s]*$/)
+      .messages({
+        'string.min': 'Invalid name, it must contain more than 3 letters',
+        'string.max': 'Invalid name, it must not contain more than 50 letters',
+        'string.pattern': 'Invalid name, it must contain only letters',
+      })
+      .required(),
+    lastName: Joi.string()
+      .min(3)
+      .max(50)
+      .pattern(/^[a-zA-Z\s]*$/)
+      .messages({
+        'string.min': 'Invalid last name, it must contain more than 3 letters',
+        'string.max':
+          'Invalid last name, it must not contain more than 50 letters',
+        'string.pattern': 'Invalid last name, it must contain only letters',
+      })
+      .required(),
+    email: Joi.string().email().message('Invalid email format').required(),
+    password: Joi.string()
+      .min(8)
+      .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])/)
+      .messages({
+        'string.min': 'Invalid password, it must contain at least 8 characters',
+        'string.pattern':
+          'Invalid password, it must contain both letters and numbers',
+      })
+      .required(),
     active: Joi.boolean().required(),
   });
   const validation = schema.validate(req.body);
@@ -23,10 +48,34 @@ const validateCreation = (req, res, next) => {
 
 const validateUpdate = (req, res, next) => {
   const schema = Joi.object({
-    firstName: Joi.string().regex(stringPattern).min(3),
-    lastName: Joi.string().regex(stringPattern).min(3),
-    email: Joi.string().email(),
-    password: Joi.string().min(8).alphanum(),
+    firstName: Joi.string()
+      .min(3)
+      .max(50)
+      .pattern(/^[a-zA-Z\s]*$/)
+      .messages({
+        'string.min': 'Invalid name, it must contain more than 3 letters',
+        'string.max': 'Invalid name, it must not contain more than 50 letters',
+        'string.pattern': 'Invalid name, it must contain only letters',
+      }),
+    lastName: Joi.string()
+      .min(3)
+      .max(50)
+      .pattern(/^[a-zA-Z\s]*$/)
+      .messages({
+        'string.min': 'Invalid last name, it must contain more than 3 letters',
+        'string.max':
+          'Invalid last name, it must not contain more than 50 letters',
+        'string.pattern': 'Invalid last name, it must contain only letters',
+      }),
+    email: Joi.string().email().message('Invalid email format'),
+    password: Joi.string()
+      .min(8)
+      .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])/)
+      .messages({
+        'string.min': 'Invalid password, it must contain at least 8 characters',
+        'string.pattern':
+          'Invalid password, it must contain both letters and numbers',
+      }),
     active: Joi.boolean(),
   });
   const validation = schema.validate(req.body);

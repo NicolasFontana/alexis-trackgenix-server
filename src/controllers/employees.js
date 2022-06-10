@@ -18,7 +18,7 @@ const getAllEmployees = async (req, res) => {
         approved: 1,
       });
     res.status(200).json({
-      message: 'All employees',
+      message: 'Employees found',
       data: allEmployees,
       error: false,
     });
@@ -51,13 +51,13 @@ const getEmployeeById = async (req, res) => {
       });
     if (singleEmployee) {
       return res.status(200).json({
-        message: `Employee with id ${req.params.id}`,
+        message: `Employee with id ${req.params.id} found`,
         data: singleEmployee,
         error: false,
       });
     }
     return res.status(404).json({
-      message: 'missing id parameter',
+      message: 'Missing id parameter',
       data: undefined,
       error: true,
     });
@@ -73,7 +73,9 @@ const getEmployeeById = async (req, res) => {
 // get employee by firstName **UPDATED BY MARTIN P.
 const getEmployeeByFirstName = async (req, res) => {
   try {
-    const Employees = await models.Employees.find({ firstName: req.params.firstName })
+    const Employees = await models.Employees.find({
+      firstName: req.params.firstName,
+    })
       .populate('projects', {
         name: 1,
         description: 1,
@@ -89,13 +91,13 @@ const getEmployeeByFirstName = async (req, res) => {
       });
     if (Employees.length !== 0) {
       return res.status(200).json({
-        message: `Employee with firstName ${req.params.firstName}`,
+        message: `Employee with firstName ${req.params.firstName} found`,
         data: Employees,
         error: false,
       });
     }
     return res.status(404).json({
-      message: 'missing firstName parameter',
+      message: 'Missing firstName parameter',
       data: undefined,
       error: true,
     });
@@ -112,7 +114,9 @@ const getEmployeeByFirstName = async (req, res) => {
 const getEmployeeByLastName = async (req, res) => {
   try {
     const lastNameParam = req.params.lastName;
-    const Employees = await models.Employees.find({ lastName: req.params.lastName })
+    const Employees = await models.Employees.find({
+      lastName: req.params.lastName,
+    })
       .populate('projects', {
         name: 1,
         description: 1,
@@ -128,13 +132,13 @@ const getEmployeeByLastName = async (req, res) => {
       });
     if (Employees.length !== 0) {
       return res.status(200).json({
-        message: `Employee with lastName ${lastNameParam}`,
+        message: `Employee with lastName ${lastNameParam} found`,
         data: Employees,
         error: false,
       });
     }
     return res.status(404).json({
-      message: 'missing lastName parameter',
+      message: 'Missing lastName parameter',
       data: undefined,
       error: true,
     });
@@ -173,7 +177,7 @@ const getEmployeeByActivity = async (req, res) => {
       });
     } else {
       res.status(200).json({
-        message: `Employee with status ${activeParam}`,
+        message: `Employee with status ${activeParam} found`,
         data: Employees,
         error: false,
       });
@@ -221,7 +225,7 @@ const updateEmployee = async (req, res) => {
   try {
     if (!req.params) {
       return res.status(400).json({
-        message: 'missing id parameter',
+        message: 'Missing id parameter',
         data: undefined,
         error: true,
       });
@@ -231,14 +235,15 @@ const updateEmployee = async (req, res) => {
       req.params.id,
       req.body,
       { new: true },
-    ).populate('projects', {
-      name: 1,
-      description: 1,
-      startDate: 1,
-      endDate: 1,
-      clientName: 1,
-      active: 1,
-    })
+    )
+      .populate('projects', {
+        name: 1,
+        description: 1,
+        startDate: 1,
+        endDate: 1,
+        clientName: 1,
+        active: 1,
+      })
       .populate('timeSheets', {
         projectId: 1,
         taskId: 1,
@@ -270,7 +275,7 @@ const deleteEmployee = async (req, res) => {
   try {
     if (!req.params.id) {
       res.status(400).json({
-        message: 'missing id parameter',
+        message: 'Missing id parameter',
         data: undefined,
         error: true,
       });

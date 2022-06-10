@@ -3,14 +3,15 @@ import models from '../models';
 // get all projects (Javi) ; populate by Pinche (:
 const getAllProjects = async (req, res) => {
   try {
-    const projects = await models.Projects
-      .find(req.query)
-      .populate('members.employeeId', {
+    const projects = await models.Projects.find(req.query).populate(
+      'members.employeeId',
+      {
         _id: 1,
         firstName: 1,
         lastName: 1,
         active: 1,
-      });
+      },
+    );
     if (projects.length < 1) {
       return res.status(404).json({
         message: 'There are no projects yet',
@@ -19,7 +20,7 @@ const getAllProjects = async (req, res) => {
       });
     }
     return res.status(200).json({
-      message: 'Success!',
+      message: 'Projects found',
       data: projects,
       error: false,
     });
@@ -36,17 +37,18 @@ const getAllProjects = async (req, res) => {
 const getProjectById = async (req, res) => {
   try {
     if (req.params.id) {
-      const project = await models.Projects
-        .findById(req.params.id)
-        .populate('members.employeeId', {
+      const project = await models.Projects.findById(req.params.id).populate(
+        'members.employeeId',
+        {
           _id: 1,
           firstName: 1,
           lastName: 1,
           active: 1,
-        });
+        },
+      );
       if (project) {
         res.status(200).json({
-          message: 'Project found',
+          message: `Project with id ${req.params.id} found`,
           data: project,
           error: false,
         });
@@ -70,22 +72,23 @@ const getProjectById = async (req, res) => {
 // get project by name (Javi)(and Pinche)
 const getProjectByName = async (req, res) => {
   try {
-    const project = await models.Projects.find({ name: req.params.name })
-      .populate('members.employeeId', {
-        _id: 1,
-        firstName: 1,
-        lastName: 1,
-        active: 1,
-      });
+    const project = await models.Projects.find({
+      name: req.params.name,
+    }).populate('members.employeeId', {
+      _id: 1,
+      firstName: 1,
+      lastName: 1,
+      active: 1,
+    });
     if (project.length === 0) {
       return res.status(404).json({
-        message: `No project with name: ${req.params.name}`,
+        message: `Project with name ${req.params.name} not found`,
         data: {},
         error: true,
       });
     }
     return res.status(200).json({
-      message: 'Project found!',
+      message: `Project with name ${req.params.name} found`,
       data: project,
       error: false,
     });
@@ -106,16 +109,17 @@ const getByPeriod = async (req, res) => {
 
     // if there is end and init date
     if (init && end) {
-      const projects = await models.Projects
-        .find({ initDate: { $gte: init, $lte: end }, endDate: { $gte: init, $lte: end } })
-        .populate('members.employeeId', {
-          _id: 1,
-          firstName: 1,
-          lastName: 1,
-          active: 1,
-        });
+      const projects = await models.Projects.find({
+        initDate: { $gte: init, $lte: end },
+        endDate: { $gte: init, $lte: end },
+      }).populate('members.employeeId', {
+        _id: 1,
+        firstName: 1,
+        lastName: 1,
+        active: 1,
+      });
       return res.status(200).json({
-        message: `Project after ${init} and before ${end}.`,
+        message: `Projects after ${init} and before ${end} found`,
         data: projects,
         error: false,
       });
@@ -123,16 +127,17 @@ const getByPeriod = async (req, res) => {
 
     // if there is init but no end date
     if (init) {
-      const projects = await models.Projects
-        .find({ initDate: { $gte: init }, endDate: { $gte: init } })
-        .populate('members.employeeId', {
-          _id: 1,
-          firstName: 1,
-          lastName: 1,
-          active: 1,
-        });
+      const projects = await models.Projects.find({
+        initDate: { $gte: init },
+        endDate: { $gte: init },
+      }).populate('members.employeeId', {
+        _id: 1,
+        firstName: 1,
+        lastName: 1,
+        active: 1,
+      });
       return res.status(200).json({
-        message: `Project after ${init}.`,
+        message: `Project after ${init} found`,
         data: projects,
         error: false,
       });
@@ -140,16 +145,17 @@ const getByPeriod = async (req, res) => {
 
     // if there is end but no init date
     if (end) {
-      const projects = await models.Projects
-        .find({ initDate: { $lte: end }, endDate: { $lte: end } })
-        .populate('members.employeeId', {
-          _id: 1,
-          firstName: 1,
-          lastName: 1,
-          active: 1,
-        });
+      const projects = await models.Projects.find({
+        initDate: { $lte: end },
+        endDate: { $lte: end },
+      }).populate('members.employeeId', {
+        _id: 1,
+        firstName: 1,
+        lastName: 1,
+        active: 1,
+      });
       return res.status(200).json({
-        message: `Projects before ${end}.`,
+        message: `Projects before ${end} found`,
         data: projects,
         error: false,
       });
@@ -171,23 +177,23 @@ const getByPeriod = async (req, res) => {
 // get project by client name (Javi)
 const getProjectByClientName = async (req, res) => {
   try {
-    const project = await models.Projects
-      .find({ clientName: req.params.clientName })
-      .populate('members.employeeId', {
-        _id: 1,
-        firstName: 1,
-        lastName: 1,
-        active: 1,
-      });
+    const project = await models.Projects.find({
+      clientName: req.params.clientName,
+    }).populate('members.employeeId', {
+      _id: 1,
+      firstName: 1,
+      lastName: 1,
+      active: 1,
+    });
     if (project.length === 0) {
       return res.status(404).json({
-        message: `No project with client: ${req.params.clientName}`,
+        message: `Project with client ${req.params.clientName} not found`,
         data: {},
         error: true,
       });
     }
     return res.status(200).json({
-      message: 'Project found!',
+      message: `Project with client ${req.params.clientName} found`,
       data: project,
       error: false,
     });
@@ -203,14 +209,14 @@ const getProjectByClientName = async (req, res) => {
 // get project by status (Javi)
 const getProjectByStatus = async (req, res) => {
   try {
-    const project = await models.Projects
-      .find({ active: req.params.active })
-      .populate('members.employeeId', {
-        _id: 1,
-        firstName: 1,
-        lastName: 1,
-        active: 1,
-      });
+    const project = await models.Projects.find({
+      active: req.params.active,
+    }).populate('members.employeeId', {
+      _id: 1,
+      firstName: 1,
+      lastName: 1,
+      active: 1,
+    });
     if (project.length < 1) {
       return res.status(404).json({
         message: 'No projects found',
@@ -263,12 +269,9 @@ const updateProject = async (req, res) => {
   try {
     const { id } = req.params;
     if (id.match(/^[0-9a-fA-F]{24}$/)) {
-      const result = await models.Projects
-        .findByIdAndUpdate(
-          id,
-          req.body,
-          { new: true },
-        );
+      const result = await models.Projects.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
       if (!result) {
         return res.status(404).json({
           message: 'Project not found',
@@ -308,11 +311,13 @@ const deleteProject = async (req, res) => {
           error: true,
         });
       }
-      return res.json({
-        message: 'The project was successfully deleted',
-        data: result,
-        error: false,
-      }).status(200);
+      return res
+        .json({
+          message: 'The project was successfully deleted',
+          data: result,
+          error: false,
+        })
+        .status(200);
     }
     return res.status(400).json({
       message: `id:${req.params.id} is not valid`,

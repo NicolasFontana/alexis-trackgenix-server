@@ -21,7 +21,9 @@ describe('GET ALL superAdmins', () => {
 
 describe('GET superAdmin by ID', () => {
   test('SuperAdmin search by ID status response successful', async () => {
-    const response = await request(app).get('/api/super-admins/628ab4225aae617fa8002c22').send();
+    const response = await request(app)
+      .get('/api/super-admins/628ab4225aae617fa8002c22')
+      .send();
     expect(response.statusCode).toBe(200);
     expect(response.error).toBeFalsy();
   });
@@ -35,14 +37,18 @@ describe('GET superAdmin by ID', () => {
 
 describe('GET superAdmins by firstName', () => {
   test('SuperAdmins search by firstName status response successful', async () => {
-    const response = await request(app).get('/api/super-admins/first-name/juan').send();
+    const response = await request(app)
+      .get('/api/super-admins/first-name/juan')
+      .send();
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual('Superadmins filtered by first name');
     expect(response.error).toBeFalsy();
   });
 
   test('SuperAdmins search by firstName status response unsuccessful', async () => {
-    const response = await request(app).get('/api/super-admins/first-name/maria').send();
+    const response = await request(app)
+      .get('/api/super-admins/first-name/maria')
+      .send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
   });
@@ -50,14 +56,18 @@ describe('GET superAdmins by firstName', () => {
 
 describe('GET superAdmins by lastName', () => {
   test('SuperAdmins search by lastName status response successful', async () => {
-    const response = await request(app).get('/api/super-admins/last-name/gomez').send();
+    const response = await request(app)
+      .get('/api/super-admins/last-name/gomez')
+      .send();
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual('Superadmins filtered by last name');
     expect(response.error).toBeFalsy();
   });
 
   test('SuperAdmins search by lastName status response unsuccessful', async () => {
-    const response = await request(app).get('/api/super-admins/last-name/asd').send();
+    const response = await request(app)
+      .get('/api/super-admins/last-name/asd')
+      .send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
   });
@@ -65,14 +75,18 @@ describe('GET superAdmins by lastName', () => {
 
 describe('GET superAdmins by email', () => {
   test('SuperAdmins search by email status response successful', async () => {
-    const response = await request(app).get('/api/super-admins/email/juanGomezz@mail.com').send();
+    const response = await request(app)
+      .get('/api/super-admins/email/juanGomezz@mail.com')
+      .send();
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual('Superadmins filtered by email');
     expect(response.error).toBeFalsy();
   });
 
   test('SuperAdmins search by email status response unsuccessful', async () => {
-    const response = await request(app).get('/api/super-admins/email/asd').send();
+    const response = await request(app)
+      .get('/api/super-admins/email/asd')
+      .send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
   });
@@ -80,14 +94,18 @@ describe('GET superAdmins by email', () => {
 
 describe('GET superAdmins by active', () => {
   test('SuperAdmins search by active status response successful', async () => {
-    const response = await request(app).get('/api/super-admins/active/false').send();
+    const response = await request(app)
+      .get('/api/super-admins/active/false')
+      .send();
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual('Superadmins filtered by active');
     expect(response.error).toBeFalsy();
   });
 
   test('SuperAdmins search by active status response unsuccessful', async () => {
-    const response = await request(app).get('/api/super-admins/active/true').send();
+    const response = await request(app)
+      .get('/api/super-admins/active/true')
+      .send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
   });
@@ -96,8 +114,8 @@ describe('GET superAdmins by active', () => {
 describe('CREATE a superAdmin', () => {
   test('SuperAdmin created status response successful', async () => {
     const response = await request(app).post('/api/super-admins').send({
-      firstName: 'juan',
-      lastName: 'gomez',
+      firstName: 'Juan',
+      lastName: 'Gomez',
       email: 'juanGomezz@mail.com',
       password: 'juangomez123',
       active: false,
@@ -156,7 +174,9 @@ describe('CREATE a superAdmin', () => {
 
 describe('DELETE a superAdmin', () => {
   test('SuperAdmin deleted status response successful', async () => {
-    const response = await request(app).delete(`/api/super-admins/${superAdminId}`).send();
+    const response = await request(app)
+      .delete(`/api/super-admins/${superAdminId}`)
+      .send();
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual('User eliminated');
     expect(response.error).toBeFalsy();
@@ -171,25 +191,29 @@ describe('DELETE a superAdmin', () => {
 
 describe('UPDATE a superAdmin', () => {
   test('SuperAdmin updated status response successful', async () => {
-    const response = await request(app).put('/api/super-admins/628ab4225aae617fa8002c22').send({
-      firstName: 'pedro',
-      lastName: 'gomez',
-      email: 'pedroGomezz@mail.com',
-      password: 'pedrogomez123',
-      active: false,
-    });
+    const response = await request(app)
+      .put('/api/super-admins/628ab4225aae617fa8002c22')
+      .send({
+        firstName: 'Pedro',
+        lastName: 'Gomez',
+        email: 'pedroGomezz@mail.com',
+        password: 'pedrogomez123',
+        active: false,
+      });
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual('Super-Admin updated');
     expect(response.body.error).toBeFalsy();
   });
 
   test('SuperAdmin updated status response successful despite required fields incomplete', async () => {
-    const response = await request(app).put('/api/super-admins/628ab4225aae617fa8002c22').send({
-      firstName: 'pedro',
-      email: 'pedroGomezz@mail.com',
-      password: 'pedrogomez123',
-      active: false,
-    });
+    const response = await request(app)
+      .put('/api/super-admins/628ab4225aae617fa8002c22')
+      .send({
+        firstName: 'Pedro',
+        email: 'pedroGomezz@mail.com',
+        password: 'pedrogomez123',
+        active: false,
+      });
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual('Super-Admin updated');
     expect(response.body.error).toBeFalsy();
@@ -202,26 +226,30 @@ describe('UPDATE a superAdmin', () => {
   });
 
   test('SuperAdmin updated status response unsuccessful due to incorrect mail format', async () => {
-    const response = await request(app).put('/api/super-admins/628ab4225aae617fa8002c22').send({
-      firstName: 'pedro',
-      lastName: 'gomez',
-      email: '...',
-      password: 'pedrogomez123',
-      active: false,
-    });
+    const response = await request(app)
+      .put('/api/super-admins/628ab4225aae617fa8002c22')
+      .send({
+        firstName: 'pedro',
+        lastName: 'gomez',
+        email: '...',
+        password: 'pedrogomez123',
+        active: false,
+      });
     expect(response.statusCode).toBe(400);
     expect(response.body.data).toBe(undefined);
     expect(response.error).toBeTruthy();
   });
 
   test('SuperAdmin updated status response unsuccessful due to firstName with numbers', async () => {
-    const response = await request(app).put('/api/super-admins/628ab4225aae617fa8002c22').send({
-      firstName: 'Emilio123',
-      lastName: 'Perez',
-      email: 'pedroGomezz@mail.com',
-      password: 'emiperez123',
-      active: true,
-    });
+    const response = await request(app)
+      .put('/api/super-admins/628ab4225aae617fa8002c22')
+      .send({
+        firstName: 'Emilio123',
+        lastName: 'Perez',
+        email: 'pedroGomezz@mail.com',
+        password: 'emiperez123',
+        active: true,
+      });
     expect(response.statusCode).toBe(400);
     expect(response.body.data).toBe(undefined);
     expect(response.error).toBeTruthy();
