@@ -9,7 +9,7 @@ const validateCreation = (req, res, next) => {
       .messages({
         'string.min': 'Invalid name, it must contain more than 3 letters',
         'string.max': 'Invalid name, it must not contain more than 50 letters',
-        'string.pattern': 'Invalid name, it must contain only letters',
+        'string.pattern.base': 'Invalid name, it must contain only letters',
       })
       .required(),
     lastName: Joi.string()
@@ -20,16 +20,17 @@ const validateCreation = (req, res, next) => {
         'string.min': 'Invalid last name, it must contain more than 3 letters',
         'string.max':
           'Invalid last name, it must not contain more than 50 letters',
-        'string.pattern': 'Invalid last name, it must contain only letters',
+        'string.pattern.base':
+          'Invalid last name, it must contain only letters',
       })
       .required(),
     email: Joi.string().email().message('Invalid email format').required(),
     password: Joi.string()
       .min(8)
-      .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])/)
+      .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?!.*[^a-zA-Z0-9])/)
       .messages({
         'string.min': 'Invalid password, it must contain at least 8 characters',
-        'string.pattern':
+        'string.pattern.base':
           'Invalid password, it must contain both letters and numbers',
       })
       .required(),
@@ -55,7 +56,7 @@ const validateUpdate = (req, res, next) => {
       .messages({
         'string.min': 'Invalid name, it must contain more than 3 letters',
         'string.max': 'Invalid name, it must not contain more than 50 letters',
-        'string.pattern': 'Invalid name, it must contain only letters',
+        'string.pattern.base': 'Invalid name, it must contain only letters',
       }),
     lastName: Joi.string()
       .min(3)
@@ -65,15 +66,16 @@ const validateUpdate = (req, res, next) => {
         'string.min': 'Invalid last name, it must contain more than 3 letters',
         'string.max':
           'Invalid last name, it must not contain more than 50 letters',
-        'string.pattern': 'Invalid last name, it must contain only letters',
+        'string.pattern.base':
+          'Invalid last name, it must contain only letters',
       }),
     email: Joi.string().email().message('Invalid email format'),
     password: Joi.string()
       .min(8)
-      .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])/)
+      .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?!.*[^a-zA-Z0-9])/)
       .messages({
         'string.min': 'Invalid password, it must contain at least 8 characters',
-        'string.pattern':
+        'string.pattern.base':
           'Invalid password, it must contain both letters and numbers',
       }),
     active: Joi.boolean(),
