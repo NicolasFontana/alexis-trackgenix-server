@@ -6,7 +6,9 @@ const validateCreate = (req, res, next) => {
     name: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .pattern(
+        /^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]/,
+      )
       .required()
       .messages({
         'string.min':
@@ -31,7 +33,9 @@ const validateCreate = (req, res, next) => {
     clientName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .pattern(
+        /^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]/,
+      )
       .required()
       .messages({
         'string.min':
@@ -77,7 +81,9 @@ const validateUpdate = (req, res, next) => {
     name: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .pattern(
+        /^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]/,
+      )
       .messages({
         'string.min':
           'Invalid project name, it must contain more than 3 letters',
@@ -96,7 +102,9 @@ const validateUpdate = (req, res, next) => {
     clientName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][a-zA-Z\s]*$/)
+      .pattern(
+        /^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]/,
+      )
       .messages({
         'string.min':
           'Invalid client name, it must contain more than 3 letters',

@@ -6,7 +6,7 @@ const createEmployeeValidation = (req, res, next) => {
     firstName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[a-zA-Z\s]*$/)
+      .pattern(/(?:\p{L}\p{M}*)+/u)
       .required()
       .messages({
         'string.min': 'Invalid name, it must contain more than 3 letters',
@@ -17,7 +17,7 @@ const createEmployeeValidation = (req, res, next) => {
     lastName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[a-zA-Z\s]*$/)
+      .pattern(/(?:\p{L}\p{M}*)+/u)
       .required()
       .messages({
         'string.min': 'Invalid last name, it must contain more than 3 letters',
@@ -81,7 +81,7 @@ const updateEmployeeValidation = (req, res, next) => {
     firstName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[a-zA-Z\s]*$/)
+      .pattern(/(?:\p{L}\p{M}*)+/u)
       .messages({
         'string.min': 'Invalid name, it must contain more than 3 letters',
         'string.max': 'Invalid name, it must not contain more than 50 letters',
@@ -90,7 +90,7 @@ const updateEmployeeValidation = (req, res, next) => {
     lastName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[a-zA-Z\s]*$/)
+      .pattern(/(?:\p{L}\p{M}*)+/u)
       .messages({
         'string.min': 'Invalid last name, it must contain more than 3 letters',
         'string.max':
