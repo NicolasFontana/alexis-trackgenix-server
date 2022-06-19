@@ -2,43 +2,39 @@ import Joi from 'joi';
 
 const validateCreation = (req, res, next) => {
   const taskValidation = Joi.object({
-    taskName: Joi.string()
-      .min(3)
-      .max(50)
+    taskName: Joi.string().min(3).max(50).required()
       .messages({
         'string.min': 'Invalid task name, it must contain more than 3 letters',
         'string.max':
-          'Invalid task name, it must not contain more than 50 letters',
-      })
-      .required(),
-    startDate: Joi.date().required(),
-    workedHours: Joi.number()
-      .integer()
-      .min(0)
+        'Invalid task name, it must not contain more than 50 letters',
+        'any.empty': 'Task name is a required field',
+      }),
+    startDate: Joi.date()
+      .required()
+      .messages({ 'any.empty': 'Start date is a required field' }),
+    workedHours: Joi.number().integer().min(0).required()
       .messages({
         'number.integer': 'Invalid number, it must be an integer',
         'number.min': 'Invalid number, it must be positive',
-      })
-      .required(),
-    description: Joi.string()
-      .min(6)
-      .max(150)
+        'any.empty': 'Worked hours is a required field',
+      }),
+    description: Joi.string().min(6).max(150).required()
       .messages({
-        'string.min':
-          'Invalid description, it must contain more than 6 letters',
+        'string.min': 'Invalid description, it must contain more than 6 letters',
         'string.max':
-          'Invalid description, it must not contain more than 150 letters',
-      })
-      .required(),
+        'Invalid description, it must not contain more than 150 letters',
+        'any.empty': 'Description is a required field',
+      }),
     status: Joi.string()
       .min(2)
       .valid('To do', 'In progress', 'Review', 'Blocked', 'Done', 'Cancelled')
+      .required()
       .messages({
         'string.min': 'Invalid status, it must contain more than 2 letters',
         'any.valid':
           'Invalid status, it must be one of the following: To do, In progress, Review, Blocked, Done, Cancelled',
-      })
-      .required(),
+        'any.empty': 'Status is a required field',
+      }),
   });
 
   const validation = taskValidation.validate(req.body);

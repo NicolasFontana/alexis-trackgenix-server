@@ -3,25 +3,21 @@ import Joi from 'joi';
 // CREATE VALIDATION
 const createTimeValidation = (req, res, next) => {
   const timesheetValidation = Joi.object({
-    projectId: Joi.string()
-      .alphanum()
-      .length(24)
+    projectId: Joi.string().alphanum().length(24).required()
       .messages({
         'string.alphanum':
-          'Invalid project id, it must contain both letters and numbers',
+        'Invalid project id, it must contain both letters and numbers',
         'string.length': 'Invalid project id, it must contain 24 characters',
-      })
-      .required(),
+        'any.empty': 'Project id is a required field',
+      }),
     Task: Joi.array().items({
-      taskId: Joi.string()
-        .alphanum()
-        .length(24)
+      taskId: Joi.string().alphanum().length(24).required()
         .messages({
           'string.alphanum':
-            'Invalid task id, it must contain both letters and numbers',
+          'Invalid task id, it must contain both letters and numbers',
           'string.length': 'Invalid task id, it must contain 24 characters',
-        })
-        .required(),
+          'any.empty': 'Task id is a required field',
+        }),
     }),
     approved: Joi.boolean().required(),
   });
