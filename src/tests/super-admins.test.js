@@ -201,7 +201,9 @@ describe('UPDATE a superAdmin', () => {
         active: false,
       });
     expect(response.statusCode).toBe(200);
-    expect(response.body.message).toEqual('Super-Admin updated');
+    expect(response.body.message).toEqual(
+      'The super admin has been updated succesfully',
+    );
     expect(response.body.error).toBeFalsy();
   });
 
@@ -215,7 +217,9 @@ describe('UPDATE a superAdmin', () => {
         active: false,
       });
     expect(response.statusCode).toBe(200);
-    expect(response.body.message).toEqual('Super-Admin updated');
+    expect(response.body.message).toEqual(
+      'The super admin has been updated succesfully',
+    );
     expect(response.body.error).toBeFalsy();
   });
 

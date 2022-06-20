@@ -257,7 +257,7 @@ const updateEmployee = async (req, res) => {
       });
     }
     return res.status(200).json({
-      message: 'Employee updated',
+      message: 'The employee has been updated succesfully',
       data: result,
       error: false,
     });

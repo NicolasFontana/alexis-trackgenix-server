@@ -476,7 +476,7 @@ describe('UPDATE /api/projects/:id', () => {
         ],
       });
     expect(response.body.message).toEqual(
-      'The project has updated successfully',
+      'The project has been updated succesfully',
     );
   });
   test('SUCCESS, it has to be a status 200', async () => {

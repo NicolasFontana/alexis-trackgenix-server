@@ -3,13 +3,15 @@ import models from '../models';
 // GET ALL
 const getAllTimesheets = async (req, res) => {
   try {
-    const allTimesheets = await models.TimeSheet.find({}).populate('projectId', { name: 1 }).populate('Task.taskId', {
-      taskName: 1,
-      startDate: 1,
-      workedHours: 1,
-      description: 1,
-      status: 1,
-    });
+    const allTimesheets = await models.TimeSheet.find({})
+      .populate('projectId', { name: 1 })
+      .populate('Task.taskId', {
+        taskName: 1,
+        startDate: 1,
+        workedHours: 1,
+        description: 1,
+        status: 1,
+      });
     return res.status(200).json({
       message: 'Time-Sheets',
       data: allTimesheets,
@@ -65,7 +67,9 @@ const getByRoleTimesheets = async (req, res) => {
         error: true,
       });
     }
-    const timesheetsByRole = await models.TimeSheet.find({ role: req.params.role });
+    const timesheetsByRole = await models.TimeSheet.find({
+      role: req.params.role,
+    });
     if (timesheetsByRole.length !== 0) {
       return res.status(200).json({
         message: `The time sheets with role ${req.params.role} are:`,
@@ -97,7 +101,9 @@ const getByTaskTimesheets = async (req, res) => {
         error: true,
       });
     }
-    const timesheetsByTask = await models.TimeSheet.find({ taskId: req.params.taskId });
+    const timesheetsByTask = await models.TimeSheet.find({
+      taskId: req.params.taskId,
+    });
     if (timesheetsByTask.length !== 0) {
       return res.status(200).json({
         message: `The time sheets with task ID ${req.params.taskId} are:`,
@@ -129,7 +135,9 @@ const getByValidatedTimesheets = async (req, res) => {
         error: true,
       });
     }
-    const timesheetsByValidated = await models.TimeSheet.find({ validated: req.params.validated });
+    const timesheetsByValidated = await models.TimeSheet.find({
+      validated: req.params.validated,
+    });
     if (timesheetsByValidated.length !== 0) {
       return res.status(200).json({
         message: 'Time-sheet fetched',
@@ -161,7 +169,9 @@ const getByProjecTimesheets = async (req, res) => {
         error: true,
       });
     }
-    const timesheetsByProject = await models.TimeSheet.find({ projectId: req.params.projectId });
+    const timesheetsByProject = await models.TimeSheet.find({
+      projectId: req.params.projectId,
+    });
     if (timesheetsByProject.length !== 0) {
       return res.status(200).json({
         message: 'Time-sheet fetched',
@@ -192,7 +202,9 @@ const getByEmployeeTimesheets = async (req, res) => {
         error: true,
       });
     }
-    const timesheetsByEmployee = await models.TimeSheet.find({ employeeId: req.params.employeeId });
+    const timesheetsByEmployee = await models.TimeSheet.find({
+      employeeId: req.params.employeeId,
+    });
     if (timesheetsByEmployee.length !== 0) {
       return res.status(200).json({
         message: 'Time-sheet fetched',
@@ -224,8 +236,9 @@ const getByPMTimesheets = async (req, res) => {
         error: true,
       });
     }
-    const timesheetsByPM = await
-    models.TimeSheet.find({ projectManagerId: req.params.projectManagerId });
+    const timesheetsByPM = await models.TimeSheet.find({
+      projectManagerId: req.params.projectManagerId,
+    });
     if (timesheetsByPM.length !== 0) {
       return res.status(200).json({
         message: 'Time-sheet fetched',
@@ -263,8 +276,7 @@ const getBetweenDatesTimesheets = async (req, res) => {
         error: true,
       });
     }
-    const timesheetsBetweenDates = await
-    models.TimeSheet.find({
+    const timesheetsBetweenDates = await models.TimeSheet.find({
       date: {
         $gte: req.query.init,
         $lte: req.query.final,
@@ -323,10 +335,13 @@ const updateTimeSheet = async (req, res) => {
         error: true,
       });
     }
-    const updatedTimeSheet = await
-    models.TimeSheet.findByIdAndUpdate(id, req.body, { new: true });
+    const updatedTimeSheet = await models.TimeSheet.findByIdAndUpdate(
+      id,
+      req.body,
+      { new: true },
+    );
     return res.status(200).json({
-      message: 'Time-sheet updated',
+      message: 'The time sheet has been updated succesfully',
       data: updatedTimeSheet,
       error: false,
     });

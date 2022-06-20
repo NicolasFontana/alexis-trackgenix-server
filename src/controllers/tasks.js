@@ -54,7 +54,9 @@ const getTaskById = async (req, res) => {
 const getTaskByDescription = async (req, res) => {
   try {
     if (req.params.description) {
-      const task = await models.Tasks.find({ description: req.params.description });
+      const task = await models.Tasks.find({
+        description: req.params.description,
+      });
       if (task.length <= 0) {
         return res.status(404).json({
           message: 'Task not found',
@@ -126,7 +128,7 @@ const updateTask = async (req, res) => {
         });
       }
       return res.status(200).json({
-        message: `Task ${req.params.id} updated`,
+        message: 'The task has been updated succesfully',
         data: taskToUpdate,
         error: false,
       });
@@ -163,11 +165,13 @@ const deleteTask = async (req, res) => {
         error: true,
       });
     }
-    return res.json({
-      message: 'Task succesfully deleted',
-      data: result,
-      error: false,
-    }).status(204);
+    return res
+      .json({
+        message: 'Task succesfully deleted',
+        data: result,
+        error: false,
+      })
+      .status(204);
   } catch (error) {
     return res.status(400).json({
       message: 'An error has ocurred',

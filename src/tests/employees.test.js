@@ -383,7 +383,9 @@ describe('Edit employee', () => {
         projects: ['628ab4225aae617fa8002c21'],
         timeSheets: ['6289c467fc13ae72d60000c7'],
       });
-    expect(response.body.message).toEqual('Employee updated');
+    expect(response.body.message).toEqual(
+      'The employee has been updated succesfully',
+    );
   });
 
   test('response should return 404 status when no id is entered', async () => {

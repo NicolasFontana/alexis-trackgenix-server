@@ -56,7 +56,9 @@ const getFilteredSuperadminsByEmail = async (req, res) => {
         error: true,
       });
     }
-    const superAdminByEmail = await models.SuperAdmin.find({ email: req.params.email });
+    const superAdminByEmail = await models.SuperAdmin.find({
+      email: req.params.email,
+    });
     if (superAdminByEmail.length !== 0) {
       return res.status(200).json({
         message: 'Superadmins filtered by email',
@@ -88,7 +90,9 @@ const getFilteredSuperadminsByFirstName = async (req, res) => {
         error: true,
       });
     }
-    const superAdminByFirstName = await models.SuperAdmin.find({ firstName: req.params.firstName });
+    const superAdminByFirstName = await models.SuperAdmin.find({
+      firstName: req.params.firstName,
+    });
     if (superAdminByFirstName.length !== 0) {
       return res.status(200).json({
         message: 'Superadmins filtered by first name',
@@ -120,7 +124,9 @@ const getFilteredSuperadminsByLastName = async (req, res) => {
         error: true,
       });
     }
-    const superAdminByLastName = await models.SuperAdmin.find({ lastName: req.params.lastName });
+    const superAdminByLastName = await models.SuperAdmin.find({
+      lastName: req.params.lastName,
+    });
     if (superAdminByLastName.length !== 0) {
       return res.status(200).json({
         message: 'Superadmins filtered by last name',
@@ -152,7 +158,9 @@ const getFilteredSuperadminsByActive = async (req, res) => {
         error: true,
       });
     }
-    const superAdminByActive = await models.SuperAdmin.find({ active: req.params.active });
+    const superAdminByActive = await models.SuperAdmin.find({
+      active: req.params.active,
+    });
     if (superAdminByActive.length !== 0) {
       return res.status(200).json({
         message: 'Superadmins filtered by active',
@@ -213,7 +221,11 @@ const updateSuperadmin = async (req, res) => {
       });
     }
     const { id } = req.params;
-    const updatedAdmin = await models.SuperAdmin.findByIdAndUpdate(id, req.body, { new: true });
+    const updatedAdmin = await models.SuperAdmin.findByIdAndUpdate(
+      id,
+      req.body,
+      { new: true },
+    );
     if (!updatedAdmin) {
       return res.status(404).json({
         message: `Superadmin with id:${req.params.id} not found`,
@@ -222,7 +234,7 @@ const updateSuperadmin = async (req, res) => {
       });
     }
     return res.status(200).json({
-      message: 'Super-Admin updated',
+      message: 'The super admin has been updated succesfully',
       data: updatedAdmin,
       error: false,
     });
@@ -256,11 +268,13 @@ const deleteSuperadminById = async (req, res) => {
       });
     }
 
-    return res.json({
-      message: 'User eliminated',
-      data: deletedDoc,
-      error: false,
-    }).status(204);
+    return res
+      .json({
+        message: 'User eliminated',
+        data: deletedDoc,
+        error: false,
+      })
+      .status(204);
   } catch (error) {
     return res.status(400).json({
       message: [error, { id: req.params.id }],
