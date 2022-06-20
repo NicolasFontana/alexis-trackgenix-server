@@ -11,7 +11,7 @@ const validateCreation = (req, res, next) => {
         'string.min': 'Invalid name, it must contain more than 3 letters',
         'string.max': 'Invalid name, it must not contain more than 50 letters',
         'string.pattern.base': 'Invalid name, it must contain only letters',
-        'any.empty': 'First Name is a required field',
+        'any.required': 'First Name is a required field',
       }),
     lastName: Joi.string()
       .min(3)
@@ -24,11 +24,11 @@ const validateCreation = (req, res, next) => {
           'Invalid last name, it must not contain more than 50 letters',
         'string.pattern.base':
           'Invalid last name, it must contain only letters',
-        'any.empty': 'Last Name is a required field',
+        'any.required': 'Last Name is a required field',
       }),
     email: Joi.string().email().required().messages({
       'string.email': 'invalid email format',
-      'any.empty': 'Email is a required field',
+      'any.required': 'Email is a required field',
     }),
     password: Joi.string()
       .min(8)
@@ -38,7 +38,7 @@ const validateCreation = (req, res, next) => {
         'string.min': 'Invalid password, it must contain at least 8 characters',
         'string.pattern.base':
           'Invalid password, it must contain both letters and numbers',
-        'any.empty': 'Password is a required field',
+        'any.required': 'Password is a required field',
       }),
     active: Joi.boolean().required(),
   });

@@ -6,9 +6,7 @@ const validateCreate = (req, res, next) => {
     name: Joi.string()
       .min(3)
       .max(50)
-      .pattern(
-        /^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]/,
-      )
+      .pattern(/^[A-Z][\p{L}\p{M}]*$/u)
       .required()
       .messages({
         'string.min':
@@ -16,26 +14,24 @@ const validateCreate = (req, res, next) => {
         'string.max':
           'Invalid project name, it must not contain more than 50 letters',
         'string.pattern.base':
-          'Invalid project name, it must contain only letters',
-        'any.empty': 'Name is a required field',
+          'Invalid project name, it must contain only letters and start with a capital letter',
+        'any.required': 'Name is a required field',
       }),
     description: Joi.string().min(4).required().messages({
       'string.min': 'Invalid description, it must contain more than 4 letters',
-      'any.empty': 'Description is a required field',
+      'any.required': 'Description is a required field',
     }),
     startDate: Joi.date()
       .required()
-      .messages({ 'any.empty': 'Start date is a rquired field' }),
+      .messages({ 'any.required': 'Start date is a rquired field' }),
     endDate: Joi.date().greater(Joi.ref('startDate')).required().messages({
       'date.greater': 'Invalid end date, it must be after the start date',
-      'any.empty': 'End date is a required field',
+      'any.required': 'End date is a required field',
     }),
     clientName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(
-        /^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]/,
-      )
+      .pattern(/^[A-Z][\p{L}\p{M}]*$/u)
       .required()
       .messages({
         'string.min':
@@ -43,8 +39,8 @@ const validateCreate = (req, res, next) => {
         'string.max':
           'Invalid client name, it must not contain more than 50 letters',
         'string.pattern.base':
-          'Invalid client name, it must contain only letters',
-        'any.empty': 'Client name is a required field',
+          'Invalid client name, it must contain only letters and start with a capital letter',
+        'any.required': 'Client name is a required field',
       }),
     active: Joi.boolean().required(),
     members: Joi.array().items({
@@ -53,14 +49,14 @@ const validateCreate = (req, res, next) => {
           'string.alphanum':
           'Invalid employee id, it must contain both letters and numbers',
           'string.length': 'Invalid employee id, it must contain 24 characters',
-          'any.empty': 'Employee id is a required field',
+          'any.required': 'Employee id is a required field',
         }),
       role: Joi.string().valid('QA', 'DEV', 'TL', 'PM').required(),
       rate: Joi.number().min(0).max(999999).required()
         .messages({
           'number.min': 'Invalid rate, it must be positive',
           'number.max': 'Invalid rate, it must be between 0 and 999999',
-          'any.empty': 'Rate is a required field',
+          'any.required': 'Rate is a required field',
         }),
     }),
   });
@@ -81,16 +77,14 @@ const validateUpdate = (req, res, next) => {
     name: Joi.string()
       .min(3)
       .max(50)
-      .pattern(
-        /^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]/,
-      )
+      .pattern(/^[A-Z][\p{L}\p{M}]*$/u)
       .messages({
         'string.min':
           'Invalid project name, it must contain more than 3 letters',
         'string.max':
           'Invalid project name, it must not contain more than 50 letters',
         'string.pattern.base':
-          'Invalid project name, it must contain only letters',
+          'Invalid project name, it must contain only letters and start with a capital letter',
       }),
     description: Joi.string()
       .min(4)
@@ -102,16 +96,14 @@ const validateUpdate = (req, res, next) => {
     clientName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(
-        /^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]/,
-      )
+      .pattern(/^[A-Z][\p{L}\p{M}]*$/u)
       .messages({
         'string.min':
           'Invalid client name, it must contain more than 3 letters',
         'string.max':
           'Invalid client name, it must not contain more than 50 letters',
         'string.pattern.base':
-          'Invalid client name, it must contain only letters',
+          'Invalid client name, it must contain only letters and start with a capital letter',
       }),
     active: Joi.boolean(),
     members: Joi.array().items({

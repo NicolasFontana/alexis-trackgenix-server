@@ -8,7 +8,7 @@ const createTimeValidation = (req, res, next) => {
         'string.alphanum':
         'Invalid project id, it must contain both letters and numbers',
         'string.length': 'Invalid project id, it must contain 24 characters',
-        'any.empty': 'Project id is a required field',
+        'any.required': 'Project id is a required field',
       }),
     Task: Joi.array().items({
       taskId: Joi.string().alphanum().length(24).required()
@@ -16,7 +16,7 @@ const createTimeValidation = (req, res, next) => {
           'string.alphanum':
           'Invalid task id, it must contain both letters and numbers',
           'string.length': 'Invalid task id, it must contain 24 characters',
-          'any.empty': 'Task id is a required field',
+          'any.required': 'Task id is a required field',
         }),
     }),
     approved: Joi.boolean().required(),
