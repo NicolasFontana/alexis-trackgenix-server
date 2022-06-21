@@ -29,12 +29,16 @@ describe('GET /api/tasks', () => {
 // Test GET by Id by Fran
 describe('GetById /api/tasks', () => {
   test('get task by id', async () => {
-    const response = await request(app).get('/api/tasks/6289c467fc13ae72d60000ca').send();
+    const response = await request(app)
+      .get('/api/tasks/6289c467fc13ae72d60000ca')
+      .send();
     expect(response.status).toBe(200);
     expect(response.body.error).toBeFalsy();
   });
   test('get task by id, incorrect id', async () => {
-    const response = await request(app).get('/api/tasks/6280062d5f0b9b4131e527e4').send();
+    const response = await request(app)
+      .get('/api/tasks/6280062d5f0b9b4131e527e4')
+      .send();
     expect(response.status).toBe(404);
     expect(response.body.message).toBe('id not found');
   });
@@ -48,7 +52,9 @@ describe('GetById /api/tasks', () => {
 // Test GET by description by Fran
 describe('GetByDescription /api/tasks', () => {
   test('get task by description', async () => {
-    const response = await request(app).get('/api/tasks/taskDescription/description');
+    const response = await request(app).get(
+      '/api/tasks/taskDescription/description',
+    );
     expect(response.status).toBe(200);
     expect(response.body.error).toBe(false);
   });
@@ -89,7 +95,7 @@ describe('POST /api/tasks', () => {
     });
     expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
-    expect(response.body.message).toBe('\"startDate\" is required');
+    expect(response.body.message).toBe('Start date is a required field');
   });
   test('Create task, no worked hours', async () => {
     const response = await request(app).post('/api/tasks/').send({
@@ -100,7 +106,7 @@ describe('POST /api/tasks', () => {
     });
     expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
-    expect(response.body.message).toBe('\"workedHours\" is required');
+    expect(response.body.message).toBe('Worked hours is a required field');
   });
   test('Create a task, no description', async () => {
     const response = await request(app).post('/api/tasks/').send({
@@ -111,7 +117,7 @@ describe('POST /api/tasks', () => {
     });
     expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
-    expect(response.body.message).toBe('\"description\" is required');
+    expect(response.body.message).toBe('Description is a required field');
   });
   test('Create a task, no status', async () => {
     const response = await request(app).post('/api/tasks/').send({
@@ -122,7 +128,7 @@ describe('POST /api/tasks', () => {
     });
     expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
-    expect(response.body.message).toBe('\"status\" is required');
+    expect(response.body.message).toBe('Status is a required field');
   });
 });
 
@@ -140,13 +146,15 @@ describe('UPDATE /api/tasks', () => {
     expect(response.body.error).toBe(false);
   });
   test('Update a task, wrong id', async () => {
-    const response = await request(app).put('/api/tasks/6280062d5f0b9b4131e527e4').send({
-      taskName: 'Test Task',
-      startDate: '2022-05-17T16:55:32.654+00:00',
-      workedHours: 33,
-      description: 'description',
-      status: 'Done',
-    });
+    const response = await request(app)
+      .put('/api/tasks/6280062d5f0b9b4131e527e4')
+      .send({
+        taskName: 'Test Task',
+        startDate: '2022-05-17T16:55:32.654+00:00',
+        workedHours: 33,
+        description: 'description',
+        status: 'Done',
+      });
     expect(response.status).toBe(404);
     expect(response.body.message).toBe('Task not found');
     expect(response.body.error).toBe(true);
@@ -175,7 +183,9 @@ describe('DELETE /api/tasks', () => {
     expect(response.body.error).toBe(false);
   });
   test('Delete task, incorrect id', async () => {
-    const response = await request(app).delete('/api/tasks/6280062d5f0b9b4131e527e4').send();
+    const response = await request(app)
+      .delete('/api/tasks/6280062d5f0b9b4131e527e4')
+      .send();
     expect(response.status).toBe(404);
     expect(response.body.message).toBe('Task not found');
     expect(response.body.error).toBe(true);

@@ -200,7 +200,7 @@ describe('POST projects/create', () => {
       });
     expect(response.status).toBe(400);
     // eslint-disable-next-line no-useless-escape
-    expect(response.body.message).toBe('"clientName" is required');
+    expect(response.body.message).toBe('Client name is a required field');
   });
   test('Name too short: Should not create a project due to failed validation', async () => {
     const response = await request(app)
@@ -476,7 +476,7 @@ describe('UPDATE /api/projects/:id', () => {
         ],
       });
     expect(response.body.message).toEqual(
-      'The project has updated successfully',
+      'The project has been updated succesfully',
     );
   });
   test('SUCCESS, it has to be a status 200', async () => {
