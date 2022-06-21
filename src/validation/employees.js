@@ -64,6 +64,17 @@ const createEmployeeValidation = (req, res, next) => {
         'string.length': 'Invalid time sheet id, it must contain 24 characters',
       }),
     ),
+    address: Joi.string().min(4).messages({
+      'string.min': 'Invalid address, it must contain more than 4 letters',
+    }),
+    picture: Joi.string().min(4).messages({
+      'string.min': 'Invalid picture URL, it must contain more than 4 letters',
+    }),
+    dni: Joi.number().integer().min(0).messages({
+      'number.integer': 'Invalid number, it must be an integer',
+      'number.min': 'Invalid number, it must be positive',
+    }),
+    dateBirth: Joi.date(),
   });
   const validation = Schema.validate(req.body);
   if (validation.error) {
@@ -128,6 +139,17 @@ const updateEmployeeValidation = (req, res, next) => {
         'string.length': 'Invalid time sheet id, it must contain 24 characters',
       }),
     ),
+    address: Joi.string().min(4).messages({
+      'string.min': 'Invalid address, it must contain more than 4 letters',
+    }),
+    picture: Joi.string().min(4).messages({
+      'string.min': 'Invalid picture URL, it must contain more than 4 letters',
+    }),
+    dni: Joi.number().integer().min(0).messages({
+      'number.integer': 'Invalid number, it must be an integer',
+      'number.min': 'Invalid number, it must be positive',
+    }),
+    dateBirth: Joi.date(),
   });
   const validation = Schema.validate(req.body);
   if (validation.error) {
