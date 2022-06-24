@@ -12,6 +12,10 @@ const employeeSchema = new Schema({
   isProjectManager: { type: Boolean, required: true },
   projects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Project' }],
   timeSheets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TimeSheet' }],
+  address: { type: String },
+  picture: { type: String },
+  dni: { type: Number },
+  dateBirth: { type: Date },
 });
 
 export default mongoose.model('Employee', employeeSchema);
