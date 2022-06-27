@@ -1,4 +1,5 @@
 import models from '../models';
+import Firebase from '../helper/firebase';
 
 // Get all admins
 const getAllAdmins = async (req, res) => {
@@ -184,12 +185,21 @@ const getAdminByStatus = async (req, res) => {
 
 // Create admin
 const createAdmin = async (req, res) => {
+  let firebaseUid;
   try {
+    const newFirebaseEmployee = await Firebase.auth().createUser({
+      email: req.body.email,
+      password: req.body.password,
+    });
+
+    firebaseUid = newFirebaseEmployee.uid;
+    await Firebase.auth().setCustomUserClaims(newFirebaseEmployee.uid, { role: 'ADMIN' });
+
     const newAdmin = new models.Admins({
       firstName: req.body.firstName.toLowerCase(),
       lastName: req.body.lastName.toLowerCase(),
       email: req.body.email,
-      password: req.body.password,
+      firebaseUid,
       active: req.body.active,
     });
     const result = await newAdmin.save();
@@ -199,6 +209,9 @@ const createAdmin = async (req, res) => {
       error: false,
     });
   } catch (error) {
+    if (firebaseUid) {
+      await Firebase.auth().deleteUser(firebaseUid);
+    }
     return res.status(400).json({
       message: error.message,
       data: undefined,
@@ -225,6 +238,7 @@ const deleteAdmin = async (req, res) => {
         error: true,
       });
     }
+    await Firebase.auth().deleteUser(admin.firebaseUid);
     return res
       .json({
         message: `Admin with id ${req.params.id} deleted`,
