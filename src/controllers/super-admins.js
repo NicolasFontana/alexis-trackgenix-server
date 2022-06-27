@@ -29,7 +29,7 @@ const createSuperadmin = async (req, res) => {
     });
 
     firebaseUid = newFirebaseEmployee.uid;
-    await Firebase.auth().setCustomUserClaims(newFirebaseEmployee.uid, { role: 'EMPLOYEE' });
+    await Firebase.auth().setCustomUserClaims(newFirebaseEmployee.uid, { role: 'SUPERADMIN' });
 
     const newSuperadmin = new models.SuperAdmin({
       firstName: req.body.firstName,
