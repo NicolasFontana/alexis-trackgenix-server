@@ -240,6 +240,12 @@ const updateSuperadmin = async (req, res) => {
         error: true,
       });
     }
+    if (updatedAdmin.firebaseUid) {
+      Firebase.auth().updateUser(
+        updatedAdmin.firebaseUid,
+        { email: req.body.email, password: req.body.password },
+      );
+    }
     return res.status(200).json({
       message: 'The super admin has been updated succesfully',
       data: updatedAdmin,

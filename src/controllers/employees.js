@@ -269,6 +269,12 @@ const updateEmployee = async (req, res) => {
         error: true,
       });
     }
+    if (result.firebaseUid) {
+      Firebase.auth().updateUser(
+        result.firebaseUid,
+        { email: req.body.email, password: req.body.password },
+      );
+    }
     return res.status(200).json({
       message: 'The employee has been updated succesfully',
       data: result,

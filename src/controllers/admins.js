@@ -271,6 +271,12 @@ const updateAdmin = async (req, res) => {
           error: true,
         });
       }
+      if (admin.firebaseUid) {
+        Firebase.auth().updateUser(
+          admin.firebaseUid,
+          { email: req.body.email, password: req.body.password },
+        );
+      }
       return res.status(200).json({
         message: 'The admin has been updated succesfully',
         data: admin,
