@@ -10,17 +10,17 @@ beforeAll(async () => {
 });
 // GETS TEST BY MARTIN
 describe('Get all employees', () => {
-  test('response should return a 200 status', async () => {
+  test.skip('response should return a 200 status', async () => {
     const response = await request(app).get('/api/employees').send();
     expect(response.status).toBe(200);
   });
 
-  test('response should return false error', async () => {
+  test.skip('response should return false error', async () => {
     const response = await request(app).get('/api/employees').send();
     expect(response.error).not.toBeTruthy();
   });
 
-  test('response should return at least one employee', async () => {
+  test.skip('response should return at least one employee', async () => {
     const response = await request(app).get('/api/employees').send();
     expect.arrayContaining(response.data);
   });

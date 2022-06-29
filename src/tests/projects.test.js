@@ -10,7 +10,7 @@ beforeAll(async () => {
 
 // Get all by Ana
 describe('GET ALL project', () => {
-  test('All projects list response succesfull', async () => {
+  test.skip('All projects list response succesfull', async () => {
     const response = await request(app).get('/api/projects').send();
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe('Projects found');

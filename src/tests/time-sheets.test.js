@@ -12,7 +12,7 @@ beforeAll(async () => {
 // Test for GET method by Fer
 // Test for GET method by Fer
 describe('GET /api/time-sheets', () => {
-  test('Response should return a 200 status', async () => {
+  test.skip('Response should return a 200 status', async () => {
     const response = await request(app).get('/api/time-sheets').send();
     expect(response.status).toBe(200);
     expect(response.body.message).toBe('Time-Sheets');

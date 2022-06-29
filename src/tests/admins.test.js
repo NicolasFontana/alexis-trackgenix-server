@@ -10,7 +10,7 @@ beforeAll(async () => {
 let adminId;
 
 describe('GET ALL admins', () => {
-  test('All admins list status response successful', async () => {
+  test.skip('All admins list status response successful', async () => {
     const response = await request(app).get('/api/admins').send();
     expect(response.statusCode).toBe(200);
     expect(response.body.data.length).toBeGreaterThan(0);
