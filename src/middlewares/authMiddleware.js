@@ -1,4 +1,4 @@
-import auth from '../helper/firebase';
+import firebase from '../helper/firebase';
 
 const authMiddleware = (req, res, next) => {
   const { token } = req.headers;
@@ -6,8 +6,9 @@ const authMiddleware = (req, res, next) => {
     return res.status(400)
       .json({ message: 'Provide a token' });
   }
-  return auth().verifyIdToken(token)
-    .then(() => {
+  return firebase.auth().verifyIdToken(token)
+    .then((response) => {
+      req.firebaseUid = response.uid;
       next();
     })
     .catch((error) => {

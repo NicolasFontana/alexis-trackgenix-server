@@ -1,7 +1,6 @@
 import Employees from '../models/Employees';
 import Admins from '../models/Admins';
 import SuperAdmins from '../models/Super-admins';
-// import Firebase from '../helper/firebase';
 
 const getMe = async (req, res) => {
   try {
