@@ -1,11 +1,12 @@
 import express from 'express';
 import timeSheetsController from '../controllers/time-sheets';
 import timeSheetsValidator from '../validation/time-sheets';
+import authMiddleware from '../middlewares/authMiddleware';
 
 const router = express.Router();
 
 router
-  .get('/', timeSheetsController.getAllTimesheets)
+  .get('/', authMiddleware, timeSheetsController.getAllTimesheets)
   .get('/date', timeSheetsController.getBetweenDatesTimesheets)
   .get('/role/:role', timeSheetsController.getByRoleTimesheets)
   .get('/project/:projectId', timeSheetsController.getByProjecTimesheets)

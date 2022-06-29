@@ -1,10 +1,11 @@
 import express from 'express';
 import projectController from '../controllers/projects';
 import validations from '../validation/projects';
+import authMiddleware from '../middlewares/authMiddleware';
 
 const router = express.Router();
 router
-  .get('/', projectController.getAllProjects)
+  .get('/', authMiddleware, projectController.getAllProjects)
   .post('/', validations.validateCreate, projectController.createNewProject)
   .get('/name/:name', projectController.getProjectByName)
   .get('/date', projectController.getByPeriod)
