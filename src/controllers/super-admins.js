@@ -280,7 +280,9 @@ const deleteSuperadminById = async (req, res) => {
         error: true,
       });
     }
-    await Firebase.auth().deleteUser(deletedDoc.firebaseUid);
+    if (deletedDoc.firebaseUid) {
+      await Firebase.auth().deleteUser(deletedDoc.firebaseUid);
+    }
     return res
       .json({
         message: 'User eliminated',

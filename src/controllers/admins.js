@@ -238,7 +238,9 @@ const deleteAdmin = async (req, res) => {
         error: true,
       });
     }
-    await Firebase.auth().deleteUser(admin.firebaseUid);
+    if (admin.firebaseUid) {
+      await Firebase.auth().deleteUser(admin.firebaseUid);
+    }
     return res
       .json({
         message: `Admin with id ${req.params.id} deleted`,

@@ -307,7 +307,9 @@ const deleteEmployee = async (req, res) => {
         error: true,
       });
     }
-    await Firebase.auth().deleteUser(result.firebaseUid);
+    if (result.firebaseUid) {
+      await Firebase.auth().deleteUser(result.firebaseUid);
+    }
     return res.status(200).json({
       message: `Employee with id ${req.params.id} deleted.`,
       data: result,
