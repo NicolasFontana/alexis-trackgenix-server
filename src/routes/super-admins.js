@@ -1,11 +1,12 @@
 import express from 'express';
 import superadminsControllers from '../controllers/super-admins';
 import superadminsValidation from '../validation/super-admins';
+import authMiddleware from '../middlewares/authMiddleware';
 
 const router = express.Router();
 
 router
-  .get('/', superadminsControllers.getAllSuperadmins)
+  .get('/', authMiddleware, superadminsControllers.getAllSuperadmins)
   .post('/', superadminsValidation.validateCreation, superadminsControllers.createSuperadmin)
   .get('/first-name/:firstName', superadminsControllers.getFilteredSuperadminsByFirstName)
   .get('/last-name/:lastName', superadminsControllers.getFilteredSuperadminsByLastName)

@@ -1,4 +1,5 @@
 import models from '../models';
+import Firebase from '../helper/firebase';
 
 // GET ALL SUPERADMINS
 const getAllSuperadmins = async (req, res) => {
@@ -20,16 +21,22 @@ const getAllSuperadmins = async (req, res) => {
 
 // CREATE A NEW SUPERADMIN
 const createSuperadmin = async (req, res) => {
+  let firebaseUid;
   try {
-    const {
-      firstName, lastName, email, password, active,
-    } = req.body;
+    const newFirebaseEmployee = await Firebase.auth().createUser({
+      email: req.body.email,
+      password: req.body.password,
+    });
+
+    firebaseUid = newFirebaseEmployee.uid;
+    await Firebase.auth().setCustomUserClaims(newFirebaseEmployee.uid, { role: 'SUPERADMIN' });
+
     const newSuperadmin = new models.SuperAdmin({
-      firstName,
-      lastName,
-      email,
-      password,
-      active,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      firebaseUid,
+      active: req.body.active,
     });
     const result = await newSuperadmin.save();
     return res.status(201).json({
@@ -233,6 +240,12 @@ const updateSuperadmin = async (req, res) => {
         error: true,
       });
     }
+    if (updatedAdmin.firebaseUid) {
+      Firebase.auth().updateUser(
+        updatedAdmin.firebaseUid,
+        { email: req.body.email, password: req.body.password },
+      );
+    }
     return res.status(200).json({
       message: 'The super admin has been updated succesfully',
       data: updatedAdmin,
@@ -267,7 +280,9 @@ const deleteSuperadminById = async (req, res) => {
         error: true,
       });
     }
-
+    if (deletedDoc.firebaseUid) {
+      await Firebase.auth().deleteUser(deletedDoc.firebaseUid);
+    }
     return res
       .json({
         message: 'User eliminated',

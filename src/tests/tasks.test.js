@@ -12,7 +12,7 @@ beforeAll(async () => {
 // Test for GET all by Fer;
 
 describe('GET /api/tasks', () => {
-  test('Response should return a 200 status', async () => {
+  test.skip('Response should return a 200 status', async () => {
     const response = await request(app).get('/api/tasks').send();
     expect(response.status).toBe(200);
     expect(response.body.message).toBe('All tasks');

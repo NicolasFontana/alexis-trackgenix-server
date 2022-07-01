@@ -1,4 +1,5 @@
 import models from '../models';
+import Firebase from '../helper/firebase';
 
 // get all employees
 const getAllEmployees = async (req, res) => {
@@ -193,13 +194,22 @@ const getEmployeeByActivity = async (req, res) => {
 
 // create employee **UPDATED BY MARTIN P.
 const createEmployee = async (req, res) => {
+  let firebaseUid;
   try {
+    const newFirebaseEmployee = await Firebase.auth().createUser({
+      email: req.body.email,
+      password: req.body.password,
+    });
+
+    firebaseUid = newFirebaseEmployee.uid;
+    await Firebase.auth().setCustomUserClaims(newFirebaseEmployee.uid, { role: 'EMPLOYEE' });
+
     const employee = new models.Employees({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       phone: req.body.phone,
       email: req.body.email,
-      password: req.body.password,
+      firebaseUid,
       active: req.body.active,
       isProjectManager: req.body.isProjectManager,
       projects: req.body.projects,
@@ -212,6 +222,9 @@ const createEmployee = async (req, res) => {
       error: false,
     });
   } catch (error) {
+    if (firebaseUid) {
+      await Firebase.auth().deleteUser(firebaseUid);
+    }
     return res.status(400).json({
       message: error.message,
       data: undefined,
@@ -256,6 +269,12 @@ const updateEmployee = async (req, res) => {
         error: true,
       });
     }
+    if (result.firebaseUid) {
+      Firebase.auth().updateUser(
+        result.firebaseUid,
+        { email: req.body.email, password: req.body.password },
+      );
+    }
     return res.status(200).json({
       message: 'The employee has been updated succesfully',
       data: result,
@@ -287,6 +306,9 @@ const deleteEmployee = async (req, res) => {
         data: undefined,
         error: true,
       });
+    }
+    if (result.firebaseUid) {
+      await Firebase.auth().deleteUser(result.firebaseUid);
     }
     return res.status(200).json({
       message: `Employee with id ${req.params.id} deleted.`,
