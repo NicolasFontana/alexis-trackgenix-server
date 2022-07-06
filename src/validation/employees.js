@@ -64,17 +64,18 @@ const createEmployeeValidation = (req, res, next) => {
         'string.length': 'Invalid time sheet id, it must contain 24 characters',
       }),
     ),
-    address: Joi.string().min(4).messages({
+    address: Joi.string().allow('').min(4).messages({
       'string.min': 'Invalid address, it must contain more than 4 letters',
     }),
-    picture: Joi.string().min(4).messages({
+    picture: Joi.string().allow('').min(4).messages({
       'string.min': 'Invalid picture URL, it must contain more than 4 letters',
     }),
-    dni: Joi.number().integer().min(0).messages({
-      'number.integer': 'Invalid number, it must be an integer',
-      'number.min': 'Invalid number, it must be positive',
-    }),
-    dateBirth: Joi.date(),
+    dni: Joi.number().allow('').integer().min(0)
+      .messages({
+        'number.integer': 'Invalid number, it must be an integer',
+        'number.min': 'Invalid number, it must be positive',
+      }),
+    dateBirth: Joi.date().allow(''),
   });
   const validation = Schema.validate(req.body);
   if (validation.error) {
@@ -118,6 +119,7 @@ const updateEmployeeValidation = (req, res, next) => {
     password: Joi.string()
       .min(8)
       .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?!.*[^a-zA-Z0-9])/)
+      .allow('')
       .messages({
         'string.min': 'Invalid password, it must contain at least 8 characters',
         'string.pattern.base':
@@ -139,17 +141,18 @@ const updateEmployeeValidation = (req, res, next) => {
         'string.length': 'Invalid time sheet id, it must contain 24 characters',
       }),
     ),
-    address: Joi.string().min(4).messages({
+    address: Joi.string().allow('').min(4).messages({
       'string.min': 'Invalid address, it must contain more than 4 letters',
     }),
-    picture: Joi.string().min(4).messages({
+    picture: Joi.string().allow('').min(4).messages({
       'string.min': 'Invalid picture URL, it must contain more than 4 letters',
     }),
-    dni: Joi.number().integer().min(0).messages({
-      'number.integer': 'Invalid number, it must be an integer',
-      'number.min': 'Invalid number, it must be positive',
-    }),
-    dateBirth: Joi.date(),
+    dni: Joi.number().integer().min(0).allow('', null)
+      .messages({
+        'number.integer': 'Invalid number, it must be an integer',
+        'number.min': 'Invalid number, it must be positive',
+      }),
+    dateBirth: Joi.date().allow('', null),
   });
   const validation = Schema.validate(req.body);
   if (validation.error) {
