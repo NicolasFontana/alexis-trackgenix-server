@@ -88,13 +88,13 @@ describe('GET admin by email', () => {
 
 describe('GET admins by activity', () => {
   test('Admins search by activity status response successful', async () => {
-    const response = await request(app).get('/api/admins/isActive/true').send();
+    const response = await request(app).get('/api/admins/isDeleted/true').send();
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual('Admins found');
     expect(response.error).toBeFalsy();
   });
   test('Admins search by activity status response unsuccessful', async () => {
-    const response = await request(app).get('/api/admins/isActive/').send();
+    const response = await request(app).get('/api/admins/isDeleted/').send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
   });
@@ -105,9 +105,9 @@ describe('CREATE an admin', () => {
     const response = await request(app).post('/api/admins').send({
       firstName: 'Emilio',
       lastName: 'Perez',
-      email: 'emilioPerez@mail.com',
+      email: 'emilioPerez1232@mail.com',
       password: 'emiperez123',
-      active: true,
+      isDeleted: true,
     });
     expect(response.statusCode).toBe(201);
     expect(response.body.message).toEqual('Admin created');
@@ -127,7 +127,7 @@ describe('CREATE an admin', () => {
       firstName: 'Emilio',
       email: 'emilioPerez@mail.com',
       password: 'emiperez123',
-      active: true,
+      isDeleted: true,
     });
     expect(response.statusCode).toBe(400);
     expect(response.body.data).toBe(undefined);
@@ -140,7 +140,7 @@ describe('CREATE an admin', () => {
       lastName: 'Perez',
       email: '...',
       password: 'emiperez123',
-      active: true,
+      isDeleted: true,
     });
     expect(response.statusCode).toBe(400);
     expect(response.body.data).toBe(undefined);
@@ -153,7 +153,7 @@ describe('CREATE an admin', () => {
       lastName: 'Perez',
       email: '...',
       password: 'emiperez123',
-      active: true,
+      isDeleted: true,
     });
     expect(response.statusCode).toBe(400);
     expect(response.body.data).toBe(undefined);
@@ -185,7 +185,7 @@ describe('UPDATE an admin', () => {
         lastName: 'Gomez',
         email: 'pedroGomezz@mail.com',
         password: 'pedrogomez123',
-        active: false,
+        isDeleted: false,
       });
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual(
@@ -201,7 +201,7 @@ describe('UPDATE an admin', () => {
         firstName: 'Emilio',
         email: 'emilioPerez@mail.com',
         password: 'emiperez123',
-        active: true,
+        isDeleted: true,
       });
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual(
@@ -224,7 +224,7 @@ describe('UPDATE an admin', () => {
         lastName: 'Perez',
         email: '...',
         password: 'emiperez123',
-        active: true,
+        isDeleted: true,
       });
     expect(response.statusCode).toBe(400);
     expect(response.body.data).toBe(undefined);
@@ -239,7 +239,7 @@ describe('UPDATE an admin', () => {
         lastName: 'Perez',
         email: 'emilioPerez@mail.com',
         password: 'emiperez123',
-        active: true,
+        isDeleted: true,
       });
     expect(response.statusCode).toBe(400);
     expect(response.body.data).toBe(undefined);

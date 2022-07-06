@@ -4,7 +4,7 @@ import Firebase from '../helper/firebase';
 // Get all admins
 const getAllAdmins = async (req, res) => {
   try {
-    const allAdmins = await models.Admins.find({});
+    const allAdmins = await models.Admins.find({ isDeleted: false });
     return res.status(200).json({
       message: 'Admins found',
       data: allAdmins,
@@ -152,13 +152,13 @@ const getAdminByEmail = async (req, res) => {
 // Get admins by active status
 const getAdminByStatus = async (req, res) => {
   try {
-    if (req.params.active) {
+    if (req.params.isDeleted) {
       const adminsList = await models.Admins.find({
-        active: req.params.active,
+        isDeleted: req.params.isDeleted,
       });
       if (adminsList.length <= 0) {
         return res.status(404).json({
-          message: `Admin with the active of ${req.params.active} not found`,
+          message: `Admin with the active of ${req.params.isDeleted} not found`,
           data: undefined,
           error: true,
         });
@@ -200,7 +200,7 @@ const createAdmin = async (req, res) => {
       lastName: req.body.lastName.toLowerCase(),
       email: req.body.email,
       firebaseUid,
-      active: req.body.active,
+      isDeleted: req.body.isDeleted,
     });
     const result = await newAdmin.save();
     return res.status(201).json({
@@ -230,7 +230,11 @@ const deleteAdmin = async (req, res) => {
         error: true,
       });
     }
-    const admin = await models.Admins.findByIdAndDelete(req.params.id);
+    const admin = await models.Admins.findByIdAndUpdate(
+      req.params.id,
+      { isDeleted: true },
+      { new: true },
+    );
     if (!admin) {
       return res.status(404).json({
         message: `Admin with id ${req.params.id} not found`,
@@ -239,7 +243,9 @@ const deleteAdmin = async (req, res) => {
       });
     }
     if (admin.firebaseUid) {
-      await Firebase.auth().deleteUser(admin.firebaseUid);
+      await Firebase.auth().updateUser(admin.firebaseUid, {
+        disabled: true,
+      });
     }
     return res
       .json({

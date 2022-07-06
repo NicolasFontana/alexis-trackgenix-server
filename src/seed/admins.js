@@ -6,5 +6,5 @@ export default [{
   lastName: 'perez',
   email: 'emilioPerez@mail.com',
   password: 'emiperez123',
-  active: true,
+  isDeleted: true,
 }];
