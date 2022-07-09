@@ -27,7 +27,7 @@ const validateCreation = (req, res, next) => {
       }),
     status: Joi.string()
       .min(2)
-      .valid('To do', 'In progress', 'Review', 'Blocked', 'Done', 'Cancelled')
+      .valid('Pending', 'Done', 'Unfinished')
       .required()
       .messages({
         'string.min': 'Invalid status, it must contain more than 2 letters',
@@ -69,7 +69,7 @@ const validateUpdate = (req, res, next) => {
     }),
     status: Joi.string()
       .min(2)
-      .valid('To do', 'In progress', 'Review', 'Blocked', 'Done', 'Cancelled')
+      .valid('Pending', 'Done', 'Unfinished')
       .messages({
         'string.min': 'Invalid status, it must contain more than 2 letters',
         'any.valid':
