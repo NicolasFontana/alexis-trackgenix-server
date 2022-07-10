@@ -1,7 +1,9 @@
+import mongoose from 'mongoose';
 import request from 'supertest';
 import Employees from '../models/Employees';
 import employeesSeed from '../seed/employees';
 import app from '../app';
+import Firebase from '../helper/firebase';
 
 let employeeId;
 
@@ -237,9 +239,10 @@ describe('Create employee', () => {
       firstName: 'Puche',
       lastName: 'Lopez',
       phone: '7761785000',
-      email: 'juansopez1@people.com',
+      email: 'juansopez3@people.com',
       password: 'password123',
       active: false,
+      isDeleted: false,
       isProjectManager: false,
     });
     expect(response.status).toBe(201);
@@ -403,14 +406,22 @@ describe('Delete employee', () => {
     expect(response.body.message).toEqual(
       `Employee with id ${employeeId} deleted.`,
     );
+    await Firebase.auth().deleteUser(response.body.data.firebaseUid);
+    await Employees.deleteOne(
+      // eslint-disable-next-line no-underscore-dangle
+      { _id: mongoose.Types.ObjectId(`${employeeId}`) },
+    );
   });
 
-  test('response should return a 404 status after deleting the user with the id of employeeId', async () => {
-    const response = await request(app)
-      .delete(`/api/employees/${employeeId}`)
-      .send();
-    expect(response.status).toEqual(404);
-  });
+  test(
+    'response should return a 404 status after deleting the user with the id of employeeId',
+    async () => {
+      const response = await request(app)
+        .delete(`/api/employees/${employeeId}`)
+        .send();
+      expect(response.status).toEqual(404);
+    },
+  );
 
   test('response should return a message like this: Employee not found', async () => {
     const response = await request(app)

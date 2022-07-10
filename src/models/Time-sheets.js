@@ -14,8 +14,8 @@ const timeSheetSchema = new Schema(
         taskId: { type: mongoose.Schema.Types.ObjectId, ref: 'Task' },
       },
     ],
-
     approved: { type: Boolean, required: true },
+    isDeleted: { type: Boolean, required: true },
   },
   { timestamps: true },
 );

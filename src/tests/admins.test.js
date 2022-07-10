@@ -1,10 +1,12 @@
+import mongoose from 'mongoose';
 import request from 'supertest';
-import admins from '../models/Admins';
+import Admins from '../models/Admins';
 import adminsSeed from '../seed/admins';
 import app from '../app';
+import Firebase from '../helper/firebase';
 
 beforeAll(async () => {
-  await admins.collection.insertMany(adminsSeed);
+  await Admins.collection.insertMany(adminsSeed);
 });
 
 let adminId;
@@ -86,14 +88,14 @@ describe('GET admin by email', () => {
   });
 });
 
-describe('GET admins by activity', () => {
-  test('Admins search by activity status response successful', async () => {
+describe('GET admins by isDeleted status', () => {
+  test('Admins search by isDeleted status response successful', async () => {
     const response = await request(app).get('/api/admins/isDeleted/true').send();
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual('Admins found');
     expect(response.error).toBeFalsy();
   });
-  test('Admins search by activity status response unsuccessful', async () => {
+  test('Admins search by isDeleted status response unsuccessful', async () => {
     const response = await request(app).get('/api/admins/isDeleted/').send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
@@ -105,9 +107,9 @@ describe('CREATE an admin', () => {
     const response = await request(app).post('/api/admins').send({
       firstName: 'Emilio',
       lastName: 'Perez',
-      email: 'emilioPerez1232@mail.com',
+      email: 'emilioPerez1@mail.com',
       password: 'emiperez123',
-      isDeleted: true,
+      isDeleted: false,
     });
     expect(response.statusCode).toBe(201);
     expect(response.body.message).toEqual('Admin created');
@@ -167,6 +169,11 @@ describe('DELETE an admin', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual(`Admin with id ${adminId} deleted`);
     expect(response.error).toBeFalsy();
+    await Firebase.auth().deleteUser(response.body.data.firebaseUid);
+    await Admins.deleteOne(
+      // eslint-disable-next-line no-underscore-dangle
+      { _id: mongoose.Types.ObjectId(`${adminId}`) },
+    );
   });
 
   test('Admin deleted status response unsuccessful', async () => {

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import request from 'supertest';
 import Projects from '../models/Projects';
 import projectsSeed from '../seed/projects';
@@ -144,6 +145,7 @@ describe('POST projects/create', () => {
         endDate: '2022-04-03',
         clientName: 'Tito',
         active: true,
+        isDeleted: false,
         members: [
           {
             employeeId: '628ab4485a6f0bba3f2585d3',
@@ -174,6 +176,7 @@ describe('POST projects/create', () => {
       endDate: '2022-04-03',
       clientName: 'Tito',
       active: true,
+      isDeleted: false,
     });
     expect(response.status).toBe(201);
     expect(response.body.message).toBe('Project created');
@@ -260,7 +263,12 @@ describe('DELETE proyects/id', () => {
     expect(response.body.data).toHaveProperty('_id', projectId);
     expect(response.body.message).toBe('The project was successfully deleted');
     expect(response.body.error).toBeFalsy();
+    await Projects.deleteOne(
+      // eslint-disable-next-line no-underscore-dangle
+      { _id: mongoose.Types.ObjectId(`${projectId}`) },
+    );
   });
+
   test('id not found', async () => {
     const response = await request(app)
       .delete('/api/projects/628ab4225aae617fa8002c22')

@@ -35,6 +35,7 @@ const validateCreation = (req, res, next) => {
           'Invalid status, it must be one of the following: To do, In progress, Review, Blocked, Done, Cancelled',
         'any.required': 'Status is a required field',
       }),
+    isDeleted: Joi.boolean().required(),
   });
 
   const validation = taskValidation.validate(req.body);
@@ -75,6 +76,7 @@ const validateUpdate = (req, res, next) => {
         'any.valid':
           'Invalid status, it must be one of the following: To do, In progress, Review, Blocked, Done, Cancelled',
       }),
+    isDeleted: Joi.boolean(),
   });
 
   const validation = schema.validate(req.body);

@@ -3,7 +3,7 @@ import models from '../models';
 // get all projects (Javi) ; populate by Pinche (:
 const getAllProjects = async (req, res) => {
   try {
-    const projects = await models.Projects.find(req.query).populate(
+    const projects = await models.Projects.find({ isDeleted: false }).populate(
       'members.employeeId',
       {
         _id: 1,
@@ -248,6 +248,7 @@ const createNewProject = async (req, res) => {
       endDate: req.body.endDate,
       clientName: req.body.clientName,
       active: req.body.active,
+      isDeleted: req.body.isDeleted,
       members: req.body.members,
     });
     await project.save();
@@ -303,7 +304,11 @@ const updateProject = async (req, res) => {
 const deleteProject = async (req, res) => {
   try {
     if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
-      const result = await models.Projects.findByIdAndDelete(req.params.id);
+      const result = await models.Projects.findByIdAndUpdate(
+        req.params.id,
+        { isDeleted: true },
+        { new: true },
+      );
       if (!result) {
         return res.status(404).json({
           message: `Id ${req.params.id} does not exist`,

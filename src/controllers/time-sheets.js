@@ -3,7 +3,7 @@ import models from '../models';
 // GET ALL
 const getAllTimesheets = async (req, res) => {
   try {
-    const allTimesheets = await models.TimeSheet.find({})
+    const allTimesheets = await models.TimeSheet.find({ isDeleted: false })
       .populate('projectId', { name: 1 })
       .populate('Task.taskId', {
         taskName: 1,
@@ -309,6 +309,7 @@ const createTimesheet = async (req, res) => {
       projectId: req.body.projectId,
       Task: req.body.Task,
       approved: req.body.approved,
+      isDeleted: false,
     });
     const result = await timesheet.save();
     return res.status(201).json({
@@ -363,7 +364,11 @@ const deleteTimesheet = async (req, res) => {
         error: true,
       });
     }
-    const result = await models.TimeSheet.findByIdAndDelete(req.params.id);
+    const result = await models.TimeSheet.findByIdAndUpdate(
+      req.params.id,
+      { isDeleted: true },
+      { new: true },
+    );
     if (!result) {
       return res.status(404).json({
         message: `There is no timesheet with this Id ${req.params.id}`,

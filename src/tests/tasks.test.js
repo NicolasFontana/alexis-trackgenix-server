@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import request from 'supertest';
 import app from '../app';
 import Tasks from '../models/Tasks';
@@ -35,6 +36,7 @@ describe('GetById /api/tasks', () => {
     expect(response.status).toBe(200);
     expect(response.body.error).toBeFalsy();
   });
+
   test('get task by id, incorrect id', async () => {
     const response = await request(app)
       .get('/api/tasks/6280062d5f0b9b4131e527e4')
@@ -42,6 +44,7 @@ describe('GetById /api/tasks', () => {
     expect(response.status).toBe(404);
     expect(response.body.message).toBe('id not found');
   });
+
   test('get task by id, incorrect id format', async () => {
     const response = await request(app).get('/api/tasks/asd').send();
     expect(response.status).toBe(400);
@@ -58,11 +61,13 @@ describe('GetByDescription /api/tasks', () => {
     expect(response.status).toBe(200);
     expect(response.body.error).toBe(false);
   });
+
   test('get task by description not found', async () => {
     const response = await request(app).get('/api/tasks/taskDescription/d');
     expect(response.status).toBe(404);
     expect(response.body.error).toBe(true);
   });
+
   test('get task by description no description', async () => {
     const response = await request(app).get('/api/tasks/taskDescription/');
     expect(response.status).toBe(400);
@@ -79,6 +84,7 @@ describe('POST /api/tasks', () => {
       workedHours: 33,
       description: 'description',
       status: 'Done',
+      isDeleted: false,
     });
     expect(response.status).toBe(201);
     expect(response.body.message).toBe('Task created');
@@ -86,6 +92,7 @@ describe('POST /api/tasks', () => {
     // eslint-disable-next-line no-underscore-dangle
     taskId = response.body.data._id;
   });
+
   test('Create task, no date', async () => {
     const response = await request(app).post('/api/tasks/').send({
       taskName: 'Test Task',
@@ -97,6 +104,7 @@ describe('POST /api/tasks', () => {
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('Start date is a required field');
   });
+
   test('Create task, no worked hours', async () => {
     const response = await request(app).post('/api/tasks/').send({
       taskName: 'Test Task',
@@ -108,6 +116,7 @@ describe('POST /api/tasks', () => {
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('Worked hours is a required field');
   });
+
   test('Create a task, no description', async () => {
     const response = await request(app).post('/api/tasks/').send({
       taskName: 'Test Task',
@@ -119,6 +128,7 @@ describe('POST /api/tasks', () => {
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('Description is a required field');
   });
+
   test('Create a task, no status', async () => {
     const response = await request(app).post('/api/tasks/').send({
       taskName: 'Test Task',
@@ -145,6 +155,7 @@ describe('UPDATE /api/tasks', () => {
     expect(response.status).toBe(200);
     expect(response.body.error).toBe(false);
   });
+
   test('Update a task, wrong id', async () => {
     const response = await request(app)
       .put('/api/tasks/6280062d5f0b9b4131e527e4')
@@ -159,6 +170,7 @@ describe('UPDATE /api/tasks', () => {
     expect(response.body.message).toBe('Task not found');
     expect(response.body.error).toBe(true);
   });
+
   test('Update a task, wrong id format', async () => {
     const response = await request(app).put('/api/tasks/6280').send({
       taskName: 'Test Task',
@@ -181,7 +193,12 @@ describe('DELETE /api/tasks', () => {
     expect(response.status).toBe(200);
     expect(response.body.message).toBe('Task succesfully deleted');
     expect(response.body.error).toBe(false);
+    await Tasks.deleteOne(
+      // eslint-disable-next-line no-underscore-dangle
+      { _id: mongoose.Types.ObjectId(`${taskId}`) },
+    );
   });
+
   test('Delete task, incorrect id', async () => {
     const response = await request(app)
       .delete('/api/tasks/6280062d5f0b9b4131e527e4')
@@ -190,6 +207,7 @@ describe('DELETE /api/tasks', () => {
     expect(response.body.message).toBe('Task not found');
     expect(response.body.error).toBe(true);
   });
+
   test('Delete task, incorrect id format', async () => {
     const response = await request(app).delete('/api/tasks/628').send();
     expect(response.status).toBe(400);

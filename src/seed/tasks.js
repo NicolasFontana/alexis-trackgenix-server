@@ -7,4 +7,5 @@ export default [{
   workedHours: 33,
   description: 'description',
   status: 'Done',
+  isDeleted: true,
 }];
