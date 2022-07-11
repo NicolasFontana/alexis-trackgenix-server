@@ -9,7 +9,7 @@ const tasksSchema = new Schema(
     workedHours: { type: Number, required: true },
     description: { type: String, required: true },
     status: { type: String, required: true },
-    isDeleted: { type: String, required: true },
+    isDeleted: { type: Boolean, required: true },
   },
   { timestamps: true },
 );
