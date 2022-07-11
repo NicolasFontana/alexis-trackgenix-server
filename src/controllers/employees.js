@@ -215,6 +215,10 @@ const createEmployee = async (req, res) => {
       isProjectManager: req.body.isProjectManager,
       projects: req.body.projects,
       timeSheets: req.body.timeSheets,
+      address: req.body.address,
+      picture: req.body.picture,
+      dni: req.body.dni,
+      dateBirth: req.body.dateBirth,
     });
     const result = await employee.save();
     return res.status(201).json({
