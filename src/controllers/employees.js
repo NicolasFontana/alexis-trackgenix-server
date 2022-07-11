@@ -211,7 +211,7 @@ const createEmployee = async (req, res) => {
       email: req.body.email,
       firebaseUid,
       active: req.body.active,
-      isDeleted: req.body.isDeleted,
+      isDeleted: false,
       isProjectManager: req.body.isProjectManager,
       projects: req.body.projects,
       timeSheets: req.body.timeSheets,

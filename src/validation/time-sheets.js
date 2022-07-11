@@ -20,7 +20,7 @@ const createTimeValidation = (req, res, next) => {
         }),
     }),
     approved: Joi.boolean().required(),
-    isDeleted: Joi.boolean().required(),
+    isDeleted: Joi.boolean(),
   });
   const validation = timesheetValidation.validate(req.body);
   if (validation.error) {

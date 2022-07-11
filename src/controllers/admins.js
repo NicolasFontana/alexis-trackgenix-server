@@ -200,7 +200,7 @@ const createAdmin = async (req, res) => {
       lastName: req.body.lastName.toLowerCase(),
       email: req.body.email,
       firebaseUid,
-      isDeleted: req.body.isDeleted,
+      isDeleted: false,
     });
     const result = await newAdmin.save();
     return res.status(201).json({

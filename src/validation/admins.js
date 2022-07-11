@@ -40,7 +40,7 @@ const createAdminValidations = (req, res, next) => {
           'Invalid password, it must contain both letters and numbers',
         'any.required': 'Password is a required field',
       }),
-    isDeleted: Joi.boolean().required(),
+    isDeleted: Joi.boolean(),
   });
   const validation = schema.validate(req.body);
   if (validation.error) {

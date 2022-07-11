@@ -248,7 +248,7 @@ const createNewProject = async (req, res) => {
       endDate: req.body.endDate,
       clientName: req.body.clientName,
       active: req.body.active,
-      isDeleted: req.body.isDeleted,
+      isDeleted: false,
       members: req.body.members,
     });
     await project.save();

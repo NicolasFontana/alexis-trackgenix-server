@@ -49,7 +49,7 @@ const createEmployeeValidation = (req, res, next) => {
         'any.required': 'Password is a required field',
       }),
     active: Joi.boolean().required(),
-    isDeleted: Joi.boolean().required(),
+    isDeleted: Joi.boolean(),
     isProjectManager: Joi.boolean().required(),
     projects: Joi.array().items(
       Joi.string().alphanum().length(24).messages({

@@ -93,7 +93,7 @@ const createTask = async (req, res) => {
       workedHours: req.body.workedHours,
       description: req.body.description,
       status: req.body.status,
-      isDeleted: req.body.isDeleted,
+      isDeleted: false,
     });
 
     const result = await task.save();
