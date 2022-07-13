@@ -12,6 +12,7 @@ const getAllEmployees = async (req, res) => {
         endDate: 1,
         clientName: 1,
         active: 1,
+        members: 1,
       })
       .populate('timeSheets', {
         projectId: 1,

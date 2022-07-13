@@ -7,7 +7,7 @@ const projectSchema = new Schema(
     name: { type: String, required: true },
     description: { type: String, required: true },
     startDate: { type: Date, required: true },
-    endDate: { type: Date, required: true },
+    endDate: { type: Date },
     clientName: { type: String, required: true },
     active: { type: Boolean, required: true },
     members: [
