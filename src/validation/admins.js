@@ -26,8 +26,8 @@ const createAdminValidations = (req, res, next) => {
           'Invalid last name, it must contain only letters',
         'any.required': 'Last Name is a required field',
       }),
-    email: Joi.string().email().required().messages({
-      'string.email': 'invalid email format',
+    email: Joi.string().pattern(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/).required().messages({
+      'string.pattern.base': 'invalid email format',
       'any.required': 'Email is a required field',
     }),
     password: Joi.string()
@@ -75,7 +75,7 @@ const updateAdminValidations = (req, res, next) => {
         'string.pattern.base':
           'Invalid last name, it must contain only letters',
       }),
-    email: Joi.string().email().message('Invalid email format'),
+    email: Joi.string().pattern(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/).message('Invalid email format'),
     password: Joi.string()
       .min(8)
       .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?!.*[^a-zA-Z0-9])/)
