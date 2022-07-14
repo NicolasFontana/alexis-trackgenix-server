@@ -179,7 +179,7 @@ describe('DELETE /api/tasks', () => {
     // eslint-disable-next-line no-undef
     const response = await request(app).delete(`/api/tasks/${taskId}`).send();
     expect(response.status).toBe(200);
-    expect(response.body.message).toBe('Task succesfully deleted');
+    expect(response.body.message).toBe('Task successfully deleted');
     expect(response.body.error).toBe(false);
   });
   test('Delete task, incorrect id', async () => {

@@ -341,7 +341,7 @@ const updateTimeSheet = async (req, res) => {
       { new: true },
     );
     return res.status(200).json({
-      message: 'The time sheet has been updated succesfully',
+      message: 'The time sheet has been updated successfully',
       data: updatedTimeSheet,
       error: false,
     });

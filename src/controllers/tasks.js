@@ -128,7 +128,7 @@ const updateTask = async (req, res) => {
         });
       }
       return res.status(200).json({
-        message: 'The task has been updated succesfully',
+        message: 'The task has been updated successfully',
         data: taskToUpdate,
         error: false,
       });
@@ -167,7 +167,7 @@ const deleteTask = async (req, res) => {
     }
     return res
       .json({
-        message: 'Task succesfully deleted',
+        message: 'Task successfully deleted',
         data: result,
         error: false,
       })

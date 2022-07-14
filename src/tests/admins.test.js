@@ -189,7 +189,7 @@ describe('UPDATE an admin', () => {
       });
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual(
-      'The admin has been updated succesfully',
+      'The admin has been updated successfully',
     );
     expect(response.body.error).toBeFalsy();
   });
@@ -205,7 +205,7 @@ describe('UPDATE an admin', () => {
       });
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual(
-      'The admin has been updated succesfully',
+      'The admin has been updated successfully',
     );
     expect(response.body.error).toBeFalsy();
   });
