@@ -49,6 +49,7 @@ const createEmployeeValidation = (req, res, next) => {
         'any.required': 'Password is a required field',
       }),
     active: Joi.boolean().required(),
+    isDeleted: Joi.boolean(),
     isProjectManager: Joi.boolean().required(),
     projects: Joi.array().items(
       Joi.string().alphanum().length(24).messages({
@@ -126,6 +127,7 @@ const updateEmployeeValidation = (req, res, next) => {
           'Invalid password, it must contain both letters and numbers',
       }),
     active: Joi.boolean(),
+    isDeleted: Joi.boolean(),
     isProjectManager: Joi.boolean(),
     projects: Joi.array().items(
       Joi.string().alphanum().length(24).messages({

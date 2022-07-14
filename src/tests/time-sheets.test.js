@@ -1,12 +1,13 @@
+import mongoose from 'mongoose';
 import request from 'supertest';
 import app from '../app';
 import timeSheetSeed from '../seed/time-sheets';
-import timeSheets from '../models/Time-sheets';
+import TimeSheets from '../models/Time-sheets';
 
 let timesheetId;
 
 beforeAll(async () => {
-  await timeSheets.collection.insertMany(timeSheetSeed);
+  await TimeSheets.collection.insertMany(timeSheetSeed);
 });
 
 // Test for GET method by Fer
@@ -46,6 +47,7 @@ describe('POST /api/time-sheets', () => {
           },
         ],
         approved: true,
+        isDeleted: false,
       });
     expect(response.status).toBe(201);
     expect(response.body.message).toBe('Timesheet created');
@@ -107,30 +109,6 @@ describe('POST /api/time-sheets', () => {
   });
 });
 
-// Test for DELETE method by Fer
-describe('DELETE /api/time-sheets', () => {
-  test('Should delete a timesheet', async () => {
-    // eslint-disable-next-line no-undef
-    const response = await request(app)
-      .delete(`/api/time-sheets/${timesheetId}`)
-      .send();
-    expect(response.status).toEqual(200);
-    expect(response.body.message).toBe(
-      `The ${timesheetId} timesheet has been susccesfully deleted`,
-    );
-  });
-  test('Should not delete a project ', async () => {
-    const response = await request(app)
-      .delete('/api/time-sheets/6280062d5f0b9b4131e527e4')
-      .send();
-    expect(response.status).toEqual(404);
-    expect(response.body.message).toBe(
-      'There is no timesheet with this Id 6280062d5f0b9b4131e527e4',
-    );
-    expect(response.body.error).toBeTruthy();
-  });
-});
-
 // Test for GET by Id by Fran
 describe('GetById /api/time-sheets/:id', () => {
   test('get by Id', async () => {
@@ -167,6 +145,7 @@ describe('POST /api/time-sheets', () => {
           },
         ],
         approved: true,
+        isDeleted: false,
       });
     expect(response.status).toBe(201);
     // eslint-disable-next-line no-underscore-dangle
@@ -226,6 +205,10 @@ describe('Delete timesheet', () => {
     expect(response.status).toEqual(200);
     expect(response.body.message).toBe(
       `The ${timesheetId} timesheet has been susccesfully deleted`,
+    );
+    await TimeSheets.deleteOne(
+      // eslint-disable-next-line no-underscore-dangle
+      { _id: mongoose.Types.ObjectId(`${timesheetId}`) },
     );
   });
   test('Should not delete a timesheet ', async () => {

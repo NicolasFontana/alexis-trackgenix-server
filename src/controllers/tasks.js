@@ -3,7 +3,7 @@ import models from '../models';
 // GET ALL TASKS
 const getAllTasks = async (req, res) => {
   try {
-    const allTasks = await models.Tasks.find({});
+    const allTasks = await models.Tasks.find({ isDeleted: false });
     return res.status(200).json({
       message: 'All tasks',
       data: allTasks,
@@ -93,6 +93,7 @@ const createTask = async (req, res) => {
       workedHours: req.body.workedHours,
       description: req.body.description,
       status: req.body.status,
+      isDeleted: false,
     });
 
     const result = await task.save();
@@ -157,7 +158,11 @@ const deleteTask = async (req, res) => {
         error: true,
       });
     }
-    const result = await models.Tasks.findByIdAndDelete(req.params.id);
+    const result = await models.Tasks.findByIdAndUpdate(
+      req.params.id,
+      { isDeleted: true },
+      { new: true },
+    );
     if (!result) {
       return res.status(404).json({
         message: 'Task not found',

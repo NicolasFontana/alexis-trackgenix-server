@@ -8,7 +8,7 @@ const adminSchema = new Schema(
     lastName: { type: String, required: true },
     email: { type: String, required: true },
     firebaseUid: { type: String, required: true },
-    active: { type: Boolean, required: true },
+    isDeleted: { type: Boolean, required: true },
   },
   { timestamps: true },
 );

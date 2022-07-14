@@ -43,6 +43,7 @@ const validateCreate = (req, res, next) => {
         'any.required': 'Client name is a required field',
       }),
     active: Joi.boolean().required(),
+    isDeleted: Joi.boolean(),
     members: Joi.array().items({
       employeeId: Joi.string().alphanum().length(24).required()
         .messages({
@@ -106,6 +107,7 @@ const validateUpdate = (req, res, next) => {
           'Invalid client name, it must contain only letters and start with a capital letter',
       }),
     active: Joi.boolean(),
+    isDeleted: Joi.boolean(),
     members: Joi.array().items({
       employeeId: Joi.string().alphanum().length(24).messages({
         'string.alphanum':

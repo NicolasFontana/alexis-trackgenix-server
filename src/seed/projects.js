@@ -8,6 +8,7 @@ export default [{
   endDate: '2022-04-03',
   clientName: 'Tito',
   active: true,
+  isDeleted: false,
   members: [
     {
       employeeId: mongoose.Types.ObjectId('628ab4485a6f0bba3f2585d3'),

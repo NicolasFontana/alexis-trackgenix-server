@@ -4,7 +4,7 @@ import Firebase from '../helper/firebase';
 // get all employees
 const getAllEmployees = async (req, res) => {
   try {
-    const allEmployees = await models.Employees.find({})
+    const allEmployees = await models.Employees.find({ isDeleted: false })
       .populate('projects', {
         name: 1,
         description: 1,
@@ -211,6 +211,7 @@ const createEmployee = async (req, res) => {
       email: req.body.email,
       firebaseUid,
       active: req.body.active,
+      isDeleted: false,
       isProjectManager: req.body.isProjectManager,
       projects: req.body.projects,
       timeSheets: req.body.timeSheets,
@@ -303,7 +304,11 @@ const deleteEmployee = async (req, res) => {
         error: true,
       });
     }
-    const result = await models.Employees.findByIdAndDelete(req.params.id);
+    const result = await models.Employees.findByIdAndUpdate(
+      req.params.id,
+      { isDeleted: true },
+      { new: true },
+    );
     if (!result) {
       return res.status(404).json({
         message: 'Employee not found',
@@ -312,7 +317,7 @@ const deleteEmployee = async (req, res) => {
       });
     }
     if (result.firebaseUid) {
-      await Firebase.auth().deleteUser(result.firebaseUid);
+      await Firebase.auth().updateUser(result.firebaseUid, { disabled: true });
     }
     return res.status(200).json({
       message: `Employee with id ${req.params.id} deleted.`,
