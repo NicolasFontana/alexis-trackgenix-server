@@ -12,6 +12,7 @@ const getAllEmployees = async (req, res) => {
         endDate: 1,
         clientName: 1,
         active: 1,
+        members: 1,
       })
       .populate('timeSheets', {
         projectId: 1,
@@ -281,7 +282,7 @@ const updateEmployee = async (req, res) => {
       );
     }
     return res.status(200).json({
-      message: 'The employee has been updated succesfully',
+      message: 'The employee has been updated successfully',
       data: result,
       error: false,
     });

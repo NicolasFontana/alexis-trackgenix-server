@@ -365,7 +365,7 @@ describe('Edit employee', () => {
         timeSheets: ['6289c467fc13ae72d60000c7'],
       });
     expect(response.body.message).toEqual(
-      'The employee has been updated succesfully',
+      'The employee has been updated successfully',
     );
   });
 

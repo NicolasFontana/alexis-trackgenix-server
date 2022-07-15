@@ -6,7 +6,7 @@ const createEmployeeValidation = (req, res, next) => {
     firstName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/(?:\p{L}\p{M}*)+/u)
+      .pattern(/^[\p{L}\p{M}]+([ \p{L}\p{M}])*$/u)
       .required()
       .messages({
         'string.min': 'Invalid name, it must contain more than 3 letters',
@@ -17,7 +17,7 @@ const createEmployeeValidation = (req, res, next) => {
     lastName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/(?:\p{L}\p{M}*)+/u)
+      .pattern(/^[\p{L}\p{M}]+([ \p{L}\p{M}])*$/u)
       .required()
       .messages({
         'string.min': 'Invalid last name, it must contain more than 3 letters',
@@ -34,8 +34,8 @@ const createEmployeeValidation = (req, res, next) => {
         'string.length': 'Invalid phone number, it must contain 10 numbers',
         'any.required': 'Phone number is a required field',
       }),
-    email: Joi.string().email().required().messages({
-      'string.email': 'invalid email format',
+    email: Joi.string().pattern(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/).required().messages({
+      'string.pattern.base': 'invalid email format',
       'any.required': 'Email is a required field',
     }),
     password: Joi.string()
@@ -71,10 +71,12 @@ const createEmployeeValidation = (req, res, next) => {
     picture: Joi.string().allow('').min(4).messages({
       'string.min': 'Invalid picture URL, it must contain more than 4 letters',
     }),
-    dni: Joi.number().allow('').integer().min(0)
+    dni: Joi.number().allow('', null).integer().min(20000000)
+      .max(100000000)
       .messages({
         'number.integer': 'Invalid number, it must be an integer',
-        'number.min': 'Invalid number, it must be positive',
+        'number.min': 'Invalid number, it must be a valid DNI(Between 20000000 and 100000000)',
+        'number.max': 'Invalid number, it must be a valid DNI(Between 20000000 and 100000000)',
       }),
     dateBirth: Joi.date().allow(''),
   });
@@ -94,7 +96,7 @@ const updateEmployeeValidation = (req, res, next) => {
     firstName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/(?:\p{L}\p{M}*)+/u)
+      .pattern(/^[\p{L}\p{M}]+([ \p{L}\p{M}])*$/u)
       .messages({
         'string.min': 'Invalid name, it must contain more than 3 letters',
         'string.max': 'Invalid name, it must not contain more than 50 letters',
@@ -103,7 +105,7 @@ const updateEmployeeValidation = (req, res, next) => {
     lastName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/(?:\p{L}\p{M}*)+/u)
+      .pattern(/^[\p{L}\p{M}]+([ \p{L}\p{M}])*$/u)
       .messages({
         'string.min': 'Invalid last name, it must contain more than 3 letters',
         'string.max':
@@ -116,7 +118,7 @@ const updateEmployeeValidation = (req, res, next) => {
         'Invalid phone number, it must contain only numbers',
       'string.length': 'Invalid phone number, it must contain 10 numbers',
     }),
-    email: Joi.string().email().message('Invalid email format'),
+    email: Joi.string().pattern(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/).message('Invalid email format'),
     password: Joi.string()
       .min(8)
       .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?!.*[^a-zA-Z0-9])/)
@@ -149,10 +151,12 @@ const updateEmployeeValidation = (req, res, next) => {
     picture: Joi.string().allow('').min(4).messages({
       'string.min': 'Invalid picture URL, it must contain more than 4 letters',
     }),
-    dni: Joi.number().integer().min(0).allow('', null)
+    dni: Joi.number().allow('', null).integer().min(20000000)
+      .max(100000000)
       .messages({
         'number.integer': 'Invalid number, it must be an integer',
-        'number.min': 'Invalid number, it must be positive',
+        'number.min': 'Invalid number, it must be a valid DNI(Between 20000000 and 100000000)',
+        'number.max': 'Invalid number, it must be a valid DNI(Between 20000000 and 100000000)',
       }),
     dateBirth: Joi.date().allow('', null),
   });

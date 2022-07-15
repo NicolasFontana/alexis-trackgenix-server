@@ -281,7 +281,7 @@ const updateProject = async (req, res) => {
         });
       }
       return res.status(200).json({
-        message: 'The project has been updated succesfully',
+        message: 'The project has been updated successfully',
         data: result,
         error: false,
       });

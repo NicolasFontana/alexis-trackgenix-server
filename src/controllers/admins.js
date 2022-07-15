@@ -286,7 +286,7 @@ const updateAdmin = async (req, res) => {
         );
       }
       return res.status(200).json({
-        message: 'The admin has been updated succesfully',
+        message: 'The admin has been updated successfully',
         data: admin,
         error: false,
       });

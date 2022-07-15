@@ -12,22 +12,25 @@ const validateCreation = (req, res, next) => {
     startDate: Joi.date()
       .required()
       .messages({ 'any.required': 'Start date is a required field' }),
-    workedHours: Joi.number().integer().min(0).required()
+    workedHours: Joi.string()
+      .pattern(/^[0-9]*$/)
+      .max(3)
+      .required()
       .messages({
-        'number.integer': 'Invalid number, it must be an integer',
-        'number.min': 'Invalid number, it must be positive',
+        'string.max': 'Invalid number, it exceeds the number of posible worked hours',
+        'string.pattern.base': 'Invalid, it must contain only interger numbers',
         'any.required': 'Worked hours is a required field',
       }),
-    description: Joi.string().min(6).max(150).required()
+    description: Joi.string().pattern(/(.*[a-zA-Z]){4}/).max(150).required()
       .messages({
-        'string.min': 'Invalid description, it must contain more than 6 letters',
+        'string.pattern.base': 'Invalid description, it must contain at least 6 letters',
         'string.max':
         'Invalid description, it must not contain more than 150 letters',
         'any.required': 'Description is a required field',
       }),
     status: Joi.string()
       .min(2)
-      .valid('To do', 'In progress', 'Review', 'Blocked', 'Done', 'Cancelled')
+      .valid('Pending', 'Done', 'Unfinished')
       .required()
       .messages({
         'string.min': 'Invalid status, it must contain more than 2 letters',
@@ -59,18 +62,22 @@ const validateUpdate = (req, res, next) => {
         'Invalid task name, it must not contain more than 50 letters',
     }),
     startDate: Joi.date(),
-    workedHours: Joi.number().integer().min(0).messages({
-      'number.integer': 'Invalid number, it must be an integer',
-      'number.min': 'Invalid number, it must be positive',
-    }),
-    description: Joi.string().min(6).max(150).messages({
-      'string.min': 'Invalid description, it must contain more than 6 letters',
-      'string.max':
+    workedHours: Joi.string()
+      .pattern(/^[0-9]*$/)
+      .max(3)
+      .messages({
+        'string.max': 'Invalid number, it exceeds the number of posible worked hours',
+        'string.pattern.base': 'Invalid, it must contain only interger numbers',
+      }),
+    description: Joi.string().pattern(/(.*[a-zA-Z]){4}/).max(150)
+      .messages({
+        'string.pattern.base': 'Invalid description, it must contain at least 6 letters',
+        'string.max':
         'Invalid description, it must not contain more than 150 letters',
-    }),
+      }),
     status: Joi.string()
       .min(2)
-      .valid('To do', 'In progress', 'Review', 'Blocked', 'Done', 'Cancelled')
+      .valid('Pending', 'Done', 'Unfinished')
       .messages({
         'string.min': 'Invalid status, it must contain more than 2 letters',
         'any.valid':

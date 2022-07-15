@@ -81,7 +81,7 @@ describe('POST /api/tasks', () => {
     const response = await request(app).post('/api/tasks/').send({
       taskName: 'Test Task',
       startDate: '2022-05-17T16:55:32.654+00:00',
-      workedHours: 33,
+      workedHours: '33',
       description: 'description',
       status: 'Done',
       isDeleted: false,
@@ -96,7 +96,7 @@ describe('POST /api/tasks', () => {
   test('Create task, no date', async () => {
     const response = await request(app).post('/api/tasks/').send({
       taskName: 'Test Task',
-      workedHours: 33,
+      workedHours: '33',
       description: 'description',
       status: 'Done',
     });
@@ -121,7 +121,7 @@ describe('POST /api/tasks', () => {
     const response = await request(app).post('/api/tasks/').send({
       taskName: 'Test Task',
       startDate: '2022-05-17T16:55:32.654+00:00',
-      workedHours: 33,
+      workedHours: '33',
       status: 'Done',
     });
     expect(response.status).toBe(400);
@@ -133,7 +133,7 @@ describe('POST /api/tasks', () => {
     const response = await request(app).post('/api/tasks/').send({
       taskName: 'Test Task',
       startDate: '2022-05-17T16:55:32.654+00:00',
-      workedHours: 33,
+      workedHours: '33',
       description: 'description',
     });
     expect(response.status).toBe(400);
@@ -148,7 +148,7 @@ describe('UPDATE /api/tasks', () => {
     const response = await request(app).put(`/api/tasks/${taskId}`).send({
       taskName: 'Test Task',
       startDate: '2022-05-17T16:55:32.654+00:00',
-      workedHours: 33,
+      workedHours: '33',
       description: 'description',
       status: 'Done',
     });
@@ -162,7 +162,7 @@ describe('UPDATE /api/tasks', () => {
       .send({
         taskName: 'Test Task',
         startDate: '2022-05-17T16:55:32.654+00:00',
-        workedHours: 33,
+        workedHours: '33',
         description: 'description',
         status: 'Done',
       });
@@ -175,7 +175,7 @@ describe('UPDATE /api/tasks', () => {
     const response = await request(app).put('/api/tasks/6280').send({
       taskName: 'Test Task',
       startDate: '2022-05-17T16:55:32.654+00:00',
-      workedHours: 33,
+      workedHours: '33',
       description: 'description',
       status: 'Done',
     });
@@ -191,7 +191,7 @@ describe('DELETE /api/tasks', () => {
     // eslint-disable-next-line no-undef
     const response = await request(app).delete(`/api/tasks/${taskId}`).send();
     expect(response.status).toBe(200);
-    expect(response.body.message).toBe('Task succesfully deleted');
+    expect(response.body.message).toBe('Task successfully deleted');
     expect(response.body.error).toBe(false);
     await Tasks.deleteOne(
       // eslint-disable-next-line no-underscore-dangle

@@ -247,7 +247,7 @@ const updateSuperadmin = async (req, res) => {
       );
     }
     return res.status(200).json({
-      message: 'The super admin has been updated succesfully',
+      message: 'The super admin has been updated successfully',
       data: updatedAdmin,
       error: false,
     });

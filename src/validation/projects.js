@@ -6,7 +6,7 @@ const validateCreate = (req, res, next) => {
     name: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][\p{L}\p{M}]*$/u)
+      .pattern(/^[A-Z][\p{L}\p{M}\s]*$/u)
       .required()
       .messages({
         'string.min':
@@ -17,21 +17,20 @@ const validateCreate = (req, res, next) => {
           'Invalid project name, it must contain only letters and start with a capital letter',
         'any.required': 'Name is a required field',
       }),
-    description: Joi.string().min(4).required().messages({
-      'string.min': 'Invalid description, it must contain more than 4 letters',
+    description: Joi.string().pattern(/(.*[a-zA-Z]){4}/).required().messages({
+      'string.pattern.base': 'Invalid description, it must contain at least 4 letters',
       'any.required': 'Description is a required field',
     }),
     startDate: Joi.date()
       .required()
       .messages({ 'any.required': 'Start date is a rquired field' }),
-    endDate: Joi.date().greater(Joi.ref('startDate')).required().messages({
+    endDate: Joi.date().greater(Joi.ref('startDate')).allow('').messages({
       'date.greater': 'Invalid end date, it must be after the start date',
-      'any.required': 'End date is a required field',
     }),
     clientName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][\p{L}\p{M}]*$/u)
+      .pattern(/^[A-Z][\p{L}\p{M}\s]*$/u)
       .required()
       .messages({
         'string.min':
@@ -78,7 +77,7 @@ const validateUpdate = (req, res, next) => {
     name: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][\p{L}\p{M}]*$/u)
+      .pattern(/^[A-Z][\p{L}\p{M}\s]*$/u)
       .messages({
         'string.min':
           'Invalid project name, it must contain more than 3 letters',
@@ -87,17 +86,17 @@ const validateUpdate = (req, res, next) => {
         'string.pattern.base':
           'Invalid project name, it must contain only letters and start with a capital letter',
       }),
-    description: Joi.string()
-      .min(4)
-      .message('Invalid description, it must contain more than 4 letters'),
+    description: Joi.string().pattern(/(.*[a-zA-Z]){4}/).messages({
+      'string.pattern.base': 'Invalid description, it must contain at least 4 letters',
+    }),
     startDate: Joi.date(),
     endDate: Joi.date()
-      .greater(Joi.ref('startDate'))
+      .greater(Joi.ref('startDate')).allow('')
       .message('Invalid end date, it must be after the start date'),
     clientName: Joi.string()
       .min(3)
       .max(50)
-      .pattern(/^[A-Z][\p{L}\p{M}]*$/u)
+      .pattern(/^[A-Z][\p{L}\p{M}\s]*$/u)
       .messages({
         'string.min':
           'Invalid client name, it must contain more than 3 letters',
