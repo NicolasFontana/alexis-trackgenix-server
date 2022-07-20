@@ -6,14 +6,14 @@ import authMiddleware from '../middlewares/authMiddleware';
 const router = express.Router();
 
 router
-  .get('/', authMiddleware, superadminsControllers.getAllSuperadmins)
-  .post('/', superadminsValidation.validateCreation, superadminsControllers.createSuperadmin)
-  .get('/first-name/:firstName', superadminsControllers.getFilteredSuperadminsByFirstName)
-  .get('/last-name/:lastName', superadminsControllers.getFilteredSuperadminsByLastName)
-  .get('/email/:email', superadminsControllers.getFilteredSuperadminsByEmail)
-  .get('/active/:active', superadminsControllers.getFilteredSuperadminsByActive)
-  .get('/:id', superadminsControllers.getSuperadminById)
-  .put('/:id', superadminsValidation.validateUpdate, superadminsControllers.updateSuperadmin)
-  .delete('/:id', superadminsControllers.deleteSuperadminById);
+  .get('/', authMiddleware.authSuperAdmin, superadminsControllers.getAllSuperadmins)
+  .post('/', authMiddleware.authSuperAdmin, superadminsValidation.validateCreation, superadminsControllers.createSuperadmin)
+  // .get('/first-name/:firstName', superadminsControllers.getFilteredSuperadminsByFirstName)
+  // .get('/last-name/:lastName', superadminsControllers.getFilteredSuperadminsByLastName)
+  // .get('/email/:email', superadminsControllers.getFilteredSuperadminsByEmail)
+  // .get('/active/:active', superadminsControllers.getFilteredSuperadminsByActive)
+  // .get('/:id', superadminsControllers.getSuperadminById)
+  .put('/:id', authMiddleware.authSuperAdmin, superadminsValidation.validateUpdate, superadminsControllers.updateSuperadmin)
+  .delete('/:id', authMiddleware.authSuperAdmin, superadminsControllers.deleteSuperadminById);
 
 export default router;

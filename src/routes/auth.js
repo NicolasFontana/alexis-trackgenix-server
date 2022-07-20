@@ -4,6 +4,6 @@ import authMiddleware from '../middlewares/authMiddleware';
 
 const router = express.Router();
 
-router.get('/', authMiddleware, getMe);
+router.get('/', authMiddleware.authUser, getMe);
 
 export default router;
