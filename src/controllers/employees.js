@@ -53,6 +53,23 @@ const getAllEmployees = async (req, res) => {
   }
 };
 
+const getDeletedEmployees = async (req, res) => {
+  try {
+    const deletedEmployees = await models.Employees.find({ isDeleted: true });
+    return res.status(200).json({
+      message: 'Employees found',
+      data: deletedEmployees,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
 const createEmployee = async (req, res) => {
   let firebaseUid;
   try {
@@ -193,6 +210,7 @@ const deleteEmployee = async (req, res) => {
 
 export default {
   getAllEmployees,
+  getDeletedEmployees,
   createEmployee,
   updateEmployee,
   deleteEmployee,

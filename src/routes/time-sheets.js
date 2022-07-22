@@ -7,6 +7,7 @@ const router = express.Router();
 
 router
   .get('/', authMiddleware.authUser, timeSheetsController.getAllTimesheets)
+  .get('/deleted', authMiddleware.authUser, timeSheetsController.getDeletedTimesheets)
   .put('/:id', authMiddleware.authUser, timeSheetsValidator.updateValidation, timeSheetsController.updateTimeSheet)
   .post('/', authMiddleware.authUser, timeSheetsValidator.createTimeValidation, timeSheetsController.createTimesheet)
   .delete('/:id', authMiddleware.authUser, timeSheetsController.deleteTimesheet);

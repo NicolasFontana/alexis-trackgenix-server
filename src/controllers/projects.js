@@ -48,6 +48,30 @@ const getAllProjects = async (req, res) => {
   }
 };
 
+const getDeletedProjects = async (req, res) => {
+  try {
+    const projects = await models.Projects.find({ isDeleted: true });
+    if (projects.length < 1) {
+      return res.status(404).json({
+        message: 'There are no projects deleted yet',
+        data: undefined,
+        error: true,
+      });
+    }
+    return res.status(200).json({
+      message: 'Projects found',
+      data: projects,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      data: {},
+      error: true,
+    });
+  }
+};
+
 const createNewProject = async (req, res) => {
   try {
     const project = new models.Projects({
@@ -148,6 +172,7 @@ const deleteProject = async (req, res) => {
 
 export default {
   getAllProjects,
+  getDeletedProjects,
   createNewProject,
   updateProject,
   deleteProject,

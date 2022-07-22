@@ -7,6 +7,7 @@ const router = express.Router();
 
 router
   .get('/', authMiddleware.authAdmin, employeeController.getAllEmployees)
+  .get('/deleted', authMiddleware.authAdmin, employeeController.getDeletedEmployees)
   .post('/', employeeValidation.createEmployeeValidation, employeeController.createEmployee)
   .put('/:id', authMiddleware.authUser, employeeValidation.updateEmployeeValidation, employeeController.updateEmployee)
   .delete('/:id', authMiddleware.authAdmin, employeeController.deleteEmployee);

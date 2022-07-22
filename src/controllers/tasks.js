@@ -25,6 +25,23 @@ const getAllTasks = async (req, res) => {
   }
 };
 
+const getDeletedTasks = async (req, res) => {
+  try {
+    const deletedTasks = await models.Tasks.find({ isDeleted: true });
+    return res.status(200).json({
+      message: 'Deleted tasks',
+      data: deletedTasks,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
+    });
+  }
+};
+
 const createTask = async (req, res) => {
   try {
     const task = new models.Tasks({
@@ -126,6 +143,7 @@ const deleteTask = async (req, res) => {
 
 export default {
   getAllTasks,
+  getDeletedTasks,
   createTask,
   updateTask,
   deleteTask,

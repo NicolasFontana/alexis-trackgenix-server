@@ -4,7 +4,7 @@ import Firebase from '../helper/firebase';
 const getAllSuperadmins = async (req, res) => {
   try {
     if (req.query.id) {
-      const superAdmin = await models.SuperAdmin.find({ _id: req.query.id, isDeleted: false });
+      const superAdmin = await models.SuperAdmin.find({ _id: req.query.id });
       return res.status(200).json({
         message: 'Superadmin found',
         data: superAdmin,

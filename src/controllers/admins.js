@@ -26,6 +26,23 @@ const getAllAdmins = async (req, res) => {
   }
 };
 
+const getDeletedAdmins = async (req, res) => {
+  try {
+    const deletedAdmins = await models.Admins.find({ isDeleted: true });
+    return res.status(200).json({
+      message: 'Admins found',
+      data: deletedAdmins,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
 const createAdmin = async (req, res) => {
   let firebaseUid;
   try {
@@ -147,6 +164,7 @@ const updateAdmin = async (req, res) => {
 
 export default {
   getAllAdmins,
+  getDeletedAdmins,
   createAdmin,
   deleteAdmin,
   updateAdmin,

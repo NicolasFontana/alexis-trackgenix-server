@@ -40,6 +40,23 @@ const getAllTimesheets = async (req, res) => {
   }
 };
 
+const getDeletedTimesheets = async (req, res) => {
+  try {
+    const deletedTimesheets = await models.TimeSheet.find({ isDeleted: true });
+    return res.status(200).json({
+      message: 'Deleted Time-Sheets',
+      data: deletedTimesheets,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error,
+      data: {},
+      error: true,
+    });
+  }
+};
+
 const createTimesheet = async (req, res) => {
   try {
     const timesheet = new models.TimeSheet({
@@ -128,6 +145,7 @@ const deleteTimesheet = async (req, res) => {
 
 export default {
   getAllTimesheets,
+  getDeletedTimesheets,
   updateTimeSheet,
   createTimesheet,
   deleteTimesheet,
