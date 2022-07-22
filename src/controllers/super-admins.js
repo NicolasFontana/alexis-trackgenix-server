@@ -1,9 +1,16 @@
 import models from '../models';
 import Firebase from '../helper/firebase';
 
-// GET ALL SUPERADMINS
 const getAllSuperadmins = async (req, res) => {
   try {
+    if (req.query.id) {
+      const superAdmin = await models.SuperAdmin.find({ _id: req.query.id, isDeleted: false });
+      return res.status(200).json({
+        message: 'Superadmin found',
+        data: superAdmin,
+        error: false,
+      });
+    }
     const allSuperadmins = await models.SuperAdmin.find({});
     return res.status(200).json({
       message: 'All Superadmins',
@@ -19,7 +26,6 @@ const getAllSuperadmins = async (req, res) => {
   }
 };
 
-// CREATE A NEW SUPERADMIN
 const createSuperadmin = async (req, res) => {
   let firebaseUid;
   try {
@@ -53,171 +59,6 @@ const createSuperadmin = async (req, res) => {
   }
 };
 
-// SEARCH SUPERADMINS BY EMAIL
-const getFilteredSuperadminsByEmail = async (req, res) => {
-  try {
-    if (!req.params) {
-      return res.status(400).json({
-        message: 'Please provide an email',
-        data: {},
-        error: true,
-      });
-    }
-    const superAdminByEmail = await models.SuperAdmin.find({
-      email: req.params.email,
-    });
-    if (superAdminByEmail.length !== 0) {
-      return res.status(200).json({
-        message: 'Superadmins filtered by email',
-        data: superAdminByEmail,
-        error: false,
-      });
-    }
-    return res.status(404).json({
-      message: `The Super Admin with email '${req.params.email}' has not been found`,
-      data: {},
-      error: true,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: error.message,
-      data: {},
-      error: true,
-    });
-  }
-};
-
-// SEARCH SUPERADMINS BY FIRST NAME
-const getFilteredSuperadminsByFirstName = async (req, res) => {
-  try {
-    if (!req.params) {
-      return res.status(400).json({
-        message: 'Please provide a first name',
-        data: {},
-        error: true,
-      });
-    }
-    const superAdminByFirstName = await models.SuperAdmin.find({
-      firstName: req.params.firstName,
-    });
-    if (superAdminByFirstName.length !== 0) {
-      return res.status(200).json({
-        message: 'Superadmins filtered by first name',
-        data: superAdminByFirstName,
-        error: false,
-      });
-    }
-    return res.status(404).json({
-      message: `The Super Admin with first name '${req.params.firstName}' has not been found`,
-      data: {},
-      error: true,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: error.message,
-      data: {},
-      error: true,
-    });
-  }
-};
-
-// SEARCH SUPERADMINS BY LAST NAME
-const getFilteredSuperadminsByLastName = async (req, res) => {
-  try {
-    if (!req.params) {
-      return res.status(400).json({
-        message: 'Please provide a last name',
-        data: {},
-        error: true,
-      });
-    }
-    const superAdminByLastName = await models.SuperAdmin.find({
-      lastName: req.params.lastName,
-    });
-    if (superAdminByLastName.length !== 0) {
-      return res.status(200).json({
-        message: 'Superadmins filtered by last name',
-        data: superAdminByLastName,
-        error: false,
-      });
-    }
-    return res.status(404).json({
-      message: `The Super Admin with last name '${req.params.lastName}' has not been found`,
-      data: {},
-      error: true,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: error.message,
-      data: {},
-      error: true,
-    });
-  }
-};
-
-// SEARCH SUPERADMINS BY ACTIVE
-const getFilteredSuperadminsByActive = async (req, res) => {
-  try {
-    if (!req.params) {
-      return res.status(400).json({
-        message: 'Please provide a value for active',
-        data: {},
-        error: true,
-      });
-    }
-    const superAdminByActive = await models.SuperAdmin.find({
-      active: req.params.active,
-    });
-    if (superAdminByActive.length !== 0) {
-      return res.status(200).json({
-        message: 'Superadmins filtered by active',
-        data: superAdminByActive,
-        error: false,
-      });
-    }
-    return res.status(404).json({
-      message: `The Super Admin with active '${req.params.active}' has not been found`,
-      data: {},
-      error: true,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: error.message,
-      data: {},
-      error: true,
-    });
-  }
-};
-
-// GET A SPECIFIC SUPERADMIN BY ID
-const getSuperadminById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    if (id) {
-      const superadminByID = await models.SuperAdmin.findById(id);
-      if (superadminByID) {
-        return res.status(200).json({
-          message: `Superadmin with id: ${id}`,
-          data: superadminByID,
-          error: false,
-        });
-      }
-    }
-    return res.status(404).json({
-      message: 'Super admin not found',
-      data: {},
-      error: true,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: [error, { id: req.params.id }],
-      data: {},
-      error: true,
-    });
-  }
-};
-
-// UPDATE AN SPECIFIC SUPERADMIN BY ID
 const updateSuperadmin = async (req, res) => {
   try {
     if (!req.params) {
@@ -260,7 +101,6 @@ const updateSuperadmin = async (req, res) => {
   }
 };
 
-// DELETE A SPECIFIC SUPERADMIN BY ID
 const deleteSuperadminById = async (req, res) => {
   try {
     if (!req.params) {
@@ -302,11 +142,6 @@ const deleteSuperadminById = async (req, res) => {
 export default {
   getAllSuperadmins,
   createSuperadmin,
-  getFilteredSuperadminsByFirstName,
-  getFilteredSuperadminsByLastName,
-  getFilteredSuperadminsByEmail,
-  getFilteredSuperadminsByActive,
-  getSuperadminById,
   updateSuperadmin,
   deleteSuperadminById,
 };

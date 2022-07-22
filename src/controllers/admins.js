@@ -1,9 +1,16 @@
 import models from '../models';
 import Firebase from '../helper/firebase';
 
-// Get all admins
 const getAllAdmins = async (req, res) => {
   try {
+    if (req.query.id) {
+      const admin = await models.Admins.find({ _id: req.query.id, isDeleted: false });
+      return res.status(200).json({
+        message: 'Admin found',
+        data: admin,
+        error: false,
+      });
+    }
     const allAdmins = await models.Admins.find({ isDeleted: false });
     return res.status(200).json({
       message: 'Admins found',
@@ -19,171 +26,6 @@ const getAllAdmins = async (req, res) => {
   }
 };
 
-// Get single admin by id
-const getAdminById = async (req, res) => {
-  try {
-    if (req.params.id) {
-      const admin = await models.Admins.findById(req.params.id);
-      if (!admin) {
-        return res.status(404).json({
-          message: `Admin with id ${req.params.id} not found`,
-          data: undefined,
-          error: true,
-        });
-      }
-      return res.status(200).json({
-        message: `Admin with id ${req.params.id} found`,
-        data: admin,
-        error: false,
-      });
-    }
-    return res.status(404).json({
-      message: 'You must specify an id',
-      data: undefined,
-      error: true,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: error.message,
-      data: undefined,
-      error: true,
-    });
-  }
-};
-
-// Get admins by firstName
-const getAdminByFirstName = async (req, res) => {
-  try {
-    if (req.params.firstName) {
-      const firstName = req.params.firstName.toLowerCase();
-      const admin = await models.Admins.find({ firstName });
-      if (admin.length <= 0) {
-        return res.status(404).json({
-          message: `Admin with first name ${req.params.firstName} not found`,
-          data: undefined,
-          error: true,
-        });
-      }
-      return res.status(200).json({
-        message: 'Admins found',
-        data: admin,
-        error: false,
-      });
-    }
-    return res.status(400).json({
-      message: 'You must specify a first name',
-      data: undefined,
-      error: true,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: error.message,
-      data: undefined,
-      error: true,
-    });
-  }
-};
-
-// Get admins by lastName
-const getAdminByLastName = async (req, res) => {
-  try {
-    if (req.params.lastName) {
-      const lastName = req.params.lastName.toLowerCase();
-      const admin = await models.Admins.find({ lastName });
-      if (admin.length <= 0) {
-        return res.status(404).json({
-          message: `Admin with last name ${req.params.lastName} not found`,
-          data: undefined,
-          error: true,
-        });
-      }
-      return res.status(200).json({
-        message: 'Admins found',
-        data: admin,
-        error: false,
-      });
-    }
-    return res.status(400).json({
-      message: 'You must specify a last name',
-      data: undefined,
-      error: true,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: error.message,
-      data: undefined,
-      error: true,
-    });
-  }
-};
-
-// Get admins by email
-const getAdminByEmail = async (req, res) => {
-  try {
-    if (req.params.email) {
-      const admin = await models.Admins.find({ email: req.params.email });
-      if (admin.length <= 0) {
-        return res.status(404).json({
-          message: `Admin with email ${req.params.email} not found`,
-          data: undefined,
-          error: true,
-        });
-      }
-      return res.status(200).json({
-        message: 'Admin found',
-        data: admin,
-        error: false,
-      });
-    }
-    return res.status(400).json({
-      message: 'You must specify an email',
-      data: undefined,
-      error: true,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: error.message,
-      data: undefined,
-      error: true,
-    });
-  }
-};
-
-// Get admins by active status
-const getAdminByStatus = async (req, res) => {
-  try {
-    if (req.params.isDeleted) {
-      const adminsList = await models.Admins.find({
-        isDeleted: req.params.isDeleted,
-      });
-      if (adminsList.length <= 0) {
-        return res.status(404).json({
-          message: `Admin with the active of ${req.params.isDeleted} not found`,
-          data: undefined,
-          error: true,
-        });
-      }
-      return res.status(200).json({
-        message: 'Admins found',
-        data: adminsList,
-        error: false,
-      });
-    }
-    return res.status(400).json({
-      message: 'You must specify a status',
-      data: undefined,
-      error: true,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      message: error.message,
-      data: undefined,
-      error: true,
-    });
-  }
-};
-
-// Create admin
 const createAdmin = async (req, res) => {
   let firebaseUid;
   try {
@@ -220,7 +62,6 @@ const createAdmin = async (req, res) => {
   }
 };
 
-// Delete admin
 const deleteAdmin = async (req, res) => {
   try {
     if (!req.params.id) {
@@ -263,7 +104,6 @@ const deleteAdmin = async (req, res) => {
   }
 };
 
-// Update admin
 const updateAdmin = async (req, res) => {
   try {
     if (req.params.id) {
@@ -307,11 +147,6 @@ const updateAdmin = async (req, res) => {
 
 export default {
   getAllAdmins,
-  getAdminById,
-  getAdminByFirstName,
-  getAdminByLastName,
-  getAdminByEmail,
-  getAdminByStatus,
   createAdmin,
   deleteAdmin,
   updateAdmin,
