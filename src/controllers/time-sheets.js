@@ -11,6 +11,7 @@ const getAllTimesheets = async (req, res) => {
         workedHours: 1,
         description: 1,
         status: 1,
+        _id: 1,
       });
     return res.status(200).json({
       message: 'Time-Sheets',
