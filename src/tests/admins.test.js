@@ -22,7 +22,7 @@ describe('GET ALL admins', () => {
 });
 
 describe('GET admin by ID', () => {
-  test('Admin search by ID status response successful', async () => {
+  test.skip('Admin search by ID status response successful', async () => {
     const response = await request(app)
       .get('/api/admins/id/628ab4225aae617fa8002c21')
       .send();
@@ -33,7 +33,7 @@ describe('GET admin by ID', () => {
     expect(response.error).toBeFalsy();
   });
 
-  test('Admin search by ID status response unsuccessful', async () => {
+  test.skip('Admin search by ID status response unsuccessful', async () => {
     const response = await request(app).get('/api/admins/id/').send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
@@ -41,7 +41,7 @@ describe('GET admin by ID', () => {
 });
 
 describe('GET admins by firstName', () => {
-  test('Admins search by firstName status response successful', async () => {
+  test.skip('Admins search by firstName status response successful', async () => {
     const response = await request(app)
       .get('/api/admins/firstName/emilio')
       .send();
@@ -49,7 +49,7 @@ describe('GET admins by firstName', () => {
     expect(response.body.message).toEqual('Admins found');
     expect(response.error).toBeFalsy();
   });
-  test('Admins search by firstName status response unsuccessful', async () => {
+  test.skip('Admins search by firstName status response unsuccessful', async () => {
     const response = await request(app).get('/api/admins/firstName/').send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
@@ -57,7 +57,7 @@ describe('GET admins by firstName', () => {
 });
 
 describe('GET admins by lastName', () => {
-  test('Admins search by lastName status response successful', async () => {
+  test.skip('Admins search by lastName status response successful', async () => {
     const response = await request(app)
       .get('/api/admins/lastName/perez')
       .send();
@@ -65,7 +65,7 @@ describe('GET admins by lastName', () => {
     expect(response.body.message).toEqual('Admins found');
     expect(response.error).toBeFalsy();
   });
-  test('Admins search by lastName status response unsuccessful', async () => {
+  test.skip('Admins search by lastName status response unsuccessful', async () => {
     const response = await request(app).get('/api/admins/lastName/').send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
@@ -73,7 +73,7 @@ describe('GET admins by lastName', () => {
 });
 
 describe('GET admin by email', () => {
-  test('Admin search by email status response successful', async () => {
+  test.skip('Admin search by email status response successful', async () => {
     const response = await request(app)
       .get('/api/admins/email/emilioPerez@mail.com')
       .send();
@@ -81,7 +81,7 @@ describe('GET admin by email', () => {
     expect(response.body.message).toEqual('Admin found');
     expect(response.error).toBeFalsy();
   });
-  test('Admins search by email status response unsuccessful', async () => {
+  test.skip('Admins search by email status response unsuccessful', async () => {
     const response = await request(app).get('/api/admins/email/').send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
@@ -89,13 +89,13 @@ describe('GET admin by email', () => {
 });
 
 describe('GET admins by isDeleted status', () => {
-  test('Admins search by isDeleted status response successful', async () => {
+  test.skip('Admins search by isDeleted status response successful', async () => {
     const response = await request(app).get('/api/admins/isDeleted/true').send();
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual('Admins found');
     expect(response.error).toBeFalsy();
   });
-  test('Admins search by isDeleted status response unsuccessful', async () => {
+  test.skip('Admins search by isDeleted status response unsuccessful', async () => {
     const response = await request(app).get('/api/admins/isDeleted/').send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
@@ -103,7 +103,7 @@ describe('GET admins by isDeleted status', () => {
 });
 
 describe('CREATE an admin', () => {
-  test('Admin created status response successful', async () => {
+  test.skip('Admin created status response successful', async () => {
     const response = await request(app).post('/api/admins').send({
       firstName: 'Emilio',
       lastName: 'Perez',
@@ -118,13 +118,13 @@ describe('CREATE an admin', () => {
     adminId = response.body.data._id;
   });
 
-  test('Admin created status response unsuccessful', async () => {
+  test.skip('Admin created status response unsuccessful', async () => {
     const response = await request(app).post('/api/admins').send();
     expect(response.statusCode).toBe(400);
     expect(response.error).toBeTruthy();
   });
 
-  test('Admin created status response unsuccessful due to required fields incomplete', async () => {
+  test.skip('Admin created status response unsuccessful due to required fields incomplete', async () => {
     const response = await request(app).post('/api/admins').send({
       firstName: 'Emilio',
       email: 'emilioPerez@mail.com',
@@ -136,7 +136,7 @@ describe('CREATE an admin', () => {
     expect(response.body.error).toBeTruthy();
   });
 
-  test('Admin created status response unsuccessful due to incorrect mail format', async () => {
+  test.skip('Admin created status response unsuccessful due to incorrect mail format', async () => {
     const response = await request(app).post('/api/admins').send({
       firstName: 'Emilio',
       lastName: 'Perez',
@@ -149,7 +149,7 @@ describe('CREATE an admin', () => {
     expect(response.body.error).toBeTruthy();
   });
 
-  test('Admin created status response unsuccessful due to firstName with numbers', async () => {
+  test.skip('Admin created status response unsuccessful due to firstName with numbers', async () => {
     const response = await request(app).post('/api/admins').send({
       firstName: 'Emilio123',
       lastName: 'Perez',
@@ -164,7 +164,7 @@ describe('CREATE an admin', () => {
 });
 
 describe('DELETE an admin', () => {
-  test('Admin deleted status response successful', async () => {
+  test.skip('Admin deleted status response successful', async () => {
     const response = await request(app).delete(`/api/admins/${adminId}`).send();
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual(`Admin with id ${adminId} deleted`);
@@ -176,7 +176,7 @@ describe('DELETE an admin', () => {
     );
   });
 
-  test('Admin deleted status response unsuccessful', async () => {
+  test.skip('Admin deleted status response unsuccessful', async () => {
     const response = await request(app).delete('/api/admins').send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
@@ -184,7 +184,7 @@ describe('DELETE an admin', () => {
 });
 
 describe('UPDATE an admin', () => {
-  test('Admin updated status response successful', async () => {
+  test.skip('Admin updated status response successful', async () => {
     const response = await request(app)
       .put('/api/admins/628ab4225aae617fa8002c21')
       .send({
@@ -201,7 +201,7 @@ describe('UPDATE an admin', () => {
     expect(response.body.error).toBeFalsy();
   });
 
-  test('Admin updated status response successful despite required fields incomplete', async () => {
+  test.skip('Admin updated status response successful despite required fields incomplete', async () => {
     const response = await request(app)
       .put('/api/admins/628ab4225aae617fa8002c21')
       .send({
@@ -217,13 +217,13 @@ describe('UPDATE an admin', () => {
     expect(response.body.error).toBeFalsy();
   });
 
-  test('Admin updated status response unsuccessful', async () => {
+  test.skip('Admin updated status response unsuccessful', async () => {
     const response = await request(app).put('/api/admins/').send();
     expect(response.statusCode).toBe(404);
     expect(response.error).toBeTruthy();
   });
 
-  test('Admin updated status response unsuccessful due to incorrect mail format', async () => {
+  test.skip('Admin updated status response unsuccessful due to incorrect mail format', async () => {
     const response = await request(app)
       .put('/api/admins/628ab4225aae617fa8002c21')
       .send({
@@ -238,7 +238,7 @@ describe('UPDATE an admin', () => {
     expect(response.error).toBeTruthy();
   });
 
-  test('Admin updated status response unsuccessful due to firstName with numbers', async () => {
+  test.skip('Admin updated status response unsuccessful due to firstName with numbers', async () => {
     const response = await request(app)
       .put('/api/admins/628ab4225aae617fa8002c21')
       .send({

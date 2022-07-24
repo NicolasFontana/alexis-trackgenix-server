@@ -21,7 +21,7 @@ describe('GET /api/tasks', () => {
     expect(response.body.error).toBeFalsy();
   });
 
-  test('Wrong path', async () => {
+  test.skip('Wrong path', async () => {
     const response = await request(app).get('/api-tasks').send();
     await expect(response.status).toBe(404);
   });
@@ -29,7 +29,7 @@ describe('GET /api/tasks', () => {
 
 // Test GET by Id by Fran
 describe('GetById /api/tasks', () => {
-  test('get task by id', async () => {
+  test.skip('get task by id', async () => {
     const response = await request(app)
       .get('/api/tasks/6289c467fc13ae72d60000ca')
       .send();
@@ -37,7 +37,7 @@ describe('GetById /api/tasks', () => {
     expect(response.body.error).toBeFalsy();
   });
 
-  test('get task by id, incorrect id', async () => {
+  test.skip('get task by id, incorrect id', async () => {
     const response = await request(app)
       .get('/api/tasks/6280062d5f0b9b4131e527e4')
       .send();
@@ -45,7 +45,7 @@ describe('GetById /api/tasks', () => {
     expect(response.body.message).toBe('id not found');
   });
 
-  test('get task by id, incorrect id format', async () => {
+  test.skip('get task by id, incorrect id format', async () => {
     const response = await request(app).get('/api/tasks/asd').send();
     expect(response.status).toBe(400);
     expect(response.body.error).toBeTruthy();
@@ -54,7 +54,7 @@ describe('GetById /api/tasks', () => {
 
 // Test GET by description by Fran
 describe('GetByDescription /api/tasks', () => {
-  test('get task by description', async () => {
+  test.skip('get task by description', async () => {
     const response = await request(app).get(
       '/api/tasks/taskDescription/description',
     );
@@ -62,13 +62,13 @@ describe('GetByDescription /api/tasks', () => {
     expect(response.body.error).toBe(false);
   });
 
-  test('get task by description not found', async () => {
+  test.skip('get task by description not found', async () => {
     const response = await request(app).get('/api/tasks/taskDescription/d');
     expect(response.status).toBe(404);
     expect(response.body.error).toBe(true);
   });
 
-  test('get task by description no description', async () => {
+  test.skip('get task by description no description', async () => {
     const response = await request(app).get('/api/tasks/taskDescription/');
     expect(response.status).toBe(400);
     expect(response.body.error).toBe(true);
@@ -77,7 +77,7 @@ describe('GetByDescription /api/tasks', () => {
 
 // Test POST by Fran
 describe('POST /api/tasks', () => {
-  test('Create a task', async () => {
+  test.skip('Create a task', async () => {
     const response = await request(app).post('/api/tasks/').send({
       taskName: 'Test Task',
       startDate: '2022-05-17T16:55:32.654+00:00',
@@ -93,7 +93,7 @@ describe('POST /api/tasks', () => {
     taskId = response.body.data._id;
   });
 
-  test('Create task, no date', async () => {
+  test.skip('Create task, no date', async () => {
     const response = await request(app).post('/api/tasks/').send({
       taskName: 'Test Task',
       workedHours: '33',
@@ -105,7 +105,7 @@ describe('POST /api/tasks', () => {
     expect(response.body.message).toBe('Start date is a required field');
   });
 
-  test('Create task, no worked hours', async () => {
+  test.skip('Create task, no worked hours', async () => {
     const response = await request(app).post('/api/tasks/').send({
       taskName: 'Test Task',
       startDate: '2022-05-17T16:55:32.654+00:00',
@@ -117,7 +117,7 @@ describe('POST /api/tasks', () => {
     expect(response.body.message).toBe('Worked hours is a required field');
   });
 
-  test('Create a task, no description', async () => {
+  test.skip('Create a task, no description', async () => {
     const response = await request(app).post('/api/tasks/').send({
       taskName: 'Test Task',
       startDate: '2022-05-17T16:55:32.654+00:00',
@@ -129,7 +129,7 @@ describe('POST /api/tasks', () => {
     expect(response.body.message).toBe('Description is a required field');
   });
 
-  test('Create a task, no status', async () => {
+  test.skip('Create a task, no status', async () => {
     const response = await request(app).post('/api/tasks/').send({
       taskName: 'Test Task',
       startDate: '2022-05-17T16:55:32.654+00:00',
@@ -144,7 +144,7 @@ describe('POST /api/tasks', () => {
 
 // Test UPDATE by Fran
 describe('UPDATE /api/tasks', () => {
-  test('Update a task', async () => {
+  test.skip('Update a task', async () => {
     const response = await request(app).put(`/api/tasks/${taskId}`).send({
       taskName: 'Test Task',
       startDate: '2022-05-17T16:55:32.654+00:00',
@@ -156,7 +156,7 @@ describe('UPDATE /api/tasks', () => {
     expect(response.body.error).toBe(false);
   });
 
-  test('Update a task, wrong id', async () => {
+  test.skip('Update a task, wrong id', async () => {
     const response = await request(app)
       .put('/api/tasks/6280062d5f0b9b4131e527e4')
       .send({
@@ -171,7 +171,7 @@ describe('UPDATE /api/tasks', () => {
     expect(response.body.error).toBe(true);
   });
 
-  test('Update a task, wrong id format', async () => {
+  test.skip('Update a task, wrong id format', async () => {
     const response = await request(app).put('/api/tasks/6280').send({
       taskName: 'Test Task',
       startDate: '2022-05-17T16:55:32.654+00:00',
@@ -187,7 +187,7 @@ describe('UPDATE /api/tasks', () => {
 
 // Test DELETE by Fran
 describe('DELETE /api/tasks', () => {
-  test('Delete a task', async () => {
+  test.skip('Delete a task', async () => {
     // eslint-disable-next-line no-undef
     const response = await request(app).delete(`/api/tasks/${taskId}`).send();
     expect(response.status).toBe(200);
@@ -199,7 +199,7 @@ describe('DELETE /api/tasks', () => {
     );
   });
 
-  test('Delete task, incorrect id', async () => {
+  test.skip('Delete task, incorrect id', async () => {
     const response = await request(app)
       .delete('/api/tasks/6280062d5f0b9b4131e527e4')
       .send();
@@ -208,7 +208,7 @@ describe('DELETE /api/tasks', () => {
     expect(response.body.error).toBe(true);
   });
 
-  test('Delete task, incorrect id format', async () => {
+  test.skip('Delete task, incorrect id format', async () => {
     const response = await request(app).delete('/api/tasks/628').send();
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('An error has ocurred');
