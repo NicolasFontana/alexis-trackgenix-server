@@ -11,6 +11,8 @@ const getAllTimesheets = async (req, res) => {
         workedHours: 1,
         description: 1,
         status: 1,
+        createdAt: 1,
+        updatedAt: 1,
         _id: 1,
       });
     return res.status(200).json({
@@ -310,6 +312,7 @@ const createTimesheet = async (req, res) => {
       projectId: req.body.projectId,
       Task: req.body.Task,
       approved: req.body.approved,
+      startDate: req.body.startDate,
       isDeleted: false,
     });
     const result = await timesheet.save();

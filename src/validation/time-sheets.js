@@ -20,6 +20,7 @@ const createTimeValidation = (req, res, next) => {
         }),
     }),
     approved: Joi.boolean().required(),
+    startDate: Joi.date(),
     isDeleted: Joi.boolean(),
   });
   const validation = timesheetValidation.validate(req.body);
@@ -48,6 +49,7 @@ const updateValidation = (req, res, next) => {
       }),
     }),
     approved: Joi.boolean(),
+    startDate: Joi.date(),
     isDeleted: Joi.boolean(),
   });
   const validation = timesheetValidation.validate(req.body);

@@ -16,6 +16,7 @@ const timeSheetSchema = new Schema(
       },
     ],
     approved: { type: Boolean, required: true },
+    startDate: { type: Date },
     isDeleted: { type: Boolean, required: true },
   },
   { timestamps: true },
