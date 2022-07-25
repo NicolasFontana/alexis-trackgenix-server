@@ -12,9 +12,11 @@ const timeSheetSchema = new Schema(
     Task: [
       {
         taskId: { type: mongoose.Schema.Types.ObjectId, ref: 'Task' },
+        _id: false,
       },
     ],
     approved: { type: Boolean, required: true },
+    startDate: { type: Date },
     isDeleted: { type: Boolean, required: true },
   },
   { timestamps: true },
