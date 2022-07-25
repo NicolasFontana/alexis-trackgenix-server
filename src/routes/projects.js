@@ -6,7 +6,7 @@ import authMiddleware from '../middlewares/authMiddleware';
 const router = express.Router();
 router
   .get('/', authMiddleware.authUser, projectController.getAllProjects)
-  .get('/deleted', authMiddleware.authUser, projectController.getDeletedProjects)
+  .get('/deleted', authMiddleware.authAdmin, projectController.getDeletedProjects)
   .post('/', authMiddleware.authAdmin, validations.validateCreate, projectController.createNewProject)
   .put('/:id', authMiddleware.authUser, validations.validateUpdate, projectController.updateProject)
   .delete('/:id', authMiddleware.authAdmin, projectController.deleteProject);
