@@ -204,6 +204,44 @@ const restoreAdmin = async (req, res) => {
   }
 };
 
+const removeAdmin = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      return res.status(404).json({
+        message: 'You must specify an id',
+        data: undefined,
+        error: true,
+      });
+    }
+    const admin = await models.Admins.findByIdAndDelete(req.params.id);
+    if (!admin) {
+      return res.status(404).json({
+        message: `Admin with id ${req.params.id} not found`,
+
+        data: undefined,
+        error: true,
+      });
+    }
+    if (admin.firebaseUid) {
+      await Firebase.auth().deleteUser(admin.firebaseUid);
+    }
+    return res
+      .json({
+
+        message: `Admin with id ${req.params.id} deleted`,
+        data: admin,
+        error: false,
+      })
+      .status(204);
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
 export default {
   getAllAdmins,
   getDeletedAdmins,
@@ -211,4 +249,5 @@ export default {
   deleteAdmin,
   updateAdmin,
   restoreAdmin,
+  removeAdmin,
 };

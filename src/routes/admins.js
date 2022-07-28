@@ -11,6 +11,6 @@ router
   .delete('/:id', authMiddleware.authSuperAdmin, adminControllers.deleteAdmin)
   .post('/', authMiddleware.authSuperAdmin, adminValidations.createAdminValidations, adminControllers.createAdmin)
   .put('/:id', authMiddleware.authSuperAdmin, adminValidations.updateAdminValidations, adminControllers.updateAdmin)
-  .put('/restore/:id', authMiddleware.authSuperAdmin, adminValidations.updateAdminValidations, adminControllers.restoreAdmin);
-
+  .put('/restore/:id', authMiddleware.authSuperAdmin, adminValidations.updateAdminValidations, adminControllers.restoreAdmin)
+  .delete('/remove/:id', authMiddleware.authSuperAdmin, adminControllers.removeAdmin);
 export default router;
