@@ -36,7 +36,7 @@ const getAllEmployees = async (req, res) => {
       })
       .populate('timeSheets', {
         projectId: 1,
-        taskId: 1,
+        Task: 1,
         approved: 1,
       });
     return res.status(200).json({

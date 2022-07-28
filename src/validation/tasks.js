@@ -9,9 +9,7 @@ const validateCreation = (req, res, next) => {
         'Invalid task name, it must not contain more than 50 letters',
         'any.required': 'Task name is a required field',
       }),
-    startDate: Joi.date()
-      .required()
-      .messages({ 'any.required': 'Start date is a required field' }),
+    startDate: Joi.date(),
     workedHours: Joi.string()
       .pattern(/^[0-9]*$/)
       .max(3)
