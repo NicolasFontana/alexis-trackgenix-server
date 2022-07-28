@@ -228,7 +228,7 @@ const removeAdmin = async (req, res) => {
     return res
       .json({
 
-        message: `Admin with id ${req.params.id} deleted`,
+        message: `Admin with id ${req.params.id} removed`,
         data: admin,
         error: false,
       })
