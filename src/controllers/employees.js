@@ -283,7 +283,6 @@ const removeEmployee = async (req, res) => {
     if (!employee) {
       return res.status(404).json({
         message: `Employee with id ${req.params.id} not found`,
-
         data: undefined,
         error: true,
       });
