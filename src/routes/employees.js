@@ -10,6 +10,7 @@ router
   .get('/deleted', authMiddleware.authAdmin, employeeController.getDeletedEmployees)
   .post('/', employeeValidation.createEmployeeValidation, employeeController.createEmployee)
   .put('/:id', authMiddleware.authUser, employeeValidation.updateEmployeeValidation, employeeController.updateEmployee)
-  .delete('/:id', authMiddleware.authAdmin, employeeController.deleteEmployee);
-
+  .delete('/:id', authMiddleware.authAdmin, employeeController.deleteEmployee)
+  .put('/restore/:id', authMiddleware.authAdmin, employeeValidation.updateEmployeeValidation, employeeController.restoreEmployee)
+  .delete('/remove/:id', authMiddleware.authAdmin, employeeController.removeEmployee);
 export default router;

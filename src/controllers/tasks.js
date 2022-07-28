@@ -141,10 +141,44 @@ const deleteTask = async (req, res) => {
   }
 };
 
+const removeTask = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      return res.status(400).json({
+        message: 'Missing id',
+        data: undefined,
+        error: true,
+      });
+    }
+    const result = await models.Tasks.findByIdAndDelete(req.params.id);
+    if (!result) {
+      return res.status(404).json({
+        message: 'Task not found',
+        data: undefined,
+        error: true,
+      });
+    }
+    return res
+      .json({
+        message: 'Task successfully removed',
+        data: result,
+        error: false,
+      })
+      .status(204);
+  } catch (error) {
+    return res.status(400).json({
+      message: 'An error has ocurred',
+      data: {},
+      error: true,
+    });
+  }
+};
+
 export default {
   getAllTasks,
   getDeletedTasks,
   createTask,
   updateTask,
   deleteTask,
+  removeTask,
 };

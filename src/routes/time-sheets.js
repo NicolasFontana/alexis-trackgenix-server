@@ -10,6 +10,7 @@ router
   .get('/deleted', authMiddleware.authAdmin, timeSheetsController.getDeletedTimesheets)
   .put('/:id', authMiddleware.authUser, timeSheetsValidator.updateValidation, timeSheetsController.updateTimeSheet)
   .post('/', authMiddleware.authUser, timeSheetsValidator.createTimeValidation, timeSheetsController.createTimesheet)
-  .delete('/:id', authMiddleware.authUser, timeSheetsController.deleteTimesheet);
+  .delete('/:id', authMiddleware.authUser, timeSheetsController.deleteTimesheet)
+  .delete('/remove/:id', authMiddleware.authAdmin, timeSheetsController.removeTimesheet);
 
 export default router;
