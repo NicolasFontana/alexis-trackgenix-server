@@ -157,10 +157,42 @@ const deleteTimesheet = async (req, res) => {
   }
 };
 
+const removeTimesheet = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      return res.status(404).json({
+        message: 'Missing Id',
+        data: undefined,
+        error: true,
+      });
+    }
+    const result = await models.TimeSheet.findByIdAndDelete(req.params.id);
+    if (!result) {
+      return res.status(404).json({
+        message: `There is no timesheet with this Id ${req.params.id}`,
+
+        data: undefined,
+        error: true,
+      });
+    }
+    return res.status(200).json({
+      message: `The ${req.params.id} timesheet has been susccesfully removed`,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: 'An error has ocurred',
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
 export default {
   getAllTimesheets,
   getDeletedTimesheets,
   updateTimeSheet,
   createTimesheet,
   deleteTimesheet,
+  removeTimesheet,
 };
