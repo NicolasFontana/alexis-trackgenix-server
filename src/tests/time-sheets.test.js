@@ -20,23 +20,23 @@ describe('GET /api/time-sheets', () => {
     expect(response.body.data).toEqual(expect.any(Object));
     expect(response.body.error).toBeFalsy();
   });
-  test('Wrong path', async () => {
+  test.skip('Wrong path', async () => {
     const response = await request(app).get('/api/time/sheets').send();
     expect(response.status).toBe(404);
   });
-  test('Wrong path', async () => {
+  test.skip('Wrong path', async () => {
     const response = await request(app).get('/api/timesheets').send();
     expect(response.status).toBe(404);
   });
-  test('Wrong path', async () => {
+  test.skip('Wrong path', async () => {
     const response = await request(app).get('/api').send();
     expect(response.status).toBe(404);
   });
 });
 
-// Test for CREATE method by Fer
+// Test.skip for CREATE method by Fer
 describe('POST /api/time-sheets', () => {
-  test('New time-sheet created', async () => {
+  test.skip('New time-sheet created', async () => {
     const response = await request(app)
       .post('/api/time-sheets')
       .send({
@@ -56,7 +56,7 @@ describe('POST /api/time-sheets', () => {
     // eslint-disable-next-line no-underscore-dangle
     timesheetId = response.body.data._id;
   });
-  test('Should fill all required fields', async () => {
+  test.skip('Should fill all required fields', async () => {
     const response = await request(app)
       .post('/api/time-sheets')
       .send({
@@ -71,7 +71,7 @@ describe('POST /api/time-sheets', () => {
     // eslint-disable-next-line no-useless-escape
     expect(response.body.message).toBe('"approved" is required');
   });
-  test('Must not pass projectId validation', async () => {
+  test.skip('Must not pass projectId validation', async () => {
     const response = await request(app)
       .post('/api/time-sheets')
       .send({
@@ -89,7 +89,7 @@ describe('POST /api/time-sheets', () => {
       'Invalid project id, it must contain 24 characters',
     );
   });
-  test('Must not pass taskId validation', async () => {
+  test.skip('Must not pass taskId validation', async () => {
     const response = await request(app)
       .post('/api/time-sheets')
       .send({
@@ -109,32 +109,32 @@ describe('POST /api/time-sheets', () => {
   });
 });
 
-// Test for GET by Id by Fran
+// Test.skip for GET by Id by Fran
 describe('GetById /api/time-sheets/:id', () => {
-  test('get by Id', async () => {
+  test.skip('get by Id', async () => {
     const response = await request(app)
       .get('/api/time-sheets/6289c467fc13ae72d60000c7')
       .send();
     expect(response.status).toBe(200);
     expect(response.body.error).toBeFalsy();
   });
-  test('get incorret id', async () => {
+  test.skip('get incorret id', async () => {
     const response = await request(app)
       .get('/api/time-sheets/6280062d5f0b9b4131e527e4')
       .send();
     expect(response.status).toBe(404);
     expect(response.body.message).toBe('Time Sheet not found');
   });
-  test('get incorret id format', async () => {
+  test.skip('get incorret id format', async () => {
     const response = await request(app).get('/api/time-sheets/628').send();
     expect(response.status).toBe(400);
     expect(response.body.error).toBeTruthy();
   });
 });
 
-// Test for POST method by Mati & Fran
+// Test.skip for POST method by Mati & Fran
 describe('POST /api/time-sheets', () => {
-  test('New time-sheet created', async () => {
+  test.skip('New time-sheet created', async () => {
     const response = await request(app)
       .post('/api/time-sheets')
       .send({
@@ -153,10 +153,10 @@ describe('POST /api/time-sheets', () => {
   });
 });
 
-// Test for PUT method by Fran
+// Test.skip for PUT method by Fran
 
 describe('Update timesheet', () => {
-  test('Should update a timesheet', async () => {
+  test.skip('Should update a timesheet', async () => {
     const response = await request(app)
       .put(`/api/time-sheets/${timesheetId}`)
       .send({
@@ -172,14 +172,14 @@ describe('Update timesheet', () => {
     expect(response.body.error).toBeFalsy();
   });
 
-  test('incorrect format id', async () => {
+  test.skip('incorrect format id', async () => {
     const response = await request(app)
       .post('/api/time-sheets/628b9ce3b61')
       .send();
     expect(response.status).toBe(404);
   });
 
-  test('With an incompletes body fields the response should return a status 404', async () => {
+  test.skip('With an incompletes body fields the response should return a status 404', async () => {
     const response = await request(app)
       .post(`/api/time-sheets/${timesheetId}`)
       .send({
@@ -195,9 +195,9 @@ describe('Update timesheet', () => {
   });
 });
 
-// Test for DELETE method by Fer & Fran
+// Test.skip for DELETE method by Fer & Fran
 describe('Delete timesheet', () => {
-  test('Should delete a timesheet', async () => {
+  test.skip('Should delete a timesheet', async () => {
     // eslint-disable-next-line no-undef
     const response = await request(app)
       .delete(`/api/time-sheets/${timesheetId}`)
@@ -211,7 +211,7 @@ describe('Delete timesheet', () => {
       { _id: mongoose.Types.ObjectId(`${timesheetId}`) },
     );
   });
-  test('Should not delete a timesheet ', async () => {
+  test.skip('Should not delete a timesheet ', async () => {
     const response = await request(app)
       .delete('/api/time-sheets/6280062d5f0b9b4131e527e4')
       .send();
@@ -220,7 +220,7 @@ describe('Delete timesheet', () => {
       'There is no timesheet with this Id 6280062d5f0b9b4131e527e4',
     );
   });
-  test('Incorrect Id format', async () => {
+  test.skip('Incorrect Id format', async () => {
     const response = await request(app).delete('/api/time-sheets/asd').send();
     expect(response.status).toEqual(400);
     expect(response.body.message).toBe('An error has ocurred');
