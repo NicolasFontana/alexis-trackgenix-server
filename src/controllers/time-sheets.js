@@ -45,7 +45,17 @@ const getAllTimesheets = async (req, res) => {
 
 const getDeletedTimesheets = async (req, res) => {
   try {
-    const deletedTimesheets = await models.TimeSheet.find({ isDeleted: true });
+    const deletedTimesheets = await models.TimeSheet.find({ isDeleted: true }).populate('projectId', { name: 1 })
+      .populate('Task.taskId', {
+        taskName: 1,
+        startDate: 1,
+        workedHours: 1,
+        description: 1,
+        status: 1,
+        createdAt: 1,
+        updatedAt: 1,
+        _id: 1,
+      });
     return res.status(200).json({
       message: 'Deleted Time-Sheets',
       data: deletedTimesheets,

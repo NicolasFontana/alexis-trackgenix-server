@@ -50,7 +50,15 @@ const getAllProjects = async (req, res) => {
 
 const getDeletedProjects = async (req, res) => {
   try {
-    const projects = await models.Projects.find({ isDeleted: true });
+    const projects = await models.Projects.find({ isDeleted: true }).populate(
+      'members.employeeId',
+      {
+        _id: 1,
+        firstName: 1,
+        lastName: 1,
+        active: 1,
+      },
+    );
     if (projects.length < 1) {
       return res.status(404).json({
         message: 'There are no projects deleted yet',
@@ -170,10 +178,44 @@ const deleteProject = async (req, res) => {
   }
 };
 
+const removeProject = async (req, res) => {
+  try {
+    if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+      const result = await models.Projects.findByIdAndDelete(req.params.id);
+      if (!result) {
+        return res.status(404).json({
+          message: `Id ${req.params.id} does not exist`,
+          data: {},
+          error: true,
+        });
+      }
+      return res
+        .json({
+          message: 'The project was successfully removed',
+          data: result,
+          error: false,
+        })
+        .status(200);
+    }
+    return res.status(400).json({
+      message: `id:${req.params.id} is not valid`,
+      data: {},
+      error: true,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: 'An error ocurred',
+      data: error.message,
+      error: true,
+    });
+  }
+};
+
 export default {
   getAllProjects,
   getDeletedProjects,
   createNewProject,
   updateProject,
   deleteProject,
+  removeProject,
 };

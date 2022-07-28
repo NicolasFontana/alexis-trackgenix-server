@@ -55,7 +55,20 @@ const getAllEmployees = async (req, res) => {
 
 const getDeletedEmployees = async (req, res) => {
   try {
-    const deletedEmployees = await models.Employees.find({ isDeleted: true });
+    const deletedEmployees = await models.Employees.find({ isDeleted: true }).populate('projects', {
+      name: 1,
+      description: 1,
+      startDate: 1,
+      endDate: 1,
+      clientName: 1,
+      active: 1,
+      members: 1,
+    })
+      .populate('timeSheets', {
+        projectId: 1,
+        Task: 1,
+        approved: 1,
+      });
     return res.status(200).json({
       message: 'Employees found',
       data: deletedEmployees,
