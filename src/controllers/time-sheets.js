@@ -170,7 +170,6 @@ const removeTimesheet = async (req, res) => {
     if (!result) {
       return res.status(404).json({
         message: `There is no timesheet with this Id ${req.params.id}`,
-
         data: undefined,
         error: true,
       });

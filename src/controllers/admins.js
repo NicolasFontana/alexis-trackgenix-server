@@ -217,7 +217,6 @@ const removeAdmin = async (req, res) => {
     if (!admin) {
       return res.status(404).json({
         message: `Admin with id ${req.params.id} not found`,
-
         data: undefined,
         error: true,
       });
@@ -227,7 +226,6 @@ const removeAdmin = async (req, res) => {
     }
     return res
       .json({
-
         message: `Admin with id ${req.params.id} removed`,
         data: admin,
         error: false,

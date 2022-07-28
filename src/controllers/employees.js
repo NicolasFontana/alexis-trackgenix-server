@@ -293,7 +293,6 @@ const removeEmployee = async (req, res) => {
     }
     return res
       .json({
-
         message: `Employee with id ${req.params.id} deleted`,
         data: employee,
         error: false,
