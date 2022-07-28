@@ -145,7 +145,7 @@ const deleteTimesheet = async (req, res) => {
       });
     }
     return res.status(200).json({
-      message: `The ${req.params.id} timesheet has been susccesfully deleted`,
+      message: `The ${req.params.id} timesheet has been successfully deleted`,
       error: false,
     });
   } catch (error) {
@@ -175,7 +175,7 @@ const removeTimesheet = async (req, res) => {
       });
     }
     return res.status(200).json({
-      message: `The ${req.params.id} timesheet has been susccesfully removed`,
+      message: `The ${req.params.id} timesheet has been successfully removed`,
       error: false,
     });
   } catch (error) {

@@ -160,7 +160,7 @@ const removeTask = async (req, res) => {
     }
     return res
       .json({
-        message: 'Task succesfully removed',
+        message: 'Task successfully removed',
         data: result,
         error: false,
       })
