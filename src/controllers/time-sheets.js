@@ -45,7 +45,17 @@ const getAllTimesheets = async (req, res) => {
 
 const getDeletedTimesheets = async (req, res) => {
   try {
-    const deletedTimesheets = await models.TimeSheet.find({ isDeleted: true });
+    const deletedTimesheets = await models.TimeSheet.find({ isDeleted: true }).populate('projectId', { name: 1 })
+      .populate('Task.taskId', {
+        taskName: 1,
+        startDate: 1,
+        workedHours: 1,
+        description: 1,
+        status: 1,
+        createdAt: 1,
+        updatedAt: 1,
+        _id: 1,
+      });
     return res.status(200).json({
       message: 'Deleted Time-Sheets',
       data: deletedTimesheets,
@@ -135,7 +145,37 @@ const deleteTimesheet = async (req, res) => {
       });
     }
     return res.status(200).json({
-      message: `The ${req.params.id} timesheet has been susccesfully deleted`,
+      message: `The ${req.params.id} timesheet has been successfully deleted`,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: 'An error has ocurred',
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
+const removeTimesheet = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      return res.status(404).json({
+        message: 'Missing Id',
+        data: undefined,
+        error: true,
+      });
+    }
+    const result = await models.TimeSheet.findByIdAndDelete(req.params.id);
+    if (!result) {
+      return res.status(404).json({
+        message: `There is no timesheet with this Id ${req.params.id}`,
+        data: undefined,
+        error: true,
+      });
+    }
+    return res.status(200).json({
+      message: `The ${req.params.id} timesheet has been successfully removed`,
       error: false,
     });
   } catch (error) {
@@ -153,4 +193,5 @@ export default {
   updateTimeSheet,
   createTimesheet,
   deleteTimesheet,
+  removeTimesheet,
 };

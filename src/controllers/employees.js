@@ -55,7 +55,20 @@ const getAllEmployees = async (req, res) => {
 
 const getDeletedEmployees = async (req, res) => {
   try {
-    const deletedEmployees = await models.Employees.find({ isDeleted: true });
+    const deletedEmployees = await models.Employees.find({ isDeleted: true }).populate('projects', {
+      name: 1,
+      description: 1,
+      startDate: 1,
+      endDate: 1,
+      clientName: 1,
+      active: 1,
+      members: 1,
+    })
+      .populate('timeSheets', {
+        projectId: 1,
+        Task: 1,
+        approved: 1,
+      });
     return res.status(200).json({
       message: 'Employees found',
       data: deletedEmployees,
@@ -164,7 +177,7 @@ const updateEmployee = async (req, res) => {
       });
     }
     return res.status(400).json({
-      message: "You're unauthorize to edit someone else's data.",
+      message: "You're unauthorized to edit someone else's data.",
       data: undefined,
       error: true,
     });
@@ -215,10 +228,90 @@ const deleteEmployee = async (req, res) => {
   }
 };
 
+const restoreEmployee = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      return res.status(404).json({
+        message: 'Missing id parameter',
+        data: undefined,
+        error: true,
+      });
+    }
+    const employee = await models.Employees.findByIdAndUpdate(
+      req.params.id,
+      { isDeleted: false },
+      { new: true },
+    );
+    if (!employee) {
+      return res.status(404).json({
+        message: `Employee with id ${req.params.id} not found`,
+        data: undefined,
+        error: true,
+      });
+    }
+    if (employee.firebaseUid) {
+      await Firebase.auth().updateUser(employee.firebaseUid, {
+        disabled: false,
+      });
+    }
+    return res
+      .json({
+        message: `Employee with id ${req.params.id} restored`,
+        data: employee,
+        error: false,
+      })
+      .status(204);
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
+const removeEmployee = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      return res.status(404).json({
+        message: 'Missing id parameter',
+        data: undefined,
+        error: true,
+      });
+    }
+    const employee = await models.Employees.findByIdAndDelete(req.params.id);
+    if (!employee) {
+      return res.status(404).json({
+        message: `Employee with id ${req.params.id} not found`,
+        data: undefined,
+        error: true,
+      });
+    }
+    if (employee.firebaseUid) {
+      await Firebase.auth().deleteUser(employee.firebaseUid);
+    }
+    return res
+      .json({
+        message: `Employee with id ${req.params.id} deleted`,
+        data: employee,
+        error: false,
+      })
+      .status(204);
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
 export default {
   getAllEmployees,
   getDeletedEmployees,
   createEmployee,
   updateEmployee,
   deleteEmployee,
+  restoreEmployee,
+  removeEmployee,
 };
