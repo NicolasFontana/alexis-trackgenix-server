@@ -137,49 +137,41 @@ const updateEmployee = async (req, res) => {
         error: true,
       });
     }
-    const find = await models.Employees.findById(req.params.id);
-    if (find.firebaseUid === req.firebaseUid) {
-      const result = await models.Employees.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true },
-      )
-        .populate('projects', {
-          name: 1,
-          description: 1,
-          startDate: 1,
-          endDate: 1,
-          clientName: 1,
-          active: 1,
-        })
-        .populate('timeSheets', {
-          projectId: 1,
-          taskId: 1,
-          approved: 1,
-        });
-      if (!result) {
-        return res.status(404).json({
-          message: 'The employee has not been found',
-          data: undefined,
-          error: true,
-        });
-      }
-      if (result.firebaseUid) {
-        Firebase.auth().updateUser(
-          result.firebaseUid,
-          { email: req.body.email, password: req.body.password },
-        );
-      }
-      return res.status(200).json({
-        message: 'The employee has been updated successfully',
-        data: result,
-        error: false,
+    const result = await models.Employees.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true },
+    )
+      .populate('projects', {
+        name: 1,
+        description: 1,
+        startDate: 1,
+        endDate: 1,
+        clientName: 1,
+        active: 1,
+      })
+      .populate('timeSheets', {
+        projectId: 1,
+        taskId: 1,
+        approved: 1,
+      });
+    if (!result) {
+      return res.status(404).json({
+        message: 'The employee has not been found',
+        data: undefined,
+        error: true,
       });
     }
-    return res.status(400).json({
-      message: "You're unauthorized to edit someone else's data.",
-      data: undefined,
-      error: true,
+    if (result.firebaseUid) {
+      Firebase.auth().updateUser(
+        result.firebaseUid,
+        { email: req.body.email, password: req.body.password },
+      );
+    }
+    return res.status(200).json({
+      message: 'The employee has been updated successfully',
+      data: result,
+      error: false,
     });
   } catch (error) {
     return res.status(400).json({

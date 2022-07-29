@@ -55,8 +55,8 @@ const createAdmin = async (req, res) => {
     await Firebase.auth().setCustomUserClaims(newFirebaseEmployee.uid, { role: 'ADMIN' });
 
     const newAdmin = new models.Admins({
-      firstName: req.body.firstName.toLowerCase(),
-      lastName: req.body.lastName.toLowerCase(),
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       firebaseUid,
       isDeleted: false,
