@@ -19,7 +19,6 @@ const getMe = async (req, res) => {
         data: admin,
       });
     }
-
     const superAdmin = await SuperAdmins.findOne({ firebaseUid: req.firebaseUid });
     if (superAdmin) {
       return res.status(201).json({

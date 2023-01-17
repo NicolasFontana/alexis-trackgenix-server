@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/BaSP-m2022/Backend-template#readme",
   "engines": {
-    "node": "14.x"
+    "node": "v18.13.0"
   },
   "dependencies": {
     "body-parser": "^1.20.0",
